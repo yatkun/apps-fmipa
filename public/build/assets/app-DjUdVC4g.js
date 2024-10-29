@@ -214,4 +214,4 @@ function Ns(o,e){return function(){return o.apply(e,arguments)}}const{toString:I
  * @author: Preline Labs Ltd.
  * @license: Licensed under MIT and Preline UI Fair Use License (https://preline.co/docs/license.html)
  * Copyright 2024 Preline Labs Ltd.
- */typeof DataTable<"u"&&typeof jQuery<"u"&&require("./plugins/datatable").default;typeof _<"u"&&typeof Dropzone<"u"&&require("./plugins/file-upload").default;typeof typeof noUiSlider<"u"&&require("./plugins/range-slider").default;document.addEventListener("livewire:navigated",()=>{window.HSStaticMethods.autoInit()});Livewire.on("answerUpdated",o=>{console.log("Answers updated:",o)});
+ */typeof DataTable<"u"&&typeof jQuery<"u"&&require("./plugins/datatable").default;typeof _<"u"&&typeof Dropzone<"u"&&require("./plugins/file-upload").default;typeof typeof noUiSlider<"u"&&require("./plugins/range-slider").default;document.addEventListener("livewire:navigated",()=>{console.log("nav"),window.HSStaticMethods.autoInit()});Livewire.on("answerUpdated",o=>{console.log("Answers updated:",o)});
