@@ -7,8 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title ?? config('app.name') }}</title>
     @livewireStyles
-    @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
+@vite(['resources/js/app.js', 'resources/css/app.css'])
     <style>
         .fade-out {
             transition: opacity 1s ease-out;
@@ -67,7 +66,7 @@
         {{ $slot }}
     </main>
 
-
+    @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.min.js"></script>
 
 </body>

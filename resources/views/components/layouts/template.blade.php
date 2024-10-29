@@ -7,8 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title ?? config('app.name') }}</title>
     @livewireStyles
-    @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -76,8 +75,8 @@
     <x-navbar></x-navbar>
     {{ $slot }}
 
-
     <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.min.js"></script>
+    @livewireScripts
     {{-- <script>
         (function() {
             function textareaAutoHeight(el, offsetTop = 0) {

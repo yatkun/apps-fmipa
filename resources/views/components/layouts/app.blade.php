@@ -10,8 +10,7 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     @livewireStyles
-    @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
 
     <style>
         #hs-application-sidebar {
@@ -132,7 +131,7 @@
 
 
 
-
+    @livewireScripts
 
 </body>
 
