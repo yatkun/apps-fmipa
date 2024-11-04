@@ -390,12 +390,13 @@
                                                                 'nama' => 'bobot',
                                                                 'displayname' => 'Bobot',
                                                             ])
-                                                            <th scope="col" class="py-2 font-semibold group text-start focus:outline-none">
+                                                            <th scope="col"
+                                                                class="py-2 font-semibold group text-start focus:outline-none">
                                                                 <div
                                                                     class="cursor-pointer py-1 px-2.5 inline-flex items-center border border-transparent text-sm text-gray-500 rounded-md hover:border-gray-200 dark:text-neutral-500 dark:hover:border-neutral-700">
-                                                                   Action
-                                                            
-                                                                   
+                                                                    Action
+
+
                                                                 </div>
                                                             </th>
 
@@ -432,8 +433,13 @@
                                                                     {{ $item->bobot }}</td>
                                                                 <td>
                                                                     <div class="flex gap-2">
-                                                                        <button aria-label="Close" data-hs-overlay="#iku1-edit-modal" wire:click="updateiku1({{ $item }})" class="px-2 py-1 text-sm text-white bg-yellow-600 rounded-md hover:bg-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-500 hover:dark:bg-yellow-500/30">Edit</button>
-                                                                        <button wire:click="deleteIku1({{ $item->id }})" class="px-2 py-1 text-sm text-white bg-red-600 rounded-md hover:bg-red-700 dark:bg-red-500/10 dark:text-red-500 hover:dark:bg-red-500/30">Hapus</button>
+                                                                        <button aria-label="Close"
+                                                                            data-hs-overlay="#iku1-edit-modal"
+                                                                            wire:click="updateiku1({{ $item }})"
+                                                                            class="px-2 py-1 text-sm text-white bg-yellow-600 rounded-md hover:bg-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-500 hover:dark:bg-yellow-500/30">Edit</button>
+                                                                        <button
+                                                                            wire:click="deleteIku1({{ $item->id }})"
+                                                                            class="px-2 py-1 text-sm text-white bg-red-600 rounded-md hover:bg-red-700 dark:bg-red-500/10 dark:text-red-500 hover:dark:bg-red-500/30">Hapus</button>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -632,7 +638,7 @@
                                             wire:model="pendapatan">
 
                                     </div>
-                                  
+
                                 </div>
                                 <!-- End Col -->
 
@@ -684,10 +690,14 @@
                                 data-hs-overlay="#hs-scale-animation-modal">
                                 Batal
                             </button>
-                            <button type="submit"
+                            <button type="submit" wire:loading.attr="disabled"
                                 class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
                                 Simpan
                             </button>
+                            <!-- Indikator Loading -->
+                            <div wire:loading class="mt-2 text-blue-500">
+                                Processing...
+                            </div>
                         </div>
 
                     </div>
@@ -736,7 +746,7 @@
         });
 
         Livewire.on('notif', () => {
-            
+
             setTimeout(() => {
                 const alertBox = document.getElementById('custom-alert');
                 if (alertBox) {
@@ -746,10 +756,10 @@
                     setTimeout(() => {
                         alertBox.classList.add(
                             'fade-out-up'
-                            ); // Tambahkan kelas opacity-0 untuk efek fade-out
+                        ); // Tambahkan kelas opacity-0 untuk efek fade-out
                         setTimeout(() => alertBox.remove(),
                             1000
-                            ); // Hapus elemen setelah durasi fade-out selesai (1 detik)
+                        ); // Hapus elemen setelah durasi fade-out selesai (1 detik)
                     }, 3000)
 
                 }
