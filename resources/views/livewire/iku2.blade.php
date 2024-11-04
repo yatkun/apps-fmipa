@@ -404,11 +404,3 @@
         </div>
     </div>
 </div>
-
-
-<script data-navigate-once>
-    document.addEventListener("livewire:navigated", () => {
-        console.log('nav');
-        window.HSStaticMethods.autoInit();
-    });
-</script>

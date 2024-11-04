@@ -4,8 +4,8 @@ namespace App\Livewire;
 
 use App\Models\Ikusatu;
 use Livewire\Component;
-use Livewire\Attributes\Rule;
 use Livewire\WithPagination;
+use App\Livewire\Forms\IkusatuForm;
 
 class Iku1 extends Component
 {
@@ -16,89 +16,31 @@ class Iku1 extends Component
     public $sortBy = 'created_at';
     public $sortDir = 'ASC';
 
-    #[Rule(['required'])]
-    public string $nama = '';
 
-    #[Rule(['required'])]
-    public string $program_studi = '';
-
-    #[Rule(['required'])]
-    public string $tanggal_lulus = '';
-
-    #[Rule(['required'])]
-    public string $pekerjaan = '';
-
-    #[Rule(['required'])]
-    public string $pendapatan = '';
-
-    #[Rule(['required'])]
-    public string $masa_tunggu = '';
-
-    public $ump = 1000000;
+    public IkusatuForm $form; 
+   
     public $mode = 'add';
 
-    public $ikusatu_id;
-
+    public $isModalOpen = false;
     protected $listeners = ['confirmDelete'];
     public function save()
     {
-
-        $validate = $this->validate();
-        $validate['ump'] = $this->ump;
-
-        if (($validate['pekerjaan'] == 'Wirausaha') && ($validate['masa_tunggu'] <= 6)) {
-            if ($validate['pendapatan'] >= 1.2 * $validate['ump']) {
-                $validate['bobot'] = 1.2;
-            } else {
-                $validate['bobot'] = 1;
-            }
-        } elseif (($validate['pekerjaan'] == 'Wirausaha') && ($validate['masa_tunggu'] > 6)) {
-            if ($validate['pendapatan'] >= 1.2 * $validate['ump']) {
-                $validate['bobot'] = 1;
-            } else {
-                $validate['bobot'] = 0.8;
-            }
-        }
-
-
-        if (($validate['pekerjaan'] == 'Bekerja') && ($validate['masa_tunggu'] <= 6)) {
-            if ($validate['pendapatan'] >= 1.2 * $validate['ump']) {
-                $validate['bobot'] = 1;
-            } else {
-                $validate['bobot'] = 0.7;
-            }
-        } elseif (($validate['pekerjaan'] == 'Bekerja') && ($validate['masa_tunggu'] > 6)) {
-            if ($validate['pendapatan'] >= 1.2 * $validate['ump']) {
-                $validate['bobot'] = 0.8;
-            } else {
-                $validate['bobot'] = 0.5;
-            }
-        }
-
-        if ($validate['pekerjaan'] == 'Lanjut studi') {
-            $validate['bobot'] = 1;
-        }
-
-        Ikusatu::create($validate);
-
-        $this->dispatch('modalClosed');
+        $this->form->store();
         session()->flash('success', 'Data berhasil ditambahkan !');
         $this->resetInput();
-        // Emit event untuk JavaScript
         $this->dispatch('notif');
-
-        $this->mode = 'add';
+        $this->dispatch('iku1store');
     }
 
 
     private function resetInput()
     {
-        $this->nama = '';
-        $this->program_studi = '';
-        $this->tanggal_lulus = '';
-        $this->pekerjaan = '';
-        $this->pendapatan = '';
-        $this->masa_tunggu = '';
+        $this->form->nama = '';
+        $this->form->program_studi = '';
+        $this->form->tanggal_lulus = '';
+        $this->form->pekerjaan = '';
+        $this->form->pendapatan = '';
+        $this->form->masa_tunggu = '';
     }
 
     public function setsortBy($sortByField)
@@ -126,66 +68,29 @@ class Iku1 extends Component
         }
     }
 
+  
     public function updateiku1($data)
     {
-        $this->ikusatu_id = $data['id'];
-        $this->nama = $data['nama'];
-        $this->program_studi = $data['program_studi'];
-        $this->tanggal_lulus = $data['tanggal_lulus'];
-        $this->pekerjaan = $data['pekerjaan'];
-        $this->pendapatan = $data['pendapatan'];
-        $this->masa_tunggu = $data['masa_tunggu'];
-
-        $this->mode = 'update';
+            $this->dispatch('openModal');
+            $this->form->ikusatu_id = $data['id'];
+            $this->form->nama = $data['nama'];
+            $this->form->program_studi = $data['program_studi'];
+            $this->form->tanggal_lulus = $data['tanggal_lulus'];
+            $this->form->pekerjaan = $data['pekerjaan'];
+            $this->form->pendapatan = $data['pendapatan'];
+            $this->form->masa_tunggu = $data['masa_tunggu'];
     }
-
     public function update()
     {
-        $validate = $this->validate();
-        $validate['ump'] = $this->ump;
+    
+        $this->form->update();
 
-        if (($validate['pekerjaan'] == 'Wirausaha') && ($validate['masa_tunggu'] <= 6)) {
-            if ($validate['pendapatan'] >= 1.2 * $validate['ump']) {
-                $validate['bobot'] = 1.2;
-            } else {
-                $validate['bobot'] = 1;
-            }
-        } elseif (($validate['pekerjaan'] == 'Wirausaha') && ($validate['masa_tunggu'] > 6)) {
-            if ($validate['pendapatan'] >= 1.2 * $validate['ump']) {
-                $validate['bobot'] = 1;
-            } else {
-                $validate['bobot'] = 0.8;
-            }
-        }
-
-
-        if (($validate['pekerjaan'] == 'Bekerja') && ($validate['masa_tunggu'] <= 6)) {
-            if ($validate['pendapatan'] >= 1.2 * $validate['ump']) {
-                $validate['bobot'] = 1;
-            } else {
-                $validate['bobot'] = 0.7;
-            }
-        } elseif (($validate['pekerjaan'] == 'Bekerja') && ($validate['masa_tunggu'] > 6)) {
-            if ($validate['pendapatan'] >= 1.2 * $validate['ump']) {
-                $validate['bobot'] = 0.8;
-            } else {
-                $validate['bobot'] = 0.5;
-            }
-        }
-
-        if ($validate['pekerjaan'] == 'Lanjut studi') {
-            $validate['bobot'] = 1;
-        }
-
-        Ikusatu::where('id', $this->ikusatu_id)->update($validate);
-
+        $this->dispatch('iku1store');
+        session()->flash('success', 'Data berhasil diupdate !');
         $this->resetInput();
         $this->mode = 'add';
-        $this->dispatch('modalClosed');
-        session()->flash('success', 'Data berhasil diupdate !');
         // Emit event untuk JavaScript
         $this->dispatch('notif');
-
     }
 
     public function cancelEdit()

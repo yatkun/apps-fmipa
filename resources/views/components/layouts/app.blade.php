@@ -132,7 +132,31 @@
 
 
     @livewireScripts
-    
+    <script>
+        Livewire.on('iku1store', () => {
+            HSOverlay.close('#hs-scale-animation-modal');
+            HSOverlay.close('#iku1-edit-modal');
+        });
+
+        Livewire.on('openModal', () => {
+            HSOverlay.open('#iku1-edit-modal');
+        });
+
+        Livewire.on('showDeleteConfirmation', id => {
+            if (confirm('Apakah anda yakin menghapus data ini ?')) {
+                Livewire.dispatch('confirmDelete', id); // Emit only if confirmed
+            }
+        });
+    </script>
+    <script data-navigate-once>
+        document.addEventListener("livewire:navigated", () => {
+
+            window.HSStaticMethods.autoInit();
+        });
+    </script>
+
+
+
 </body>
 
 

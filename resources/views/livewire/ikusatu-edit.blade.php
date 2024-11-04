@@ -1,4 +1,5 @@
 <div>
+    
     <div id="iku1-edit-modal" wire:ignore.self
             class="hs-overlay hidden  size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none"
             role="dialog" tabindex="-1" aria-labelledby="iku1-edit-modal-label">
@@ -11,7 +12,7 @@
                         class="flex flex-col w-full bg-white border shadow-sm pointer-events-auto rounded-xl dark:bg-neutral-800 dark:border-neutral-700 dark:shadow-neutral-700/70">
                         <div class="flex items-center justify-between px-4 py-3 border-b dark:border-neutral-700">
                             <h3 id="iku1-edit-modal-label" class="font-bold text-gray-800 dark:text-white">
-                                Tambah Data IKU 1
+                                Edit Data IKU 1
                             </h3>
                             <button type="button"  wire:click="cancelEdit"
                                 class="inline-flex items-center justify-center text-gray-800 bg-gray-100 border border-transparent rounded-full size-8 gap-x-2 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600"
@@ -48,7 +49,7 @@
                                         <input id="af-account-full-name" type="text"
                                             class="relative block w-full px-3 py-2 -mt-px text-sm border border-gray-200 rounded-lg shadow-sm pe-11 -ms-px sm:mt-0 sm:first:ms-0 focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                                             placeholder="Masukkan nama lengkap alumni" name="nama"
-                                            wire:model="nama">
+                                            wire:model="form.nama">
 
                                     </div>
                                     @error('name')
@@ -71,7 +72,7 @@
                                             class="relative flex w-full px-3 py-2 -mt-px text-sm border border-gray-200 shadow-sm -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
                                             <input type="radio" name="program_studi"
                                                 class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                id="matematika" checked wire:model="program_studi"
+                                                id="matematika" checked wire:model="form.program_studi"
                                                 value="Matematika">
                                             <span
                                                 class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Matematika</span>
@@ -81,7 +82,7 @@
                                             class="relative flex w-full px-3 py-2 -mt-px text-sm border border-gray-200 shadow-sm -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
                                             <input type="radio" name="program_studi"
                                                 class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                id="statistika" wire:model="program_studi" value="Statistika">
+                                                id="statistika" wire:model="form.program_studi" value="Statistika">
                                             <span
                                                 class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Statistika</span>
                                         </label>
@@ -89,7 +90,7 @@
                                             class="relative flex w-full px-3 py-2 -mt-px text-sm border border-gray-200 shadow-sm -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
                                             <input type="radio" name="program_studi"
                                                 class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                id="aktuaria" wire:model="program_studi" value="Aktuaria">
+                                                id="aktuaria" wire:model=form.program_studi" value="Aktuaria">
                                             <span
                                                 class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Aktuaria</span>
                                         </label>
@@ -98,7 +99,7 @@
                                             class="relative flex w-full px-3 py-2 -mt-px text-sm border border-gray-200 shadow-sm -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
                                             <input type="radio" name="program_studi"
                                                 class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                id="bioteknologi" wire:model="program_studi" value="Bioteknologi">
+                                                id="bioteknologi" wire:model="form.program_studi" value="Bioteknologi">
                                             <span
                                                 class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Bioteknologi</span>
                                         </label>
@@ -118,7 +119,7 @@
                                     <input id="tanggal_lulus" type="date"
                                         class="block w-full px-3 py-2 text-sm border border-gray-200 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                                         placeholder="masukkan tanggal lulus" name="tanggal_lulus"
-                                        wire:model="tanggal_lulus">
+                                        wire:model="form.tanggal_lulus">
                                 </div>
                                 <!-- End Col -->
 
@@ -132,7 +133,7 @@
 
                                 <div class="sm:col-span-9">
                                     <div class="space-y-2">
-                                        <select id="af-submit-app-category" name="pekerjaan" wire:model="pekerjaan"
+                                        <select id="af-submit-app-category" name="pekerjaan" wire:model="form.pekerjaan"
                                             class="block w-full px-3 py-2 text-sm border border-gray-200 rounded-lg shadow-sm pe-9 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
                                             <option selected>Pilih pekerjaan</option>
                                             <option value="Bekerja">Bekerja</option>
@@ -157,7 +158,7 @@
                                         <input id="pendapatan" type="text"
                                             class="relative block w-full px-3 py-2 -mt-px text-sm border border-gray-200 rounded-lg shadow-sm pe-11 -ms-px sm:mt-0 sm:first:ms-0 focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                                             placeholder="Masukkan gaji / pendapatan" name="pendapatan"
-                                            wire:model="pendapatan">
+                                            wire:model="form.pendapatan">
 
                                     </div>
                              
@@ -177,7 +178,7 @@
                                     <div class="space-y-2">
                                         <div class="flex items-center">
                                             <select name="masa_tunggu" id="af-submit-app-category"
-                                                wire:model="masa_tunggu"
+                                                wire:model="form.masa_tunggu"
                                                 class="block w-full px-3 py-2 text-sm border border-gray-200 rounded-lg shadow-sm pe-9 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
                                                 <option selected>Pilih masa tunggu</option>
                                                 <option value="1">1</option>
