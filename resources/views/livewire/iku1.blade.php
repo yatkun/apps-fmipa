@@ -432,8 +432,8 @@
                                                                     {{ $item->bobot }}</td>
                                                                 <td>
                                                                     <div class="flex gap-2">
-                                                                        <button class="px-2 py-1 text-sm text-white bg-yellow-600 rounded-md hover:bg-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-500 hover:dark:bg-yellow-500/30">Edit</button>
-                                                                        <button class="px-2 py-1 text-sm text-white bg-red-600 rounded-md hover:bg-red-700 dark:bg-red-500/10 dark:text-red-500 hover:dark:bg-red-500/30">Hapus</button>
+                                                                        <button aria-label="Close" data-hs-overlay="#iku1-edit-modal" wire:click="updateiku1({{ $item }})" class="px-2 py-1 text-sm text-white bg-yellow-600 rounded-md hover:bg-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-500 hover:dark:bg-yellow-500/30">Edit</button>
+                                                                        <button wire:click="deleteIku1({{ $item->id }})" class="px-2 py-1 text-sm text-white bg-red-600 rounded-md hover:bg-red-700 dark:bg-red-500/10 dark:text-red-500 hover:dark:bg-red-500/30">Hapus</button>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -485,7 +485,7 @@
                             <h3 id="hs-scale-animation-modal-label" class="font-bold text-gray-800 dark:text-white">
                                 Tambah Data IKU 1
                             </h3>
-                            <button type="button"
+                            <button type="button" wire:click="cancelEdit"
                                 class="inline-flex items-center justify-center text-gray-800 bg-gray-100 border border-transparent rounded-full size-8 gap-x-2 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600"
                                 aria-label="Close" data-hs-overlay="#hs-scale-animation-modal">
                                 <span class="sr-only">Close</span>
@@ -632,9 +632,7 @@
                                             wire:model="pendapatan">
 
                                     </div>
-                                    @error('pendapatan')
-                                        <div class="text-sm text-red-500">{{ $message }}</div>
-                                    @enderror
+                                  
                                 </div>
                                 <!-- End Col -->
 
@@ -698,7 +696,7 @@
 
         </div>
 
-
+        @include('livewire.ikusatu-edit')
 
     </div>
 
@@ -719,6 +717,7 @@
             // Triggering modal close by toggling hidden class
 
             HSOverlay.close('#hs-scale-animation-modal');
+            HSOverlay.close('#iku1-edit-modal');
             console.log("modal closed");
             // Hancurkan instance DataTable sebelumnya
             if (table) {
@@ -729,6 +728,12 @@
             table = new DataTable('#example');
 
         })
+
+        Livewire.on('showDeleteConfirmation', id => {
+            if (confirm('Apakah anda yakin menghapus data ini ?')) {
+                Livewire.dispatch('confirmDelete', id); // Emit only if confirmed
+            }
+        });
 
         Livewire.on('notif', () => {
             
