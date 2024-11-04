@@ -179,13 +179,13 @@ class Iku1 extends Component
 
         Ikusatu::where('id', $this->ikusatu_id)->update($validate);
 
+        $this->resetInput();
+        $this->mode = 'add';
         $this->dispatch('modalClosed');
         session()->flash('success', 'Data berhasil diupdate !');
-        $this->resetInput();
         // Emit event untuk JavaScript
         $this->dispatch('notif');
 
-        $this->mode = 'add';
     }
 
     public function cancelEdit()
