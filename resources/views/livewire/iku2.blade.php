@@ -544,6 +544,8 @@
                                     name="keterangan" wire:model="form.keterangan">
                             </div>
                             <!-- End Col -->
+
+                          
                         </div>
                         <!-- End Grid -->
 

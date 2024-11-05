@@ -24,6 +24,7 @@ class Iku2 extends Component
 
     public function save()
     {
+
         $this->form->store_a();
         session()->flash('success', 'Data berhasil ditambahkan !');
         $this->resetInput();

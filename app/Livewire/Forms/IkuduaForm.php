@@ -24,19 +24,17 @@ class IkuduaForm extends Form
     #[Validate(['required'])]
     public string $keterangan = '';
 
-
-    #[Validate(['required'])]
     public string $level = '';
 
     public $ikudua_id;
 
     public function store_a()
     {
-
+    
         $validate = $this->validate();
         $validate['kategori'] = 'Kegiatan Luar Prodi';
-        $validate['level'] = '-';
-        
+     
+
         $validate['bobot'] = $validate['sks_juara'] / 20;
         Ikudua::create($validate);
     }
