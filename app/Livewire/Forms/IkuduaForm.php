@@ -35,7 +35,8 @@ class IkuduaForm extends Form
 
         $validate = $this->validate();
         $validate['kategori'] = 'Kegiatan Luar Prodi';
-
+        $validate['level'] = '-';
+        
         $validate['bobot'] = $validate['sks_juara'] / 20;
         Ikudua::create($validate);
     }
