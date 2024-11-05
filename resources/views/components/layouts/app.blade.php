@@ -136,10 +136,20 @@
         Livewire.on('iku1store', () => {
             HSOverlay.close('#hs-scale-animation-modal');
             HSOverlay.close('#iku1-edit-modal');
+            HSOverlay.close('#ModalAddIku2a');
+            HSOverlay.close('#ModalAddIku2b');
         });
 
         Livewire.on('openModal', () => {
             HSOverlay.open('#iku1-edit-modal');
+        });
+
+        Livewire.on('openModalIku2a', () => {
+            HSOverlay.open('#ModalAddIku2a');
+        });
+
+        Livewire.on('openModalIku2b', () => {
+            HSOverlay.open('#ModalAddIku2b');
         });
 
         Livewire.on('showDeleteConfirmation', id => {
