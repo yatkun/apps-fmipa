@@ -23,7 +23,8 @@ class IkuduaForm extends Form
 
     #[Validate(['required'])]
     public string $keterangan = '';
-
+    
+    #[Validate([''])]
     public string $level = '';
 
     public $ikudua_id;

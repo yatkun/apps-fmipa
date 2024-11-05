@@ -44,8 +44,8 @@
 
 
                             <a class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-full gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                                 aria-haspopup="dialog" aria-expanded="false"
-                                aria-controls="ModalAddIku2a" data-hs-overlay="#ModalAddIku2a">
+                                aria-haspopup="dialog" aria-expanded="false" aria-controls="ModalAddIku2a"
+                                data-hs-overlay="#ModalAddIku2a">
                                 <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -82,6 +82,10 @@
                                                 'displayname' => 'Total SKS',
                                             ])
 
+                                            @include('livewire.includes.kolom-table', [
+                                                'nama' => 'keterangan',
+                                                'displayname' => 'Keterangan',
+                                            ])
                                             @include('livewire.includes.kolom-table', [
                                                 'nama' => 'bobot',
                                                 'displayname' => 'Bobot',
@@ -121,21 +125,25 @@
                                                     class="p-3 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
                                                     {{ $item->sks_juara }}</td>
                                                 <td
+                                                <td
+                                                    class="p-3 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
+                                                    {{ $item->keterangan }}</td>
+                                                <td
                                                     class="p-3 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
                                                     {{ $item->bobot }}</td>
                                                 <td>
                                                     <div class="flex gap-2">
                                                         <button aria-label="Close" data-hs-overlay="#iku1-edit-modal"
-                                                            wire:click="updateiku1({{ $item }})"
+                                                            wire:click="updateiku2a({{ $item }})"
                                                             class="px-2 py-1 text-sm text-white bg-yellow-600 rounded-md hover:bg-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-500 hover:dark:bg-yellow-500/30">Edit</button>
-                                                        <button wire:click="deleteIku1({{ $item->id }})"
+                                                        <button wire:click="deleteIku2a({{ $item->id }})"
                                                             class="px-2 py-1 text-sm text-white bg-red-600 rounded-md hover:bg-red-700 dark:bg-red-500/10 dark:text-red-500 hover:dark:bg-red-500/30">Hapus</button>
                                                     </div>
                                                 </td>
                                             </tr>
                                         @endforeach
 
-                                
+
                                     </tbody>
                                 </table>
                             </div>

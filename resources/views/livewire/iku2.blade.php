@@ -1,4 +1,9 @@
 <div class="w-full mb-5 lg:ps-64">
+    @if (session('success'))
+            @include('livewire.includes.alert-success', [
+                'header' => 'Sukses',
+            ])
+        @endif
     <div class="grid grid-cols-12 gap-5 px-5 mt-5">
         <div class="col-span-12">
             <div class="bg-white border border-gray-200 rounded-lg dark:bg-neutral-800 dark:border-neutral-700">

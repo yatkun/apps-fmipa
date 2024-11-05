@@ -21,7 +21,7 @@ class Iku2 extends Component
     public $mode = 'add';
     public IkuduaForm $form;
 
-
+    protected $listeners = ['confirmDelete'];
     public function save()
     {
 
@@ -81,6 +81,23 @@ class Iku2 extends Component
         }
     }
 
+    public function deleteIku2a($id)
+    {
+        $this->dispatch('showDeleteConfirmation', $id); // Emit an event to show the confirmation dialog
+    }
+
+    public function deleteIku2b($id)
+    {
+        $this->dispatch('showDeleteConfirmation', $id); // Emit an event to show the confirmation dialog
+    }
+
+    public function confirmDelete($id)
+    {
+        Ikudua::where('id', $id)->delete();
+
+        session()->flash('success', 'Data berhasil dihapus!');
+        $this->dispatch('notif'); // Emit any notification event if needed
+    }
     public function render()
     {
         return view('livewire.iku2', [

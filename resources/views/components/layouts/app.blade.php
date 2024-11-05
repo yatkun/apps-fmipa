@@ -132,7 +132,7 @@
 
 
     @livewireScripts
-    <script>
+    <script data-navigate-once>
         Livewire.on('iku1store', () => {
             HSOverlay.close('#hs-scale-animation-modal');
             HSOverlay.close('#iku1-edit-modal');

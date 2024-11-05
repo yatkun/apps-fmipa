@@ -141,9 +141,9 @@
                                                 <td>
                                                     <div class="flex gap-2">
                                                         <button aria-label="Close" data-hs-overlay="#iku1-edit-modal"
-                                                            wire:click="updateiku1({{ $item }})"
+                                                            wire:click="updateiku2b({{ $item }})"
                                                             class="px-2 py-1 text-sm text-white bg-yellow-600 rounded-md hover:bg-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-500 hover:dark:bg-yellow-500/30">Edit</button>
-                                                        <button wire:click="deleteIku1({{ $item->id }})"
+                                                        <button wire:click="deleteIku2b({{ $item->id }})"
                                                             class="px-2 py-1 text-sm text-white bg-red-600 rounded-md hover:bg-red-700 dark:bg-red-500/10 dark:text-red-500 hover:dark:bg-red-500/30">Hapus</button>
                                                     </div>
                                                 </td>
