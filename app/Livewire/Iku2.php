@@ -100,7 +100,7 @@ class Iku2 extends Component
     }
     public function render()
     {
-        return view('livewire.iku2', [
+        return view('livewire.iku.iku2', [
             'a' => Ikudua::where('kategori', 'Kegiatan Luar Prodi')->when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {

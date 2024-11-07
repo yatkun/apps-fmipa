@@ -59,7 +59,7 @@
         }
 
         .fade-in {
-            animation: fadeIn 1s forwards;
+            animation: fadeIn 0.5s forwards;
             /* Fade-in effect */
         }
 

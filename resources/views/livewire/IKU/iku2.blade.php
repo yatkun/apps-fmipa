@@ -1,10 +1,11 @@
 <div class="w-full mb-5 lg:ps-64">
     @if (session('success'))
-            @include('livewire.includes.alert-success', [
-                'header' => 'Sukses',
-            ])
-        @endif
+        @include('livewire.includes.alert-success', [
+            'header' => 'Sukses',
+        ])
+    @endif
     <div class="grid grid-cols-12 gap-5 px-5 mt-5">
+
         <div class="col-span-12">
             <div class="bg-white border border-gray-200 rounded-lg dark:bg-neutral-800 dark:border-neutral-700">
                 <!-- Header -->
@@ -550,7 +551,7 @@
                             </div>
                             <!-- End Col -->
 
-                          
+
                         </div>
                         <!-- End Grid -->
 
@@ -686,11 +687,12 @@
                                     Juara
                                 </label>
                             </div>
-               
-                      
+
+
 
                             <div class="sm:col-span-9">
-                                <select wire:model="form.sks_juara" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg pe-9 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+                                <select wire:model="form.sks_juara"
+                                    class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg pe-9 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
                                     <option selected="">Pilih Juara</option>
                                     <option name="sks_juara" value="1"">1</option>
                                     <option name="sks_juara" value="2" ">2</option>
@@ -713,7 +715,7 @@
                                     <option name="level" value="Provinsi"">Provinsi</option>
                                     <option name="level" value="Nasional" ">Nasional</option>
                                     <option name="level" value="Internasional" ">Internasional</option>
-                                  </select>
+                                </select>
                             </div>
 
                             <div class="sm:col-span-3">
@@ -727,7 +729,8 @@
                             <div class="sm:col-span-9">
                                 <input id="keterangan" type="text"
                                     class="block w-full px-3 py-2 text-sm text-gray-800 border border-gray-200 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                                    name="keterangan" wire:model="form.keterangan" placeholder="Contoh: Lomba Infografis">
+                                    name="keterangan" wire:model="form.keterangan"
+                                    placeholder="Contoh: Lomba Infografis">
                             </div>
                             <!-- End Col -->
                         </div>

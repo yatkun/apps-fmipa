@@ -61,12 +61,12 @@
         }
 
         .fade-in {
-            animation: fadeIn 1s forwards;
+            animation: fadeIn 0.3s forwards;
             /* Fade-in effect */
         }
 
         .fade-out-up {
-            animation: slideUp 1s forwards;
+            animation: slideUp 0.1s forwards;
             /* Adjust duration as needed */
         }
 
@@ -157,6 +157,27 @@
                 Livewire.dispatch('confirmDelete', id); // Emit only if confirmed
             }
         });
+
+        Livewire.on('notif', () => {
+            setTimeout(() => {
+                const alertBox = document.getElementById('custom-alert');
+          
+                if (alertBox) {
+                    alertBox.classList.remove('hidden'); // Ensure the alert is shown
+                    alertBox.classList.add('fade-in'); // Apply fade-in effect
+
+                    setTimeout(() => {
+                        alertBox.classList.add(
+                            'fade-out-up'
+                        ); // Tambahkan kelas opacity-0 untuk efek fade-out
+                        setTimeout(() => alertBox.remove(),
+                            1000
+                        ); // Hapus elemen setelah durasi fade-out selesai (1 detik)
+                    }, 3000)
+
+                }
+            });
+        })
     </script>
     <script data-navigate-once>
         document.addEventListener("livewire:navigated", () => {
