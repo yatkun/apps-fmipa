@@ -124,6 +124,7 @@
 
 <body class="bg-gray-50 dark:bg-neutral-900">
     <x-navbar></x-navbar>
+    <x-breadcrumb></x-breadcrumb>
     <x-menu-link></x-menu-link>
 
     {{ $slot }}
@@ -144,6 +145,15 @@
             HSOverlay.open('#iku1-edit-modal');
         });
 
+        Livewire.on('modalIku2a', () => {
+            HSOverlay.open('#ModalAddIku2a');
+
+        });
+        Livewire.on('modalIku2b', () => {
+            HSOverlay.open('#ModalAddIku2b');
+
+        });
+
         Livewire.on('openModalIku2a', () => {
             HSOverlay.open('#ModalAddIku2a');
         });
@@ -161,7 +171,7 @@
         Livewire.on('notif', () => {
             setTimeout(() => {
                 const alertBox = document.getElementById('custom-alert');
-          
+
                 if (alertBox) {
                     alertBox.classList.remove('hidden'); // Ensure the alert is shown
                     alertBox.classList.add('fade-in'); // Apply fade-in effect
@@ -179,12 +189,16 @@
             });
         })
     </script>
+    <script></script>
     <script data-navigate-once>
         document.addEventListener("livewire:navigated", () => {
 
             window.HSStaticMethods.autoInit();
+
         });
     </script>
+
+
 
 
 

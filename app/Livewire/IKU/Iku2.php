@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\IKU;
 
 use App\Models\Ikudua;
 use App\Models\Ikusatu;
@@ -24,7 +24,6 @@ class Iku2 extends Component
     protected $listeners = ['confirmDelete'];
     public function save()
     {
-
         $this->form->store_a();
         session()->flash('success', 'Data berhasil ditambahkan !');
         $this->resetInput();
@@ -32,9 +31,14 @@ class Iku2 extends Component
         $this->dispatch('iku1store');
     }
 
+    public function modes()
+    {
+        $this->resetInput();
+        $this->mode = 'add';
+    }
+
     public function saveb()
     {
-
         $this->form->store_b();
         session()->flash('success', 'Data berhasil ditambahkan !');
         $this->resetInput();
@@ -98,6 +102,78 @@ class Iku2 extends Component
         session()->flash('success', 'Data berhasil dihapus!');
         $this->dispatch('notif'); // Emit any notification event if needed
     }
+
+
+
+
+    public function updatea($data)
+    {
+        $this->mode = 'edit';
+        $this->dispatch('modalIku2a');
+        $this->form->ikudua_id = $data['id'];
+        $this->form->nama = $data['nama'];
+        $this->form->program_studi = $data['program_studi'];
+        $this->form->sks_juara = $data['sks_juara'];
+        $this->form->keterangan = $data['keterangan'];
+    }
+
+    public function updateb($data)
+    {
+        $this->mode = 'edit';
+        $this->dispatch('modalIku2b');
+        $this->form->ikudua_id = $data['id'];
+        $this->form->nama = $data['nama'];
+        $this->form->program_studi = $data['program_studi'];
+        $this->form->sks_juara = $data['sks_juara'];
+        $this->form->level = $data['level'];
+        $this->form->keterangan = $data['keterangan'];
+    }
+
+    public function handleSaveOrUpdate()
+    {
+        if ($this->mode == 'edit') {
+            $this->update_a(); // Panggil fungsi update
+        } else {
+            $this->save(); // Panggil fungsi save
+        }
+    }
+
+    public function handleSaveOrUpdateb()
+    {
+        if ($this->mode == 'edit') {
+            $this->update_b(); // Panggil fungsi update
+        } else {
+            $this->saveb(); // Panggil fungsi save
+        }
+    }
+    public function update_a()
+    {
+
+
+        $this->form->updatea();
+
+        $this->dispatch('iku1store');
+        session()->flash('success', 'Data berhasil diupdate !');
+        $this->resetInput();
+        $this->mode = 'add';
+        // Emit event untuk JavaScript
+        $this->dispatch('notif');
+    }
+
+    public function update_b()
+    {
+
+
+        $this->form->updateb();
+
+        $this->dispatch('iku1store');
+        session()->flash('success', 'Data berhasil diupdate !');
+        $this->resetInput();
+        $this->mode = 'add';
+        // Emit event untuk JavaScript
+        $this->dispatch('notif');
+    }
+
     public function render()
     {
         return view('livewire.iku.iku2', [

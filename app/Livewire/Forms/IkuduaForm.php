@@ -70,44 +70,41 @@ class IkuduaForm extends Form
         Ikudua::create($validate);
     }
 
-    public function update()
+    public function updatea()
     {
         $validate = $this->validate();
+        $validate['kategori'] = 'Kegiatan Luar Prodi';
+        $validate['bobot'] = $validate['sks_juara'] / 20;
+        Ikudua::where('id', $this->ikudua_id)->update($validate);
+    }
 
+    public function updateb()
+    {
 
-        if (($validate['pekerjaan'] == 'Wirausaha') && ($validate['masa_tunggu'] <= 6)) {
-            if ($validate['pendapatan'] >= 1.2 * $validate['ump']) {
-                $validate['bobot'] = 1.2;
-            } else {
-                $validate['bobot'] = 1;
-            }
-        } elseif (($validate['pekerjaan'] == 'Wirausaha') && ($validate['masa_tunggu'] > 6)) {
-            if ($validate['pendapatan'] >= 1.2 * $validate['ump']) {
-                $validate['bobot'] = 1;
-            } else {
-                $validate['bobot'] = 0.8;
-            }
-        }
+        $validate = $this->validate();
+        $validate['kategori'] = 'Prestasi';
 
-
-        if (($validate['pekerjaan'] == 'Bekerja') && ($validate['masa_tunggu'] <= 6)) {
-            if ($validate['pendapatan'] >= 1.2 * $validate['ump']) {
-                $validate['bobot'] = 1;
-            } else {
-                $validate['bobot'] = 0.7;
-            }
-        } elseif (($validate['pekerjaan'] == 'Bekerja') && ($validate['masa_tunggu'] > 6)) {
-            if ($validate['pendapatan'] >= 1.2 * $validate['ump']) {
-                $validate['bobot'] = 0.8;
-            } else {
-                $validate['bobot'] = 0.5;
-            }
-        }
-
-        if ($validate['pekerjaan'] == 'Lanjut studi') {
+        if ($validate['sks_juara'] == 1 && $validate['level'] == 'Internasional') {
             $validate['bobot'] = 1;
+        } elseif ($validate['sks_juara'] == 1 && $validate['level'] == 'Nasional') {
+            $validate['bobot'] = 0.7;
+        } elseif ($validate['sks_juara'] == 1 && $validate['level'] == 'Provinsi') {
+            $validate['bobot'] = 0.4;
+        } elseif ($validate['sks_juara'] == 2 && $validate['level'] == 'Internasional') {
+            $validate['bobot'] = 0.9;
+        } elseif ($validate['sks_juara'] == 2 && $validate['level'] == 'Nasional') {
+            $validate['bobot'] = 0.6;
+        } elseif ($validate['sks_juara'] == 2 && $validate['level'] == 'Provinsi') {
+            $validate['bobot'] = 0.3;
+        } elseif ($validate['sks_juara'] == 3 && $validate['level'] == 'Internasional') {
+            $validate['bobot'] = 0.8;
+        } elseif ($validate['sks_juara'] == 3 && $validate['level'] == 'Nasional') {
+            $validate['bobot'] = 0.5;
+        } elseif ($validate['sks_juara'] == 3 && $validate['level'] == 'Provinsi') {
+            $validate['bobot'] = 0.2;
+        } elseif ($validate['sks_juara'] == 'Peserta') {
+            $validate['bobot'] = 0.7;
         }
-
-        Ikusatu::where('id', $this->ikudua_id)->update($validate);
+        Ikudua::where('id', $this->ikudua_id)->update($validate);
     }
 }

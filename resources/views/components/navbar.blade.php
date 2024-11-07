@@ -23,20 +23,7 @@
                 
             </div>
 
-            <div class="block ml-5 sm:hidden">
-                <button type="button"
-                    class="inline-flex items-center px-4 py-3 text-sm font-medium text-gray-800 bg-white border border-gray-200 rounded-lg shadow-sm hs-collapse-toggle gap-x-2 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-                    id="hs-basic-collapse" aria-expanded="false" aria-controls="hs-basic-collapse-heading"
-                    data-hs-overlay="#hs-basic-collapse-heading">
-                    Collapse
-                    <svg class="hs-collapse-open:rotate-180 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m6 9 6 6 6-6"></path>
-                    </svg>
-                </button>
-                </button>
-            </div>
+           
         </div>
         <div class="flex items-center justify-end w-full ms-auto md:justify-between ">
 
