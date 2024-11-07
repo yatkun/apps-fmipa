@@ -114,7 +114,7 @@ class Iku1 extends Component
 
     public function render()
     {
-        return view('livewire.iku1', [
+        return view('livewire.iku.iku1', [
             'ikusatu' => Ikusatu::when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {
