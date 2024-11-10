@@ -17,7 +17,7 @@
                                 IKU 1 : Lulusan Mendapatkan Pekerjaan yang Layak
                             </h2>
                             <p class="text-sm text-gray-600 dark:text-neutral-400">
-                                Presentase lulusan yang berhasil memiliki pekerjaan, melanjutkan studi, atau
+                                Persentase lulusan yang berhasil memiliki pekerjaan, melanjutkan studi, atau
                                 menjadi wiraswasta
                             </p>
                         </div>
