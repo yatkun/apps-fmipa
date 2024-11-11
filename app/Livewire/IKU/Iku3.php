@@ -45,6 +45,7 @@ class Iku3 extends Component
 
     public function update($data)
     {
+       
         $this->mode = 'edit';
         $this->dispatch('modalIku3');
         $this->form->ikutiga_id = $data['id'];
