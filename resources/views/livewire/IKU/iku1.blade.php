@@ -704,7 +704,7 @@
 
         </div>
 
-        @include('livewire.iku.ikusatu-edit')
+        @include('livewire.IKU.ikusatu-edit')
 
     </div>
 
