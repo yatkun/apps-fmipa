@@ -8,6 +8,6 @@ class Iku6 extends Component
 {
     public function render()
     {
-        return view('livewire.iku.iku6');
+        return view('livewire.IKU.iku6');
     }
 }

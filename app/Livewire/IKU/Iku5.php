@@ -169,7 +169,7 @@ LPNK yang tidak dipublikasikan','Untuk Karya Tulis Ilmiah yang tidak masuk dalam
 
     public function render()
     {
-        return view('livewire.iku.iku5', [
+        return view('livewire.IKU.iku5', [
             'a' => Ikulima::when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {

@@ -7,7 +7,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
 
-#[Layout('components.layouts.AUTH')] 
+#[Layout('components.layouts.auth')] 
 class Login extends Component
 {
     #[Validate('required|min:3')] 

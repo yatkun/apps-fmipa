@@ -123,7 +123,7 @@ class Iku3 extends Component
 
     public function render()
     {
-        return view('livewire.iku.iku3', [
+        return view('livewire.IKU.iku3', [
             'a' => Ikutiga::when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {

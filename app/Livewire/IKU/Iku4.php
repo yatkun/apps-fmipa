@@ -23,7 +23,7 @@ class Iku4 extends Component
     
     public function render()
     {
-        return view('livewire.iku.iku4', [
+        return view('livewire.IKU.iku4', [
             'a' => Ikutiga::when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {
