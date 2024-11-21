@@ -60,9 +60,9 @@
 
 </head>
 
-<body class="flex items-center h-full py-16 bg-gray-100 dark:bg-neutral-800">
+<body class="">
     <!-- ========== MAIN CONTENT ========== -->
-    <main id="content" class="w-full max-w-md p-6 mx-auto">
+    <main id="content" class="">
         {{ $slot }}
     </main>
 

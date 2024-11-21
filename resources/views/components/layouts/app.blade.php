@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? config('app.name') }}</title>
-
+    <link rel="shortcut icon" href="https://preline.co/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
@@ -142,6 +142,8 @@
             HSOverlay.close('#ModalAddIku3');
             HSOverlay.close('#ModalAddIku4');
             HSOverlay.close('#ModalAddIku5');
+            HSOverlay.close('#ModalAddIku6');
+            HSOverlay.close('#ModalAddIku7');
         });
 
         Livewire.on('openModal', () => {
@@ -162,6 +164,15 @@
         });
         Livewire.on('modalIku5', () => {
             HSOverlay.open('#ModalAddIku5');
+
+        });
+        Livewire.on('modalIku6', () => {
+            HSOverlay.open('#ModalAddIku6');
+
+        });
+
+        Livewire.on('modalIku7', () => {
+            HSOverlay.open('#ModalAddIku7');
 
         });
 

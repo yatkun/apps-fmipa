@@ -2,14 +2,13 @@
 
 namespace App\Livewire\IKU;
 
-use App\Livewire\Forms\IkuenamForm;
-use App\Models\Ikuenam;
+use App\Livewire\Forms\IkutujuhForm;
+use App\Models\Ikutujuh;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Iku6 extends Component
+class Iku7 extends Component
 {
-
     use WithPagination;
     public $perPage = 10;
     public $search = '';
@@ -17,7 +16,7 @@ class Iku6 extends Component
     public $sortDir = 'ASC';
     public $mode = 'add';
 
-    public IkuenamForm $form;
+    public IkutujuhForm $form;
 
     protected $listeners = ['confirmDelete'];
 
@@ -30,27 +29,29 @@ class Iku6 extends Component
         $this->dispatch('iku1store');
     }
 
-    public function deleteIku6($id)
+    public function deleteIku7($id)
     {
         $this->dispatch('showDeleteConfirmation', $id); // Emit an event to show the confirmation dialog
     }
 
     public function confirmDelete($id)
     {
-        Ikuenam::where('id', $id)->delete();
+        Ikutujuh::where('id', $id)->delete();
 
         session()->flash('success', 'Data berhasil dihapus!');
         $this->dispatch('notif'); // Emit any notification event if needed
     }
-
+    
     public function update($data)
     {
 
         $this->mode = 'edit';
         $this->dispatch('modalIku6');
-        $this->form->ikuenam_id = $data['id'];
+        $this->form->ikutujuh_id = $data['id'];
         $this->form->nama = $data['nama'];
-        $this->form->kriteria = $data['kriteria'];
+        $this->form->mata_kuliah = $data['mata_kuliah'];
+        $this->form->semester = $data['semester'];
+        $this->form->link = $data['link'];
     }
     public function update_a()
     {
@@ -97,7 +98,9 @@ class Iku6 extends Component
     private function resetInput()
     {
         $this->form->nama = '';
-        $this->form->kriteria = '';
+        $this->form->mata_kuliah = '';
+        $this->form->semester = '';
+        $this->form->link = '';
     }
 
     public function cancelEdit()
@@ -114,10 +117,12 @@ class Iku6 extends Component
             $this->save(); // Panggil fungsi save
         }
     }
+
+
     public function render()
     {
-        return view('livewire.IKU.iku6', [
-            'a' => Ikuenam::when($this->sortDir, function ($query) {
+        return view('livewire.IKU.iku7', [
+            'a' => Ikutujuh::when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {
                 $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)

@@ -15,11 +15,10 @@
                     <div
                         class="grid gap-3 px-6 py-4 border-b border-gray-200 md:flex md:justify-between md:items-center dark:border-neutral-700">
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">IKU 6 : Kemitraan
-                                Program Studi
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">IKU 7 : Pembelajaran dalam Kelas
                             </h2>
-                            <p class="text-sm text-gray-600 dark:text-neutral-400">Jumlah kerjasama per program studi S1
-                                dan D4/D3/D2/D1.
+                            <p class="text-sm text-gray-600 dark:text-neutral-400">
+                                Persentase mata kuliah S1 dan D4/D3/D2/D1 yang menggunakan metode pembelajaran pemecahan kasus (case method) atau pembelajaran kelompok berbasis project (team-based project) sebagai sebagian bobot evaluasi.
                             </p>
                         </div>
 
@@ -54,19 +53,20 @@
                                     <ul
                                         class="space-y-2 text-sm text-gray-600 list-disc marker:text-blue-600 ps-5 dark:text-neutral-400">
                                         <li>
-                                            Kerjasama yang diakui adalah yang dihasilkan sepanjang tahun anggaran 2023
+                                            Mata kuliah yang tercakup adalah mata kuliah yang dilaksanakan pada semester 2022 genap dan 2023 ganjil
                                         </li>
                                         <li>
-                                            Naskah kerja sama dalam bentuk:
+                                            Mata kuliah harus terdata pada kelas perkuliahan dan diikuti oleh mahasiswa
+                                        </li>
+                                        <li>
+                                            Perguruan tinggi mengumpulkan bukti berupa:
                                         </li>
                                         <div class="ml-5">
-                                            <li>Memorandum Of Agreement (Perjanjian Kerja sama); atau</li>
-                                            <li>ImplementingArrangement(IA)</li>
+                                            <li>Rencana Pembelajaran Semester (RPS) tiap mata kuliah (mencakup rencana evaluasi) yang sudah dijalankan; atau</li>
+                                            <li>Rincian laporan hasil penilaian dan/atau rancangan atau modul tugas case method/team-based project.</li>
                                         </div>
                                         <li>
-                                            Semua data akan dilakukan proses verifikasi dan validasi, dan nilai akan
-                                            muncul
-                                            ketika proses verval selesai
+                                            Minimal 50% bobot nilai akhir harus berdasarkan evaluasi case method dan/atau team-based project
                                         </li>
 
 
@@ -219,7 +219,7 @@
             </div>
 
             <div class="col-span-12">
-                @include('livewire.includes.tables.table-iku6')
+                @include('livewire.includes.tables.table-iku7')
             </div>
 
 
@@ -227,9 +227,9 @@
 
     </div>
 
-    <div id="ModalAddIku6" wire:ignore.self
+    <div id="ModalAddIku7" wire:ignore.self
         class="hs-overlay hidden  size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none"
-        role="dialog" tabindex="-1" aria-labelledby="ModalAddIku3-label">
+        role="dialog" tabindex="-1" aria-labelledby="ModalAddIku7-label">
         <form wire:submit="save">
             <div
                 class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-3xl sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
@@ -237,11 +237,11 @@
                     class="flex flex-col w-full bg-white border shadow-sm pointer-events-auto rounded-xl dark:bg-neutral-800 dark:border-neutral-700 dark:shadow-neutral-700/70">
                     <div class="flex items-center justify-between px-4 py-3 border-b dark:border-neutral-700">
                         <h3 id="hs-scale-animation-modal-label" class="font-bold text-gray-800 dark:text-white">
-                            {{ $mode == 'edit' ? 'Edit' : 'Tambah' }} Data IKU 6 | Kemitraan Program Studi
+                            {{ $mode == 'edit' ? 'Edit' : 'Tambah' }} Data IKU 7 | Data Pembelajaran
                         </h3>
                         <button type="button" wire:click="cancelEdit"
                             class="inline-flex items-center justify-center text-gray-800 bg-gray-100 border border-transparent rounded-full size-8 gap-x-2 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600"
-                            aria-label="Close" data-hs-overlay="#ModalAddIku6">
+                            aria-label="Close" data-hs-overlay="#ModalAddIku7">
                             <span class="sr-only">Close</span>
                             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -262,7 +262,7 @@
                             <div class="sm:col-span-3">
                                 <label for="af-account-full-name"
                                     class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
-                                    Nama Mitra
+                                    Nama Dosen
                                 </label>
                             </div>
                             <!-- End Col -->
@@ -273,7 +273,7 @@
                                 <div class="sm:flex">
                                     <input id="af-account-full-name" type="text"
                                         class="relative block w-full px-3 py-2 -mt-px text-sm border border-gray-200 rounded-lg shadow-sm pe-11 -ms-px sm:mt-0 sm:first:ms-0 focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                                        placeholder="Masukkan nama mitra" name="nama"
+                                        placeholder="Masukkan nama dosen" name="nama"
                                         wire:model="form.nama">
 
                                 </div>
@@ -281,42 +281,62 @@
                             <!-- End Col -->
 
                             <div class="sm:col-span-3">
-                                <label for="kriteria"
+                                <label for="mata_kuliah"
                                     class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
-                                    Kriteria
+                                    Mata Kuliah
                                 </label>
                             </div>
 
 
 
                             <div class="sm:col-span-9">
-                                <select wire:model="form.kriteria"
-                                    class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg pe-9 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                    <option selected="">Pilih Kriteria</option>
-                                    <option name="kriteria" value="Perusahaan multinasional">Perusahaan multinasional</option>
-                                    <option name="kriteria" value="Organisasi nirlaba kelas dunia">Organisasi nirlaba kelas dunia</option>
-                                    <option name="kriteria" value="Perusahaan nasional berstandar tinggi, BUMN, dan/atau BUMD">Perusahaan nasional berstandar tinggi, BUMN, dan/atau BUMD</option>
-                                    <option name="kriteria" value="Perusahaan rintisan (startup company) teknologi">Perusahaan rintisan (startup company) teknologi</option>
-                                    <option name="kriteria" value="Perguruan tinggi yang masuk dalam daftar QS200 berdasarkan bidang ilmu (QS200 by subject) perguruan tinggi dalam negeri">Perguruan tinggi yang masuk dalam daftar QS200 berdasarkan bidang ilmu (QS200 by subject) perguruan tinggi dalam negeri</option>
-                                    <option name="kriteria" value="Perusahaan teknologi global">Perusahaan teknologi global</option>
-                                    <option name="kriteria" value="Institusi/organisasi multilateral">Institusi/organisasi multilateral</option>
-                                    <option name="kriteria" value="Perguruan tinggi yang masuk dalam daftar QS200 berdasarkan bidang ilmu (QS200 by subject) perguruan tinggi luar negeri">Perguruan tinggi yang masuk dalam daftar QS200 berdasarkan bidang ilmu (QS200 by subject) perguruan tinggi luar negeri</option>
-                                    <option name="kriteria" value="Instansi pemerintah">Instansi pemerintah</option>
-                                    <option name="kriteria" value="Rumah sakit">Rumah sakit</option>
-                                    <option name="kriteria" value="Lembaga riset pemerintah, swasta, nasional, maupun internasional">Lembaga riset pemerintah, swasta, nasional, maupun internasional</option>
-                                    <option name="kriteria" value="Lembaga kebudayaan berskala nasional/bereputasi">Lembaga kebudayaan berskala nasional/bereputasi</option>
-                                    
-                                    
-                                </select>
+                                <div class="sm:flex">
+                                    <input id="af-account-full-name" type="text"
+                                        class="relative block w-full px-3 py-2 -mt-px text-sm border border-gray-200 rounded-lg shadow-sm pe-11 -ms-px sm:mt-0 sm:first:ms-0 focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                                        placeholder="Masukkan nama mata kuliah" name="mata_kuliah"
+                                        wire:model="form.mata_kuliah">
+
+                                </div>
                             </div>
 
-                        
+
+                            <div class="sm:col-span-3">
+                                <label for="semester"
+                                    class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
+                                    Semester
+                                </label>
+                            </div>
 
 
 
+                            <div class="sm:col-span-9">
+                                <div class="sm:flex">
+                                    <input id="af-account-full-name" type="text"
+                                        class="relative block w-full px-3 py-2 -mt-px text-sm border border-gray-200 rounded-lg shadow-sm pe-11 -ms-px sm:mt-0 sm:first:ms-0 focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                                        placeholder="Contoh : 1" name="semester"
+                                        wire:model="form.semester">
+
+                                </div>
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label for="link"
+                                    class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
+                                    Link
+                                </label>
+                            </div>
 
 
 
+                            <div class="sm:col-span-9">
+                                <div class="sm:flex">
+                                    <input id="af-account-full-name" type="text"
+                                        class="relative block w-full px-3 py-2 -mt-px text-sm border border-gray-200 rounded-lg shadow-sm pe-11 -ms-px sm:mt-0 sm:first:ms-0 focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                                        placeholder="Masukkan link google drive" name="link"
+                                        wire:model="form.link">
+
+                                </div>
+                            </div>
 
                         </div>
                         <!-- End Grid -->

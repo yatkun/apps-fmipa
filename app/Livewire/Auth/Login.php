@@ -26,7 +26,7 @@ class Login extends Component
             return redirect()->route('apps');
         }else{
             // return back()->with('error', 'Login Gagal !');
-            session()->flash('error', 'Username / password salah!. Silahkan hubungi admin');
+            session()->flash('error', 'Username / password salah !');
             $this->dispatch('notif');
         }
 

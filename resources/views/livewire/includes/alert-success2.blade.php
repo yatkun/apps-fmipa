@@ -25,19 +25,6 @@
 
 
 
-{{-- <script>
-    // Membuat alert hilang setelah 3 detik
-    setTimeout(() => {
-        const alertBox = document.getElementById('custom-alert');
-
-        // alertBox.classList.remove('hidden'); // Ensure the alert is shown
-        alertBox.classList.add('fade-in'); 
-        if (alertBox) {
-            alertBox.classList.add('fade-out-up'); // Tambahkan kelas opacity-0 untuk efek fade-out
-            setTimeout(() => alertBox.remove(), 1000); // Hapus elemen setelah durasi fade-out selesai (1 detik)
-        }
-    }, 3000);
-</script> --}}
 
 <script>
     // Function to show the alert
