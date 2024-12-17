@@ -2,10 +2,13 @@
 
 namespace App\Livewire\IKU;
 
+use App\Models\Setiku;
 use App\Models\Ikusatu;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Validate;
 use App\Livewire\Forms\IkusatuForm;
+use Illuminate\Support\Facades\Validator;
 
 class Iku1 extends Component
 {
@@ -18,15 +21,44 @@ class Iku1 extends Component
 
 
     public IkusatuForm $form; 
+
+
    
     public $mode = 'add';
 
     public $isModalOpen = false;
     protected $listeners = ['confirmDelete'];
+
+
     public function save()
     {
         $this->form->store();
         session()->flash('success', 'Data berhasil ditambahkan !');
+        $this->resetInput();
+        $this->dispatch('notif');
+        $this->dispatch('iku1store');
+    }
+
+    public function save_lulusan()
+    {
+
+        $this->a->update(['jml_lulusan' => $this->jml_lulusan]);
+        
+        $validatedData = Validator::make(
+            ['jml_lulusan' => $this->jml_lulusan],
+            ['jml_lulusan' => 'required'],
+            ['required' => 'The :attribute field is required'],
+        )->validate();
+
+        if(Setiku::where('id', 1)){
+            Setiku::where('id', 1)->update($validatedData);
+        }
+
+
+
+        
+        
+        session()->flash('success', 'Data berhasil disimpan !');
         $this->resetInput();
         $this->dispatch('notif');
         $this->dispatch('iku1store');
@@ -122,6 +154,13 @@ class Iku1 extends Component
             })
                 ->search($this->search)
                 ->paginate($this->perPage),
+            'a' => Ikusatu::where('pekerjaan', 'Bekerja')->count(),
+            'aa' => Ikusatu::where('pekerjaan', 'Bekerja')->sum('bobot'),
+            'b' => Ikusatu::where('pekerjaan', 'Wirausaha')->count(),
+            'bb' => Ikusatu::where('pekerjaan', 'Wirausaha')->sum('bobot'),
+            'c' => Ikusatu::where('pekerjaan', 'Lanjut studi')->count(),
+            'cc' => Ikusatu::where('pekerjaan', 'Lanjut studi')->sum('bobot'),
+            'd' => Ikusatu::all()->count()
         ]);
     }
 }

@@ -2,14 +2,18 @@
 
 namespace App\Livewire\Forms;
 use Livewire\Form;
+use App\Models\Setiku;
 use App\Models\Ikusatu;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\Validator;
 
 class IkusatuForm extends Form
 {
     #[Validate(['required'])]
     public string $nama = '';
+
+    
 
     #[Validate(['required'])]
     public string $program_studi = '';
@@ -69,11 +73,17 @@ class IkusatuForm extends Form
             $validate['bobot'] = 1;
         }
 
+        if ($validate['pekerjaan'] == '-') {
+            $validate['bobot'] = 0;
+            $validate['masa_tunggu'] = '-';
+        }
+
         Ikusatu::create($validate);
 
         
     }
 
+   
    
     public function update(){
         $validate = $this->validate();

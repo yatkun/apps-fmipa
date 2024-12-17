@@ -16,6 +16,14 @@ class Apps extends Component
         return redirect()->route('iku.dashboard');
        
     }
+
+    public function eskripsi()
+    {
+        session()->flash('success', 'Selamat Datang di Aplikasi E-Skripsi !');
+        
+        return redirect()->route('eskripsi');
+       
+    }
     public function render()
     {
         return view('livewire.apps');

@@ -7,69 +7,62 @@
     @endif
 
 
-    <section class="flex flex-col md:flex-row h-screen items-center">
+    
 
-        <div class="bg-slate-100 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen relative">
-            <img src="{{ asset('storage/gambar/login3.JPG') }}" class="h-full w-full object-cover absolute">
-            {{-- <div class="absolute w-full h-full p-24">
-                <div class="bg-white bg-opacity-55 border-white border border-opacity-60 h-full p-10 rounded-lg text-white text-4xl italic font-bold">Digitalizing MIPA, Right at Your Fingertips</div>
-            </div> --}}
-            {{-- <img src="https://images.unsplash.com/photo-1444313431167-e7921088a9d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1441&q=100" alt="" class="w-full h-full object-cover"> --}}
+
+    <div class="relative flex flex-col justify-center min-h-screen py-6 overflow-hidden bg-gray-50 sm:py-12">
+        <img src="{{ asset('storage/gambar/beams-2.jpg') }}" alt=""
+            class="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 max-w-none" width="1308" />
+        <div style="background: url('storage/gambar/grid.svg')"
+            class="absolute inset-0  bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]">
         </div>
-
         <div
-            class="bg-white w-full md:max-w-md lg:max-w-full md:mx-auto md:mx-0 md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12
-              flex items-center justify-center">
+            class="relative w-full px-6 pt-10 pb-8 bg-white shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-5">
+            <div class="max-w-md mx-auto">
+                <div class="flex space-x-2">
+                    <h1 class="text-4xl font-bold text-indigo-600">APPS</h1>
+                    <h1 class="text-4xl font-light text-indigo-900">FMIPA</h1>
+                </div>
+                <div class="divide-y divide-gray-300/50">
+                    <div class="py-2 space-y-6 text-base leading-7 text-gray-600">
+                        <p>Log in to your account</p>
+                        <form class="" wire:submit="login">
+                            <div class="mb-5">
+                                <label for="username"
+                                    class="block mb-2 text-sm font-medium text-gray-600">Username</label>
 
-            <div class="w-full h-100">
+                                <input value="{{ old('username') }}" autofocus autocomplete type="text"
+                                    wire:model="username" id="username" name="username"
+                                    class="block w-full p-3 bg-gray-200 border border-transparent rounded focus:outline-none" />
+                            </div>
 
-                <h1 class="text-3xl font-bold">APPS MIPA</h1>
+                            <div class="mb-5">
+                                <label for="password"
+                                    class="block mb-2 text-sm font-medium text-gray-600">Password</label>
 
-                <h1 class="text-xl md:text-2xl font-bold leading-tight mt-12">Log in to your account</h1>
+                                <input type="password" value="{{ old('password') }}" wire:model="password"
+                                    id="password" name="password"
+                                    class="block w-full p-3 bg-gray-200 border border-transparent rounded focus:outline-none" />
+                            </div>
+                            <button type="submit" wire:loading.attr="disabled"
+                                class="w-full p-3 mt-4 text-white bg-indigo-600 rounded shadow">
+                                <div wire:loading
+                                    class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full dark:text-white"
+                                    role="status" aria-label="loading">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span wire:loading.remove wire.target="save">Masuk</span>
+                            </button>
 
-                <form class="mt-6" wire:submit="login">
-                    <div>
-                        <label class="block text-gray-700">Username</label>
-
-                        <input type="text" wire:model="username" id="username" name="username"
-                            class="block mt-2 w-full px-4 py-3 text-sm border bg-gray-200 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                            aria-describedby="email-error" value="{{ old('username') }}" autofocus autocomplete
-                            required>
+                        </form>
                     </div>
-
-                    <div class="mt-4">
-                        <label class="block text-gray-700">Password</label>
-
-
-                        <input type="password" wire:model="password" id="password" name="password"
-                            value="{{ old('password') }}"
-                            class="mt-2 block w-full px-4 py-3 text-sm border bg-gray-200 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                            aria-describedby="password-error">
-
+                    <div class="pt-8 text-sm">
+                        <p class="text-gray-700">© 2024 Apps MIPA - All Rights Reserved.</p>
                     </div>
-
-
-                    <button type="submit" wire:loading.attr="disabled"
-                        class="w-full block bg-blue-500 hover:bg-blue-400 focus:bg-blue-400 text-white font-semibold rounded-lg
-                    px-4 py-3 mt-6">
-                        <div wire:loading
-                            class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full dark:text-white"
-                            role="status" aria-label="loading">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        <span wire:loading.remove wire.target="save">Masuk</span>
-                    </button>
-                </form>
-
-                <hr class="my-6 border-gray-300 w-full">
-
-
-
-                <p class="text-sm text-gray-500 mt-12">&copy; 2024 Apps MIPA - All Rights Reserved.</p>
+                </div>
             </div>
         </div>
-
-    </section>
+    </div>
 
 
 

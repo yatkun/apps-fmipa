@@ -20,6 +20,7 @@ use App\Livewire\Auth\Login;
 
 use App\Http\Middleware\Auth;
 use App\Http\Middleware\Guest;
+use App\Livewire\Eskripsi\Eskripsi;
 use Illuminate\Support\Facades\Route;
 
 
@@ -46,9 +47,7 @@ Route::group(['middleware' => Auth::class], function () {
 
 
     Route::get('/logout', Logout::class)->name('logout');
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    
 
     Route::get('/iku/iku-1', Iku1::class)->name('iku1');
     Route::get('/iku/iku-2', Iku2::class)->name('iku2');
@@ -58,9 +57,15 @@ Route::group(['middleware' => Auth::class], function () {
     Route::get('/iku/iku-6', Iku6::class)->name('iku6');
     Route::get('/iku/iku-7', Iku7::class)->name('iku7');
     Route::get('/iku/iku-8', Iku8::class)->name('iku8');
+    
     Route::get('/apps', Apps::class)->name('apps');
+    Route::get('/', Apps::class)->name('apps');
 
-    Route::get('/', Landing::class)->name('landing');
+
+
+    // E-SKRIPSI LOGIN
+    Route::get('/e-skripsi', Eskripsi::class)->name('eskripsi');
+
 });
 
 
