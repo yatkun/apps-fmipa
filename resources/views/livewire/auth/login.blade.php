@@ -20,7 +20,7 @@
             class="relative w-full px-6 pt-10 pb-8 bg-white shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-5">
             <div class="max-w-md mx-auto">
                 <div class="flex space-x-2">
-                    <h1 class="text-4xl font-bold text-indigo-600">APPS</h1>
+                    <h1 class="text-4xl font-bold text-indigo-600">APP</h1>
                     <h1 class="text-4xl font-light text-indigo-900">FMIPA</h1>
                 </div>
                 <div class="divide-y divide-gray-300/50">
