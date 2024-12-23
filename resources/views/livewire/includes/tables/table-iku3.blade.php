@@ -8,7 +8,7 @@
                     class="grid gap-3 px-6 py-4 border-b border-gray-200 md:flex md:justify-between md:items-center dark:border-neutral-700">
                     <div>
                         <h2 class="text-lg font-medium text-gray-800 dark:text-neutral-200">
-                            Data Mahasiswa Berkegiatan di Luar Program Studi
+                            Data Dosen di Luar Kampus
                         </h2>
 
                     </div>
