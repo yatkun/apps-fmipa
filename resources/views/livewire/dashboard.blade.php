@@ -9,17 +9,17 @@
     <!-- Card Section -->
     <div class="max-w-[85rem] px-4 sm:px-6 lg:px-8 mt-5 mx-auto">
         <!-- Grid -->
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
             <!-- Card -->
             <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
                 <div class="p-4 md:p-5">
                     <div class="flex items-center gap-x-2">
-                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-neutral-500">
+                        <p class="text-xs tracking-wide text-gray-500 uppercase dark:text-neutral-500">
                             IKU 1
                         </p>
                         <div class="hs-tooltip">
                             <div class="hs-tooltip-toggle">
-                                <svg class="shrink-0 size-4 text-gray-500 dark:text-neutral-500"
+                                <svg class="text-gray-500 shrink-0 size-4 dark:text-neutral-500"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
@@ -36,19 +36,25 @@
                         </div>
                     </div>
 
-                    <div class="mt-1 flex items-center gap-x-2">
-                        <h3 class="text-xl sm:text-2xl font-medium text-gray-800 dark:text-neutral-200">
+                    <div class="flex items-center mt-1 gap-x-2">
+                        <h3 class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
                             {{ $a }}
                         </h3>
-                        <span class="flex items-center gap-x-1 text-green-600">
-                            <svg class="inline-block size-4 self-center" xmlns="http://www.w3.org/2000/svg"
+                        <span class="flex items-center text-green-600 gap-x-1">
+                            <svg class="self-center inline-block size-4" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
                                 <polyline points="16 7 22 7 22 13" />
                             </svg>
                             <span class="inline-block text-sm">
-                                1.7%
+
+                                @php
+                                    $num = (($aa + $bb + $cc)/$d * 100);
+                                    $formattedNum = number_format($num, 2);
+                                    
+                                @endphp
+                                {{ $formattedNum }}%
                             </span>
                         </span>
                     </div>
@@ -60,12 +66,12 @@
             <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
                 <div class="p-4 md:p-5">
                     <div class="flex items-center gap-x-2">
-                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-neutral-500">
+                        <p class="text-xs tracking-wide text-gray-500 uppercase dark:text-neutral-500">
                             IKU 2
                         </p>
                         <div class="hs-tooltip">
                             <div class="hs-tooltip-toggle">
-                                <svg class="shrink-0 size-4 text-gray-500 dark:text-neutral-500"
+                                <svg class="text-gray-500 shrink-0 size-4 dark:text-neutral-500"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
@@ -82,8 +88,8 @@
                         </div>
                     </div>
 
-                    <div class="mt-1 flex items-center gap-x-2">
-                        <h3 class="text-xl sm:text-2xl font-medium text-gray-800 dark:text-neutral-200">
+                    <div class="flex items-center mt-1 gap-x-2">
+                        <h3 class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
                             {{ $b }}
                         </h3>
                     </div>
@@ -95,12 +101,12 @@
             <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
                 <div class="p-4 md:p-5">
                     <div class="flex items-center gap-x-2">
-                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-neutral-500">
+                        <p class="text-xs tracking-wide text-gray-500 uppercase dark:text-neutral-500">
                             IKU 3
                         </p>
                         <div class="hs-tooltip">
                             <div class="hs-tooltip-toggle">
-                                <svg class="shrink-0 size-4 text-gray-500 dark:text-neutral-500"
+                                <svg class="text-gray-500 shrink-0 size-4 dark:text-neutral-500"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
@@ -117,19 +123,14 @@
                         </div>
                     </div>
 
-                    <div class="mt-1 flex items-center gap-x-2">
-                        <h3 class="text-xl sm:text-2xl font-medium text-gray-800 dark:text-neutral-200">
+                    <div class="flex items-center mt-1 gap-x-2">
+                        <h3 class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
                             {{ $c }}
                         </h3>
-                        <span class="flex items-center gap-x-1 text-red-600">
-                            <svg class="inline-block size-4 self-center" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="22 17 13.5 8.5 8.5 13.5 2 7" />
-                                <polyline points="16 17 22 17 22 11" />
-                            </svg>
+                        <span class="flex items-center text-red-600 gap-x-1">
+                            
                             <span class="inline-block text-sm">
-                                1.7%
+                               
                             </span>
                         </span>
                     </div>
@@ -141,12 +142,12 @@
             <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
                 <div class="p-4 md:p-5">
                     <div class="flex items-center gap-x-2">
-                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-neutral-500">
+                        <p class="text-xs tracking-wide text-gray-500 uppercase dark:text-neutral-500">
                             IKU 4
                         </p>
                         <div class="hs-tooltip">
                             <div class="hs-tooltip-toggle">
-                                <svg class="shrink-0 size-4 text-gray-500 dark:text-neutral-500"
+                                <svg class="text-gray-500 shrink-0 size-4 dark:text-neutral-500"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
@@ -163,8 +164,8 @@
                         </div>
                     </div>
 
-                    <div class="mt-1 flex items-center gap-x-2">
-                        <h3 class="text-xl sm:text-2xl font-medium text-gray-800 dark:text-neutral-200">
+                    <div class="flex items-center mt-1 gap-x-2">
+                        <h3 class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
                             {{ isset($d) }}
                         </h3>
                     </div>
@@ -176,12 +177,12 @@
             <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
                 <div class="p-4 md:p-5">
                     <div class="flex items-center gap-x-2">
-                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-neutral-500">
+                        <p class="text-xs tracking-wide text-gray-500 uppercase dark:text-neutral-500">
                             IKU 5
                         </p>
                         <div class="hs-tooltip">
                             <div class="hs-tooltip-toggle">
-                                <svg class="shrink-0 size-4 text-gray-500 dark:text-neutral-500"
+                                <svg class="text-gray-500 shrink-0 size-4 dark:text-neutral-500"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
@@ -198,8 +199,8 @@
                         </div>
                     </div>
 
-                    <div class="mt-1 flex items-center gap-x-2">
-                        <h3 class="text-xl sm:text-2xl font-medium text-gray-800 dark:text-neutral-200">
+                    <div class="flex items-center mt-1 gap-x-2">
+                        <h3 class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
                             {{ $e }}
                         </h3>
                     </div>
@@ -211,12 +212,12 @@
             <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
                 <div class="p-4 md:p-5">
                     <div class="flex items-center gap-x-2">
-                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-neutral-500">
+                        <p class="text-xs tracking-wide text-gray-500 uppercase dark:text-neutral-500">
                             IKU 6
                         </p>
                         <div class="hs-tooltip">
                             <div class="hs-tooltip-toggle">
-                                <svg class="shrink-0 size-4 text-gray-500 dark:text-neutral-500"
+                                <svg class="text-gray-500 shrink-0 size-4 dark:text-neutral-500"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
@@ -233,8 +234,8 @@
                         </div>
                     </div>
 
-                    <div class="mt-1 flex items-center gap-x-2">
-                        <h3 class="text-xl sm:text-2xl font-medium text-gray-800 dark:text-neutral-200">
+                    <div class="flex items-center mt-1 gap-x-2">
+                        <h3 class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
                             {{ $f }}
                         </h3>
                     </div>
@@ -246,12 +247,12 @@
             <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
                 <div class="p-4 md:p-5">
                     <div class="flex items-center gap-x-2">
-                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-neutral-500">
+                        <p class="text-xs tracking-wide text-gray-500 uppercase dark:text-neutral-500">
                             IKU 7
                         </p>
                         <div class="hs-tooltip">
                             <div class="hs-tooltip-toggle">
-                                <svg class="shrink-0 size-4 text-gray-500 dark:text-neutral-500"
+                                <svg class="text-gray-500 shrink-0 size-4 dark:text-neutral-500"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
@@ -268,8 +269,8 @@
                         </div>
                     </div>
 
-                    <div class="mt-1 flex items-center gap-x-2">
-                        <h3 class="text-xl sm:text-2xl font-medium text-gray-800 dark:text-neutral-200">
+                    <div class="flex items-center mt-1 gap-x-2">
+                        <h3 class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
                             {{ $g }}
                         </h3>
                     </div>
@@ -281,12 +282,12 @@
             <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
                 <div class="p-4 md:p-5">
                     <div class="flex items-center gap-x-2">
-                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-neutral-500">
+                        <p class="text-xs tracking-wide text-gray-500 uppercase dark:text-neutral-500">
                             IKU 8
                         </p>
                         <div class="hs-tooltip">
                             <div class="hs-tooltip-toggle">
-                                <svg class="shrink-0 size-4 text-gray-500 dark:text-neutral-500"
+                                <svg class="text-gray-500 shrink-0 size-4 dark:text-neutral-500"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
@@ -303,8 +304,8 @@
                         </div>
                     </div>
 
-                    <div class="mt-1 flex items-center gap-x-2">
-                        <h3 class="text-xl sm:text-2xl font-medium text-gray-800 dark:text-neutral-200">
+                    <div class="flex items-center mt-1 gap-x-2">
+                        <h3 class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
                             {{ isset($h)}}
                         </h3>
                     </div>
