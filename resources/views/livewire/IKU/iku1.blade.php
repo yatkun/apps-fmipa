@@ -566,7 +566,16 @@
                                                                Jumlah Responden Minimum</td>
                                                             <td
                                                                 class="px-6 py-2 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
-                                                                {{ $d / (($d*0.025*0.025) + 1) }}</td>
+                                                                
+                                                                @php
+                                                                $num = ($d / (($d*0.025*0.025) + 1));
+                                                                $formattedNum = number_format($num, 2);
+                                                                
+                                                            @endphp
+                                                            {{ $formattedNum }}
+                                                               
+                                                            
+                                                            </td>
                                                         
                                                         </tr>
                                                         
@@ -581,7 +590,12 @@
                                                             @if ($d == 0)
                                                                 0
                                                             @else
-                                                            {{ (($aa + $bb + $cc)/$d * 100) }}%
+                                                            @php
+                                                            $num = (($aa + $bb + $cc)/$d * 100);
+                                                            $formattedNum = number_format($num, 2);
+                                                            
+                                                        @endphp
+                                                        {{ $formattedNum }}%
                                                             @endif
                                                             
                                                             </td>
