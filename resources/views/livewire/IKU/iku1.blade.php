@@ -566,7 +566,7 @@
                                                                Jumlah Responden Minimum</td>
                                                             <td
                                                                 class="px-6 py-2 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
-                                                                {{ $d / (($d*2.5*2.5)*100 + 1) }}</td>
+                                                                {{ $d / (($d*0.025*0.025) + 1) }}</td>
                                                         
                                                         </tr>
                                                         
