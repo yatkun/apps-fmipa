@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Ikudelapan;
 use App\Models\Ikudua;
+use App\Models\Ikuempat;
 use App\Models\Ikuenam;
 use App\Models\Ikulima;
 use App\Models\Ikusatu;
@@ -30,7 +31,7 @@ class Dashboard extends Component
             'bb' => Ikusatu::where('pekerjaan', 'Wirausaha')->sum('bobot'),
             
             'cc' => Ikusatu::where('pekerjaan', 'Lanjut studi')->sum('bobot'),
-            'd' => Ikusatu::all()->count()
+            'd' => Ikuempat::all()->count()
             
         ]);
     }

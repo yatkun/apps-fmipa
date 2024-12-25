@@ -171,7 +171,7 @@
 
                     <div class="flex items-center mt-1 gap-x-2">
                         <h3 class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
-                            {{ isset($d) }}
+                            {{ $d }}
                         </h3>
                     </div>
                 </div>
