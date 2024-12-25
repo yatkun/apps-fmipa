@@ -49,12 +49,17 @@
                             </svg>
                             <span class="inline-block text-sm">
 
-                                @php
+                                @if ($d == 0)
+                                    0
+                                @else
+                                    @php
                                     $num = (($aa + $bb + $cc)/$d * 100);
                                     $formattedNum = number_format($num, 2);
                                     
-                                @endphp
-                                {{ $formattedNum }}%
+                                    @endphp
+                                    {{ $formattedNum }}%
+                                @endif
+                                
                             </span>
                         </span>
                     </div>

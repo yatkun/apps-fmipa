@@ -105,7 +105,10 @@
                                                 'nama' => 'bobot',
                                                 'displayname' => 'Bobot',
                                             ])
-
+@include('livewire.includes.kolom-table', [
+    'nama' => 'bukti',
+    'displayname' => 'Bukti',
+])
 
                                             <th scope="col"
                                                 class="py-2 font-semibold group text-start focus:outline-none">
@@ -148,6 +151,13 @@
                                                 <td
                                                     class="p-3 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
                                                     {{ $item->bobot }}</td>
+                                                    <td
+                                                                    class="p-3 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
+                                                                    @if ($item->bukti)
+                                                                        <a href="{{ $item->bukti }}" target="_blank" class="p-2 text-xs text-white bg-blue-400 rounded-md">Bukti dokumen</a>
+                                                                    @else
+                                                                       Belum ada 
+                                                                    @endif</td>
                                                 <td>
                                                     <div class="flex gap-2">
                                                         <button aria-label="Close" data-hs-overlay="#iku1-edit-modal"

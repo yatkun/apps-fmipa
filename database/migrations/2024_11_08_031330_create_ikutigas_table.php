@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('kriteria');
             $table->string('keterangan');
             $table->float('bobot');
+            $table->string('bukti')->nullable();
             $table->timestamps();
         });
     }

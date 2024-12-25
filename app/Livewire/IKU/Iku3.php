@@ -52,6 +52,7 @@ class Iku3 extends Component
         $this->form->nama = $data['nama'];
         $this->form->kriteria = $data['kriteria'];
         $this->form->keterangan = $data['keterangan'];
+        $this->form->bukti = $data['bukti'];
     }
     public function update_a()
     {
@@ -104,6 +105,7 @@ class Iku3 extends Component
         $this->form->nama = '';
         $this->form->kriteria = '';
         $this->form->keterangan = '';
+        $this->form->bukti = '';
     }
 
     public function cancelEdit()

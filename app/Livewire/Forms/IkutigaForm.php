@@ -18,6 +18,9 @@ class IkutigaForm extends Form
     #[Validate(['required'])]
     public string $keterangan = '';
 
+    #[Validate([''])]
+    public string $bukti = '';
+
    
 
     public $ikutiga_id;

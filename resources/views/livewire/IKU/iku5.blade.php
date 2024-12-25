@@ -604,6 +604,19 @@
                             </div>
                             <!-- End Col -->
 
+                            <div class="sm:col-span-3">
+                                <label for="bukti"
+                                    class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
+                                    Bukti Dokumen
+                                </label>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="sm:col-span-9">
+                                <input id="bukti" type="text"
+                                    class="block w-full px-3 py-2 text-sm text-gray-800 border border-gray-200 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                                    name="bukti" wire:model="form.bukti" placeholder="Masukkan link google drive">
+                            </div>
 
                         </div>
                         <!-- End Grid -->
@@ -614,7 +627,7 @@
                     <div class="flex items-center justify-end px-4 py-3 border-t gap-x-2 dark:border-neutral-700">
                         <button type="button" wire:click="cancelEdit"
                             class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-800 bg-white border border-gray-200 rounded-lg shadow-sm gap-x-2 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-                            data-hs-overlay="#ModalAddIku3">
+                            data-hs-overlay="#ModalAddIku5">
                             Batal
                         </button>
                         <button wire:loading.attr="disabled" wire:click="handleSaveOrUpdate"

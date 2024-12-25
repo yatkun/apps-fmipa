@@ -551,7 +551,19 @@
                                         name="keterangan" wire:model="form.keterangan">
                                 </div>
                                 <!-- End Col -->
+                                <div class="sm:col-span-3">
+                                    <label for="bukti"
+                                        class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
+                                        Bukti Dokumen
+                                    </label>
+                                </div>
+                                <!-- End Col -->
 
+                                <div class="sm:col-span-9">
+                                    <input id="bukti" type="text"
+                                        class="block w-full px-3 py-2 text-sm text-gray-800 border border-gray-200 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                                        name="bukti" wire:model="form.bukti" placeholder="Masukkan link google drive">
+                                </div>
 
                             </div>
                             <!-- End Grid -->
@@ -714,9 +726,9 @@
                             <div class="sm:col-span-9">
                                 <select wire:model="form.level" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg pe-9 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
                                     <option selected="">Pilih level</option>
-                                    <option name="level" value="Provinsi"">Provinsi</option>
-                                    <option name="level" value="Nasional" ">Nasional</option>
-                                    <option name="level" value="Internasional" ">Internasional</option>
+                                    <option name="level" value="Provinsi">Provinsi</option>
+                                    <option name="level" value="Nasional">Nasional</option>
+                                    <option name="level" value="Internasional">Internasional</option>
                                 </select>
                             </div>
 
@@ -733,6 +745,20 @@
                                     class="block w-full px-3 py-2 text-sm text-gray-800 border border-gray-200 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                                     name="keterangan" wire:model="form.keterangan"
                                     placeholder="Contoh: Lomba Infografis">
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label for="bukti"
+                                    class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
+                                    Bukti Dokumen
+                                </label>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="sm:col-span-9">
+                                <input id="bukti" type="text"
+                                    class="block w-full px-3 py-2 text-sm text-gray-800 border border-gray-200 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                                    name="bukti" wire:model="form.bukti" placeholder="Masukkan link google drive">
                             </div>
                             <!-- End Col -->
                         </div>

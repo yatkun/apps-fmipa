@@ -133,7 +133,7 @@
                                         <option value="Bekerja">Bekerja</option>
                                         <option value="Wirausaha">Wirausaha</option>
                                         <option value="Lanjut studi">Lanjut studi</option>
-
+                                        <option value="-">Belum Bekerja</option>
                                     </select>
                                 </div>
                             </div>
@@ -194,6 +194,25 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label for="af-account-password"
+                                    class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
+                                    Bukti Dokumen
+                                </label>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="sm:col-span-9">
+                                <div class="sm:flex">
+                                    <input id="bukti" type="text"
+                                        class="relative block w-full px-3 py-2 -mt-px text-sm border border-gray-200 rounded-lg shadow-sm pe-11 -ms-px sm:mt-0 sm:first:ms-0 focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                                        placeholder="Masukkan link google drive" name="bukti"
+                                        wire:model="form.bukti">
+
+                                </div>
+
                             </div>
                         </div>
                         <!-- End Grid -->

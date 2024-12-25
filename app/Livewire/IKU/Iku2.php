@@ -58,6 +58,7 @@ class Iku2 extends Component
         $this->form->program_studi = '';
         $this->form->sks_juara = '';
         $this->form->keterangan = '';
+        $this->form->bukti = '';
     }
 
     public function setsortBy($sortByField)
@@ -115,6 +116,7 @@ class Iku2 extends Component
         $this->form->program_studi = $data['program_studi'];
         $this->form->sks_juara = $data['sks_juara'];
         $this->form->keterangan = $data['keterangan'];
+        $this->form->bukti = $data['bukti'];
     }
 
     public function updateb($data)
@@ -127,6 +129,7 @@ class Iku2 extends Component
         $this->form->sks_juara = $data['sks_juara'];
         $this->form->level = $data['level'];
         $this->form->keterangan = $data['keterangan'];
+        $this->form->bukti = $data['bukti'];
     }
 
     public function handleSaveOrUpdate()

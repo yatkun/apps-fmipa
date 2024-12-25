@@ -51,6 +51,7 @@ class Iku6 extends Component
         $this->form->ikuenam_id = $data['id'];
         $this->form->nama = $data['nama'];
         $this->form->kriteria = $data['kriteria'];
+        $this->form->bukti = $data['bukti'];
     }
     public function update_a()
     {
@@ -98,6 +99,7 @@ class Iku6 extends Component
     {
         $this->form->nama = '';
         $this->form->kriteria = '';
+        $this->form->bukti = '';
     }
 
     public function cancelEdit()

@@ -73,6 +73,7 @@ class Iku1 extends Component
         $this->form->pekerjaan = '';
         $this->form->pendapatan = '';
         $this->form->masa_tunggu = '';
+        $this->form->bukti = '';
     }
 
     public function setsortBy($sortByField)
@@ -111,6 +112,7 @@ class Iku1 extends Component
             $this->form->pekerjaan = $data['pekerjaan'];
             $this->form->pendapatan = $data['pendapatan'];
             $this->form->masa_tunggu = $data['masa_tunggu'];
+            $this->form->bukti = $data['bukti'];
     }
     public function update()
     {

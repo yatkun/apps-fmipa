@@ -250,7 +250,7 @@
 
     <div id="ModalAddIku3" wire:ignore.self
         class="hs-overlay hidden  size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none"
-        role="dialog" tabindex="-1" aria-labelledby="ModalAddIku3-label">
+        role="dialog" tabindex="-1" aria-labelledby="ModalAddIku4-label">
         <form wire:submit="save">
             <div
                 class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-3xl sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
@@ -337,6 +337,20 @@
                                     name="keterangan" wire:model="form.keterangan">
                             </div>
                             <!-- End Col -->
+
+                            <div class="sm:col-span-3">
+                                <label for="bukti"
+                                    class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
+                                    Bukti Dokumen
+                                </label>
+                            </div>
+                            <!-- End Col -->
+
+                            <div class="sm:col-span-9">
+                                <input id="bukti" type="text"
+                                    class="block w-full px-3 py-2 text-sm text-gray-800 border border-gray-200 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                                    name="bukti" wire:model="form.bukti" placeholder="Masukkan link google drive">
+                            </div>
 
 
                         </div>

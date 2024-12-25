@@ -26,6 +26,9 @@ class IkulimaForm extends Form
     #[Validate(['required'])]
     public string $keterangan = '';
 
+    #[Validate([''])]
+    public string $bukti = '';
+
 
     protected $listeners = [
         'jenis_karya',

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('kriteria');
             $table->string('keterangan');
+            $table->string('bukti')->nullable();
             $table->timestamps();
         });
     }

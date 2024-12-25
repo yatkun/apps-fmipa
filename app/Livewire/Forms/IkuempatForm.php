@@ -20,6 +20,9 @@ class IkuempatForm extends Form
     #[Validate(['required'])]
     public string $keterangan = '';
 
+    #[Validate([''])]
+    public string $bukti = '';
+
    
 
     public $ikuempat_id;

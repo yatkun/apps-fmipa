@@ -166,6 +166,10 @@
             HSOverlay.open('#ModalAddIku5');
 
         });
+        Livewire.on('modalIku4', () => {
+            HSOverlay.open('#ModalAddIku4');
+
+        });
         Livewire.on('modalIku6', () => {
             HSOverlay.open('#ModalAddIku6');
 

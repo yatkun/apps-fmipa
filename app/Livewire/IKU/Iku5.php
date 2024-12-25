@@ -84,6 +84,7 @@ LPNK yang tidak dipublikasikan','Untuk Karya Tulis Ilmiah yang tidak masuk dalam
         $this->form->kriteria = '';
         $this->form->tanggal = '';
         $this->form->keterangan = '';
+        $this->form->bukti = '';
     }
 
     public function deleteIku5($id)
@@ -151,6 +152,7 @@ LPNK yang tidak dipublikasikan','Untuk Karya Tulis Ilmiah yang tidak masuk dalam
         $this->form->kriteria = $data['kriteria'];
         $this->form->tanggal = $data['tanggal'];
         $this->form->keterangan = $data['keterangan'];
+        $this->form->bukti = $data['bukti'];
     }
     public function update_a()
     {

@@ -27,6 +27,9 @@ class IkuduaForm extends Form
     #[Validate([''])]
     public string $level = '';
 
+    #[Validate([''])]
+    public string $bukti = '';
+
     public $ikudua_id;
 
     public function store_a()

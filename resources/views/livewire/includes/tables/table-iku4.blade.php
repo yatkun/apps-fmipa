@@ -93,6 +93,10 @@
                                                 'nama' => 'keterangan',
                                                 'displayname' => 'Keterangan',
                                             ])
+                                            @include('livewire.includes.kolom-table', [
+                                                'nama' => 'bukti',
+                                                'displayname' => 'Bukti',
+                                            ])
 
 
                                            
@@ -129,13 +133,22 @@
                                                 <td
                                                     class="p-3 text-sm text-gray-800 dark:text-neutral-200">
                                                     {{ $item->keterangan }}</td>
-
+                                                    <td
+                                                    class="p-3 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
+                                                    @if ($item->bukti)
+                                                        <a href="{{ $item->bukti }}" target="_blank"
+                                                            class="p-2 text-xs text-white bg-blue-400 rounded-md">Bukti
+                                                            dokumen</a>
+                                                    @else
+                                                        Belum ada
+                                                    @endif
+                                                </td>
                                                
                                                 <td>
                                                     <div class="flex gap-2">
                                                         <div class="flex gap-2">
                                                             <button aria-label="Close"
-                                                                data-hs-overlay="#ModalAddIku4"
+                                                                data-hs-overlay="#iku1-edit-modal"
                                                                 wire:click="update({{ $item }})"
                                                                 class="object-center p-2.5 text-sm text-white bg-yellow-500 rounded-md hover:bg-yellow-600 dark:bg-yellow-500/10 dark:text-yellow-500 hover:dark:bg-yellow-500/30"><svg
                                                                     xmlns="http://www.w3.org/2000/svg"

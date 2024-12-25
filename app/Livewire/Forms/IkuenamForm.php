@@ -18,6 +18,9 @@ class IkuenamForm extends Form
 
     #[Validate(['required'])]
     public string $nama = '';
+
+    #[Validate([''])]
+    public string $bukti = '';
     
     public $ikuenam_id;
 

@@ -46,13 +46,14 @@ class Iku4 extends Component
 
     public function update($data)
     {
-       
+
         $this->mode = 'edit';
         $this->dispatch('modalIku4');
         $this->form->ikuempat_id = $data['id'];
         $this->form->nama = $data['nama'];
         $this->form->kriteria = $data['kriteria'];
         $this->form->keterangan = $data['keterangan'];
+        $this->form->bukti = $data['bukti'];
     }
     public function update_a()
     {
@@ -104,6 +105,7 @@ class Iku4 extends Component
         $this->form->nama = '';
         $this->form->kriteria = '';
         $this->form->keterangan = '';
+        $this->form->bukti = '';
     }
 
     public function cancelEdit()
