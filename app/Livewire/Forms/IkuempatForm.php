@@ -31,7 +31,7 @@ class IkuempatForm extends Form
     {
 
         $validate = $this->validate();
-
+        
        
         
         Ikuempat::create($validate);
