@@ -19,7 +19,7 @@ class IkutigaForm extends Form
     public string $keterangan = '';
 
     #[Validate(['nullable'])]
-    public string $bukti = '';
+    public ?string $bukti = '';
 
    
 

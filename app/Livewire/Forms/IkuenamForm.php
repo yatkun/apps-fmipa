@@ -20,7 +20,7 @@ class IkuenamForm extends Form
     public string $nama = '';
 
     #[Validate(['nullable'])]
-    public string $bukti = '';
+    public ?string $bukti = '';
     
     public $ikuenam_id;
 

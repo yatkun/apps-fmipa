@@ -31,7 +31,7 @@ class IkusatuForm extends Form
     public string $masa_tunggu = '';
 
     #[Validate(['nullable'])]
-    public string $bukti = '';
+    public ?string $bukti = '';
 
     public $ump = 2871794;
 
