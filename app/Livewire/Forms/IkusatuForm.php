@@ -30,7 +30,7 @@ class IkusatuForm extends Form
     #[Validate(['required'])]
     public string $masa_tunggu = '';
 
-    #[Validate([''])]
+    #[Validate(['nullable'])]
     public string $bukti = '';
 
     public $ump = 2871794;
