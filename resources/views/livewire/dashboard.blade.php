@@ -49,11 +49,11 @@
                             </svg>
                             <span class="inline-block text-sm">
 
-                                @if ($d == 0)
+                                @if ($dd == 0)
                                     0
                                 @else
                                     @php
-                                    $num = (($aa + $bb + $cc)/$d * 100);
+                                    $num = (($aa + $bb + $cc)/$dd * 100);
                                     $formattedNum = number_format($num, 2);
                                     
                                     @endphp

@@ -31,6 +31,7 @@ class Dashboard extends Component
             'bb' => Ikusatu::where('pekerjaan', 'Wirausaha')->sum('bobot'),
             
             'cc' => Ikusatu::where('pekerjaan', 'Lanjut studi')->sum('bobot'),
+            'dd' => Ikusatu::all()->count(),
             'd' => Ikuempat::all()->count()
             
         ]);
