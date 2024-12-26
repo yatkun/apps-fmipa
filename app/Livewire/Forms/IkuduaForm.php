@@ -27,8 +27,7 @@ class IkuduaForm extends Form
     #[Validate([''])]
     public string $level = '';
 
-    #[Validate(['nullable'])]
-    public ?string $bukti = '';
+    public ?string $bukti = null;
 
     public $ikudua_id;
 
