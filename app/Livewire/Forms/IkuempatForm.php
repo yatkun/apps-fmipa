@@ -20,7 +20,8 @@ class IkuempatForm extends Form
     #[Validate(['required'])]
     public string $keterangan = '';
 
-    public ?string $bukti = null;
+    #[Validate(['nullable|string'])]
+    public ?string $bukti = '';
 
    
 
