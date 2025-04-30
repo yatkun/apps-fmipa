@@ -56,6 +56,8 @@ class Dokumenpublik extends Component
             'icon' => 'mdi mdi-google-drive',
             'user_id' => Auth::id(), // Simpan ID pengguna saat ini
         ]);
+
+
         
         session()->flash('success', 'Dokumen berhasil ditambahkan !');
         $this->resetLink();
@@ -128,7 +130,7 @@ class Dokumenpublik extends Component
         if ($this->mode == 'edit') {
             $this->update_link(); // Panggil fungsi update
         } else {
-            $this->resetLink();
+        
             $this->upload_link(); // Panggil fungsi save
         }
     }

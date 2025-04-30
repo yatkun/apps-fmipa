@@ -168,6 +168,26 @@ class DokumenTertandai extends Component
         }, $fileName);
     }
 
+    public function delete($id)
+    {
+      
+        $file = ModelsDokumentertandai::findOrFail($id);
+        $filePath = $file->document;
+
+
+        if (Storage::disk('google')->exists($filePath)) {
+            Storage::disk('google')->delete($filePath);
+        }
+
+        $file->delete();
+
+        
+        session()->flash('success', 'Dokumen berhasil dihapus.');
+        $this->dispatch('notif'); 
+    
+        
+    }
+
 
     public function render()
     {

@@ -54,7 +54,7 @@ Route::group(['middleware' => Auth::class], function () {
     // Route::get('/tryout', Tryout::class)->name('tryout');
     // // E-SKRIPSI LOGIN
     // Route::get('/e-skripsi', Eskripsi::class)->name('eskripsi');
-    Route::get('/profile', UpdateProfile::class)->name('profile');
+    
     Route::get('/admin/pengguna', DaftarUser::class)->name('admin.pengguna');
 
 });
@@ -73,7 +73,7 @@ Route::middleware('auth.dokumen')->group(function () {
     Route::get('/dokumen/tandai', DokumenTertandai::class)->name('dokumen.tandai');
     Route::get('/dokumen/tandai/upload', UploadTertandai::class)->name('dokumen.tandai.upload');
     Route::get('/dokumen/tandai/edit/{hashid}', EditDokumenTertandai::class)->name('dokumen.tandai.edit');
-  
+    Route::get('/profile', UpdateProfile::class)->name('profile');
 
 });
 

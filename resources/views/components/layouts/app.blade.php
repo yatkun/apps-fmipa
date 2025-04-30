@@ -33,8 +33,8 @@
         .notif-content {
             display: flex;
             align-items: center;
-            background: #556ee6;
-            color: white;
+            background: #ffffff;
+            
             gap: 1rem;
             padding-left: 0.75rem
                 /* 12px */

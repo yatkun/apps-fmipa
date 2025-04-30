@@ -239,7 +239,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" wire:loading.attr="disabled" class="btn btn-primary">
-                            <span wire:loading.remove>{{ $mode == 'edit' ? 'Update' : 'Upload' }}</span>
+                            <span wire:loading.remove>{{ $mode == 'edit' ? 'Update' : 'Simpan' }}</span>
                             <span wire:loading><span class="spinner-border spinner-border-sm" role="status"
                                     aria-hidden="true"></span> Proses Upload...</span>
                         </button>
