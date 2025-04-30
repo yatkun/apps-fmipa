@@ -25,7 +25,7 @@ class Dashboard extends Component
 
         $id = Auth::user()->id;
         $this->dispatch('notif');
-        return view('livewire.edokumen.dashboard',[
+        return view('livewire.EDOKUMEN.dashboard',[
                'title' => 'Dashboard',
                'a' => Dokumensaya::where('user_id', $id)->count(),
                'b' => Dokumenpublik::all()->count(),
