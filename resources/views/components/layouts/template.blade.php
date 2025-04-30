@@ -6,26 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title ?? config('app.name') }}</title>
-    @livewireStyles
-    @vite(['resources/js/app.js', 'resources/css/app.css'])
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-    <!-- Theme Check and Update -->
-    <script>
-        const html = document.querySelector('html');
-        const isLightOrAuto = localStorage.getItem('hs_theme') === 'light' || (localStorage.getItem('hs_theme') ===
-            'auto' && !window.matchMedia('(prefers-color-scheme: dark)').matches);
-        const isDarkOrAuto = localStorage.getItem('hs_theme') === 'dark' || (localStorage.getItem('hs_theme') === 'auto' &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-        if (isLightOrAuto && html.classList.contains('dark')) html.classList.remove('dark');
-        else if (isDarkOrAuto && html.classList.contains('light')) html.classList.remove('light');
-        else if (isDarkOrAuto && !html.classList.contains('dark')) html.classList.add('dark');
-        else if (isLightOrAuto && !html.classList.contains('light')) html.classList.add('light');
-    </script>
-    <link rel="stylesheet" href="https://preline.co/assets/css/main.min.css">
+<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+<!-- Icons Css -->
+<link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- App Css-->
+<link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+    @livewireStyles
+    
     <style>
         @keyframes slideUp {
             0% {
@@ -68,11 +59,11 @@
             /* Adjust duration as needed */
         }
     </style>
-
+@stack('styles')
 </head>
 
-<body class="bg-white dark:bg-neutral-900">
-    <x-navbar></x-navbar>
+<body data-sidebar="dark" data-layout-mode="light">
+  
     {{ $slot }}
 
     <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.min.js"></script>

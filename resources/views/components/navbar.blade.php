@@ -1,108 +1,176 @@
-<header
-    class="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-[48] w-full bg-white border-b text-sm    dark:bg-neutral-800 dark:border-neutral-700">
-    <nav class="flex items-center w-full pr-4 mx-auto sm:pr-6 basis-full ">
-        <div class="flex items-center h-full ">
-            <div
-                class="sm:w-[248px] pl-4 sm:pl-0 h-full flex justify-center items-center text-center sm:border-r py-3 dark:border-neutral-700">
-                <img class="w-[160px]" src="{{ asset('storage/gambar/iku.png') }}" >
-                
-            </div>
-            <div class="hidden ml-5 md:block">
-                
+<header id="page-topbar">
+    <div class="navbar-header">
+        <div class="d-flex">
+            <!-- LOGO -->
+            <div class="navbar-brand-box">
+                <a href="#" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="{{ asset('assets/images/edok2.svg') }}" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="{{ asset('assets/images/edok_icon.svg') }}" alt="" height="17">
+                    </span>
+                </a>
+
+                <a href="#" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="{{ asset('assets/images/edok_icon.svg') }}" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="{{ asset('assets/images/edok2.svg') }}" alt="" height="24">
+                    </span>
+                </a>
             </div>
 
-           
+            <button type="button" class="px-3 btn btn-sm font-size-16 header-item waves-effect" id="vertical-menu-btn">
+                <i class="fa fa-fw fa-bars"></i>
+            </button>
+
         </div>
-        <div class="flex items-center justify-end w-full ms-auto md:justify-between ">
 
-            <div class="hidden md:block">
+        <div class="d-flex">
+
+
+
+            <div class="dropdown d-none d-lg-inline-block ms-1">
+                <button wire:navigate href="/apps" type="button" class="btn header-item noti-icon waves-effect"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="bx bx-customize"></i>
+                </button>
+
             </div>
 
-            <div class="flex flex-row items-center justify-end gap-1">
-                <button type="button"
-                    class="size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-                    </svg>
-                    <span class="sr-only">Notifications</span>
+            <div class="dropdown d-none d-lg-inline-block ms-1">
+                <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">
+                    <i class="bx bx-fullscreen"></i>
                 </button>
-                <button type="button"
-                    class="block font-medium text-gray-800 rounded-full hs-dark-mode-active:hidden hs-dark-mode hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-                    data-hs-theme-click-value="dark">
-                    <span class="inline-flex items-center justify-center group shrink-0 size-9">
-                        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-                        </svg>
-                    </span>
+            </div>
+
+            <div class="dropdown d-inline-block">
+                <button type="button" class="btn header-item noti-icon waves-effect"
+                    id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="bx bx-bell bx-tada"></i>
+                    {{-- <span class="badge bg-danger rounded-pill">3</span> --}}
                 </button>
-                <button type="button"
-                    class="hidden font-medium text-gray-800 rounded-full hs-dark-mode-active:block hs-dark-mode hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-                    data-hs-theme-click-value="light">
-                    <span class="inline-flex items-center justify-center group shrink-0 size-9">
-                        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="4"></circle>
-                            <path d="M12 2v2"></path>
-                            <path d="M12 20v2"></path>
-                            <path d="m4.93 4.93 1.41 1.41"></path>
-                            <path d="m17.66 17.66 1.41 1.41"></path>
-                            <path d="M2 12h2"></path>
-                            <path d="M20 12h2"></path>
-                            <path d="m6.34 17.66-1.41 1.41"></path>
-                            <path d="m19.07 4.93-1.41 1.41"></path>
-                        </svg>
-                    </span>
-                </button>
-
-                <button type="button"
-                    class="size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                    </svg>
-                    <span class="sr-only">Activity</span>
-                </button>
-
-                <!-- Dropdown -->
-                <div class="hs-dropdown [--placement:bottom-right] relative inline-flex">
-                    <button id="hs-dropdown-account" type="button"
-                        class="size-[38px] inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:text-white"
-                        aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                        <img class="shrink-0 size-[38px] rounded-full"
-                            src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
-                            alt="Avatar">
-                    </button>
-
-                    <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg mt-2 dark:bg-neutral-800 dark:border dark:border-neutral-700 dark:divide-neutral-700 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full"
-                        role="menu" aria-orientation="vertical" aria-labelledby="hs-dropdown-account">
-                        <div class="px-5 py-3 bg-gray-100 rounded-t-lg dark:bg-neutral-700">
-                            <p class="text-sm text-gray-500 dark:text-neutral-500">Masuk sebagai</p>
-                            <p class="text-sm font-medium text-gray-800 dark:text-neutral-200">
-                                {{ auth()->user()->email }}</p>
-                        </div>
-                        <div class="p-1.5 space-y-0.5">
-                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700 dark:focus:text-neutral-300"
-                                href="#">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                                </svg>
-
-                                Profil
-                            </a>
-                            <livewire:logout />
+                <div class="p-0 dropdown-menu dropdown-menu-lg dropdown-menu-end"
+                    aria-labelledby="page-header-notifications-dropdown">
+                    <div class="p-3">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="m-0" key="t-notifications"> Notifications </h6>
+                            </div>
+                            <div class="col-auto">
+                                <a href="#!" class="small" key="t-view-all"> View All</a>
+                            </div>
                         </div>
                     </div>
-                    <!-- End Dropdown -->
+                    {{-- <div data-simplebar="init" style="max-height: 230px;">
+                        <div class="simplebar-wrapper" style="margin: 0px;">
+                            <div class="simplebar-height-auto-observer-wrapper">
+                                <div class="simplebar-height-auto-observer"></div>
+                            </div>
+                            <div class="simplebar-mask">
+                                <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                    <div class="simplebar-content-wrapper" style="height: auto; overflow: hidden;">
+                                        <div class="simplebar-content" style="padding: 0px;">
+                                            <a href="javascript: void(0);" class="text-reset notification-item">
+                                                <div class="d-flex">
+                                                    <div class="avatar-xs me-3">
+                                                        <span
+                                                            class="avatar-title bg-primary rounded-circle font-size-16">
+                                                            <i class="bx bx-cart"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1" key="t-your-order">Your order is placed</h6>
+                                                        <div class="font-size-12 text-muted">
+                                                            <p class="mb-1" key="t-grammer">If several languages
+                                                                coalesce the grammar</p>
+                                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i>
+                                                                <span key="t-min-ago">3 min ago</span></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="javascript: void(0);" class="text-reset notification-item">
+                                                <div class="d-flex">
+                                                    <img src="assets/images/users/avatar-3.jpg"
+                                                        class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1">James Lemire</h6>
+                                                        <div class="font-size-12 text-muted">
+                                                            <p class="mb-1" key="t-simplified">It will seem like
+                                                                simplified English.</p>
+                                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i>
+                                                                <span key="t-hours-ago">1 hours ago</span></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="javascript: void(0);" class="text-reset notification-item">
+                                                <div class="d-flex">
+                                                    <div class="avatar-xs me-3">
+                                                        <span
+                                                            class="avatar-title bg-success rounded-circle font-size-16">
+                                                            <i class="bx bx-badge-check"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1" key="t-shipped">Your item is shipped</h6>
+                                                        <div class="font-size-12 text-muted">
+                                                            <p class="mb-1" key="t-grammer">If several languages
+                                                                coalesce the grammar</p>
+                                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i>
+                                                                <span key="t-min-ago">3 min ago</span></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+
+                                            <a href="javascript: void(0);" class="text-reset notification-item">
+                                                <div class="d-flex">
+
+                                                    <img src="{{ asset('assets/images/users/avatar-4.jpg') }}"
+                                                        class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1">Salena Layfield</h6>
+                                                        <div class="font-size-12 text-muted">
+                                                            <p class="mb-1" key="t-occidental">As a skeptical
+                                                                Cambridge friend of mine occidental.</p>
+                                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i>
+                                                                <span key="t-hours-ago">1 hours ago</span></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="simplebar-placeholder" style="width: 0px; height: 0px;"></div>
+                        </div>
+                        <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                            <div class="simplebar-scrollbar"
+                                style="transform: translate3d(0px, 0px, 0px); display: none;"></div>
+                        </div>
+                        <div class="simplebar-track simplebar-vertical" style="visibility: hidden;">
+                            <div class="simplebar-scrollbar"
+                                style="transform: translate3d(0px, 0px, 0px); display: none;"></div>
+                        </div>
+                    </div>
+                    <div class="p-2 border-top d-grid">
+                        <a class="text-center btn btn-sm btn-link font-size-14" href="javascript:void(0)">
+                            <i class="mdi mdi-arrow-right-circle me-1"></i> <span key="t-view-more">View More..</span>
+                        </a>
+                    </div> --}}
                 </div>
             </div>
-    </nav>
+
+            @livewire('profile')
+
+
+
+        </div>
+    </div>
 </header>

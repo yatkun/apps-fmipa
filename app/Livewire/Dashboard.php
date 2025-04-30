@@ -15,6 +15,7 @@ class Dashboard extends Component
 {
     public function render()
     {
+        $this->dispatch('notif');
         
         return view('livewire.dashboard',[
             'a' => Ikusatu::all()->count(),

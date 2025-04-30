@@ -13,8 +13,6 @@ class IkusatuForm extends Form
     #[Validate(['required'])]
     public string $nama = '';
 
-    
-
     #[Validate(['required'])]
     public string $program_studi = '';
 
@@ -29,6 +27,10 @@ class IkusatuForm extends Form
 
     #[Validate(['required'])]
     public string $masa_tunggu = '';
+
+    
+    #[Validate(['nullable', 'string'])]
+    public ?string $bukti = null;
 
     public $ump = 1000000;
 
@@ -78,6 +80,7 @@ class IkusatuForm extends Form
             $validate['masa_tunggu'] = '-';
         }
 
+        
         Ikusatu::create($validate);
 
         

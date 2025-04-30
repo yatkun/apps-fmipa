@@ -20,7 +20,15 @@ use App\Livewire\Auth\Login;
 
 use App\Http\Middleware\Auth;
 use App\Http\Middleware\Guest;
+use App\Livewire\DaftarUser;
+use App\Livewire\Edokumen\DokumenTertandai;
+use App\Livewire\Edokumen\Dokumenpublik as Dokumenpublik;
+use App\Livewire\Edokumen\Dashboard as EdokumenDashboard;
+use App\Livewire\Edokumen\EditDokumenTertandai;
+use App\Livewire\Edokumen\Saya;
+use App\Livewire\Edokumen\UploadTertandai;
 use App\Livewire\Eskripsi\Eskripsi;
+use App\Livewire\UpdateProfile;
 use Illuminate\Support\Facades\Route;
 
 
@@ -34,21 +42,43 @@ Route::group(['middleware' => Guest::class], function () {
     // Route::get('/register', 'auth.register')->layout('layouts.app')->name('auth.register');
 
     //login
-
+    Route::get('/login', Login::class)->name('auth.login');
 
 
 });
 
 Route::group(['middleware' => Auth::class], function () {
-    Route::get('/iku/dashboard', Dashboard::class)->name('iku.dashboard');
-    Route::get('/counter', Counter::class)->name('counter');
-
-    Route::get('/tryout', Tryout::class)->name('tryout');
-
-
-    Route::get('/logout', Logout::class)->name('logout');
     
+    // Route::get('/counter', Counter::class)->name('counter');
 
+    // Route::get('/tryout', Tryout::class)->name('tryout');
+    // // E-SKRIPSI LOGIN
+    // Route::get('/e-skripsi', Eskripsi::class)->name('eskripsi');
+    Route::get('/profile', UpdateProfile::class)->name('profile');
+    Route::get('/admin/pengguna', DaftarUser::class)->name('admin.pengguna');
+
+});
+
+// Route::middleware(['auth'])->get('/profile', UpdateProfile::class)->name('profile');
+
+
+Route::get('/apps', Apps::class)->name('apps');
+Route::get('/', Apps::class)->name('apps');
+Route::get('/logout', Logout::class)->name('logout');
+
+Route::middleware('auth.dokumen')->group(function () {
+    Route::get('/dokumen/dashboard', EdokumenDashboard::class)->name('edokumen.dashboard');
+    Route::get('/dokumen/pribadi', Saya::class)->name('dokumen.saya');
+    Route::get('/dokumen/publik', Dokumenpublik::class)->name('dokumen.publik');
+    Route::get('/dokumen/tandai', DokumenTertandai::class)->name('dokumen.tandai');
+    Route::get('/dokumen/tandai/upload', UploadTertandai::class)->name('dokumen.tandai.upload');
+    Route::get('/dokumen/tandai/edit/{hashid}', EditDokumenTertandai::class)->name('dokumen.tandai.edit');
+  
+
+});
+
+Route::middleware('auth.iku')->group(function(){
+    Route::get('/iku/dashboard', Dashboard::class)->name('iku.dashboard');
     Route::get('/iku/iku-1', Iku1::class)->name('iku1');
     Route::get('/iku/iku-2', Iku2::class)->name('iku2');
     Route::get('/iku/iku-3', Iku3::class)->name('iku3');
@@ -57,16 +87,4 @@ Route::group(['middleware' => Auth::class], function () {
     Route::get('/iku/iku-6', Iku6::class)->name('iku6');
     Route::get('/iku/iku-7', Iku7::class)->name('iku7');
     Route::get('/iku/iku-8', Iku8::class)->name('iku8');
-    
-    Route::get('/apps', Apps::class)->name('apps');
-    Route::get('/', Apps::class)->name('apps');
-
-
-
-    // E-SKRIPSI LOGIN
-    Route::get('/e-skripsi', Eskripsi::class)->name('eskripsi');
-
 });
-
-
-Route::get('/login', Login::class)->name('auth.login');

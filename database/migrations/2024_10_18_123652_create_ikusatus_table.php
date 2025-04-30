@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('pendapatan');
             $table->string('masa_tunggu');
             $table->integer('ump');
+            $table->string('bukti')->nullable();
             $table->float('bobot');
             $table->timestamps();
         });

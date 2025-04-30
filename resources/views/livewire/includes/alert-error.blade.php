@@ -1,5 +1,5 @@
-<div class="fixed left-0 right-0 z-[9999999] flex justify-center hidden top-5" id="custom-alert" role="alert">
-    <div id="toast" class="flex items-center gap-4 px-3 py-3 bg-white rounded-sm"
+<div class="error-notif" id="custom-alert" role="alert">
+    <div id="toast" class="notif-content"
         style="box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 10px, rgba(0, 0, 0, 0.05) 0px 3px 3px;">
         <svg viewBox="0 0 32 32" width="1.25rem" height="1.25rem" style="overflow: visible;">
             <circle cx="16" cy="16" r="0" fill="#FF3B30">

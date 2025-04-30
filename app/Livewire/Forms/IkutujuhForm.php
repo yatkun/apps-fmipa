@@ -22,8 +22,9 @@ class IkutujuhForm extends Form
     public string $semester = '';
 
 
-    #[Validate(['required'])]
-    public string $link = '';
+
+    #[Validate(['nullable', 'string'])]
+    public ?string $link = null;
     
     
     public $ikutujuh_id;

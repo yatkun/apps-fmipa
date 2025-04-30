@@ -19,11 +19,22 @@ class Login extends Component
     
     public function login()
     {
+        // dd($this->username, $this->password);
+        
         $this->validate();
-
+        
         if(Auth::attempt(['username' => $this->username, 'password' => $this->password])){
-        session()->flash('success', 'Login Berhasil');
-            return redirect()->route('apps');
+            session(['authenticated_application' => session('selected_application')]);
+            $application = session('authenticated_application');
+            if ($application == 'EDokumen'){
+                session()->flash('success', 'Login Berhasil');
+                return redirect()->route('edokumen.dashboard');
+                $this->dispatch('notif');
+            }elseif($application == 'IKU'){
+                session()->flash('success', 'Login Berhasil');
+                return redirect()->route('iku.dashboard');
+                $this->dispatch('notif');
+            }
         }else{
             // return back()->with('error', 'Login Gagal !');
             session()->flash('error', 'Username / password salah !');

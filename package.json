@@ -23,6 +23,7 @@
         "jquery": "^3.7.1",
         "jszip": "^3.10.1",
         "pdfmake": "^0.2.14",
-        "preline": "^2.5.0"
+        "preline": "^2.5.0",
+        "tom-select": "^2.4.3"
     }
 }

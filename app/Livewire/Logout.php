@@ -11,7 +11,9 @@ class Logout extends Component
     public function logout(){
 
         Auth::logout();
-        return redirect()->route('auth.login');
+        session()->invalidate();
+        session()->regenerateToken();
+        return redirect()->route('apps');
     }
     
     public function render()

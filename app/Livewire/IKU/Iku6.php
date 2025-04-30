@@ -28,6 +28,7 @@ class Iku6 extends Component
         $this->resetInput();
         $this->dispatch('notif');
         $this->dispatch('iku1store');
+        $this->dispatch('closemodal');
     }
 
     public function deleteIku6($id)
@@ -51,6 +52,7 @@ class Iku6 extends Component
         $this->form->ikuenam_id = $data['id'];
         $this->form->nama = $data['nama'];
         $this->form->kriteria = $data['kriteria'];
+        $this->form->bukti = $data['bukti'];
     }
     public function update_a()
     {
@@ -62,6 +64,7 @@ class Iku6 extends Component
         $this->mode = 'add';
         // Emit event untuk JavaScript
         $this->dispatch('notif');
+        $this->dispatch('closemodal');
     }
 
     public function setsortBy($sortByField)
@@ -98,6 +101,7 @@ class Iku6 extends Component
     {
         $this->form->nama = '';
         $this->form->kriteria = '';
+        $this->form->bukti = '';
     }
 
     public function cancelEdit()

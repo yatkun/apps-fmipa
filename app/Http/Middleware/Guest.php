@@ -21,7 +21,7 @@ class Guest
 
         // foreach ($guards as $guard) {
         //     if (Auth::guard($guard)->check()) {
-        //         return redirect('/login');
+        //         return back();
         //     }
         // }
 

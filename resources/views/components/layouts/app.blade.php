@@ -4,31 +4,58 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? config('app.name') }}</title>
+    <title>@yield('title')</title>
     <link rel="shortcut icon" href="https://preline.co/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+        @stack('styles')
+
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <!-- Icons Css -->
+    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+    
     @livewireStyles
-    @vite(['resources/js/app.js', 'resources/css/app.css'])
+    <style>
+        .error-notif {
+            position: fixed;
+            left: 0px;
+            right: 0px;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            display: hidden;
+            top: 1.25rem;
+
+        }
+
+        .notif-content {
+            display: flex;
+            align-items: center;
+            background: #556ee6;
+            color: white;
+            gap: 1rem;
+            padding-left: 0.75rem
+                /* 12px */
+            ;
+            padding-right: 0.75rem
+                /* 12px */
+            ;
+            padding-top: 0.75rem
+                /* 12px */
+            ;
+            padding-bottom: 0.75rem
+                /* 12px */
+            ;
+            border-radius: 0.125rem
+                /* 2px */
+            ;
+        }
+    </style>
+
 
     <style>
-        #hs-application-sidebar {
-            @apply hidden;
-            /* Menggunakan Tailwind untuk menyembunyikan */
-        }
-
-        #hs-application-sidebar.show {
-            @apply block;
-            /* Menampilkan sidebar */
-        }
-
-        .dt-layout-row:has(.dt-search),
-        .dt-layout-row:has(.dt-length),
-        .dt-layout-row:has(.dt-paging) {
-            display: none !important;
-        }
-
         @keyframes slideUp {
             0% {
 
@@ -73,58 +100,14 @@
         .fade-in.show {
             opacity: 1;
         }
-
-        .card {
-            padding: 24px;
-            border: 1px solid #ffffff1f;
-            border-radius: 18px;
-            background: linear-gradient(193deg, #6a6dd982 53%, #a695fb78 100%);
-            box-shadow: inset 0 0 6px hsla(0, 0%, 100%, 0.2);
-            position: relative;
-            max-width: 300px;
-            transition: all 1.7s ease;
-            margin: 28px auto;
-        }
-
-        .card:hover {
-            box-shadow: inset 0 0 6px hsla(0, 0%, 100%, 0.4);
-        }
-
-        .card::before {
-            content: "";
-            position: absolute;
-            width: 50%;
-            height: 1px;
-            background: linear-gradient(45deg, #ffffff00, #ffffff 50%, #ffffff00);
-            top: -1px;
-            right: 20px;
-            transition: all 1.4s ease;
-        }
-
-        .card:hover::before {
-            right: calc(50% - 20px);
-        }
-
-        .card::after {
-            content: "";
-            position: absolute;
-            width: 50%;
-            height: 1px;
-            background: linear-gradient(45deg, #ffffff00, #ffffff87 50%, #ffffff00);
-            bottom: -1px;
-            left: 20px;
-            transition: all 1.4s ease;
-        }
-
-        .card:hover::after {
-            left: calc(50% - 20px);
-        }
     </style>
+
+   
 </head>
 
-<body class="bg-gray-50 dark:bg-neutral-900">
+<body data-sidebar="dark" data-layout-mode="light">
     <x-navbar></x-navbar>
-    <x-breadcrumb></x-breadcrumb>
+
     <x-menu-link></x-menu-link>
 
     {{ $slot }}
@@ -133,55 +116,11 @@
 
 
     @livewireScripts
+
     <script data-navigate-once>
-        Livewire.on('iku1store', () => {
-            HSOverlay.close('#hs-scale-animation-modal');
-            HSOverlay.close('#iku1-edit-modal');
-            HSOverlay.close('#ModalAddIku2a');
-            HSOverlay.close('#ModalAddIku2b');
-            HSOverlay.close('#ModalAddIku3');
-            HSOverlay.close('#ModalAddIku4');
-            HSOverlay.close('#ModalAddIku5');
-            HSOverlay.close('#ModalAddIku6');
-            HSOverlay.close('#ModalAddIku7');
-        });
-
-        Livewire.on('openModal', () => {
-            HSOverlay.open('#iku1-edit-modal');
-        });
-
-        Livewire.on('modalIku2a', () => {
-            HSOverlay.open('#ModalAddIku2a');
-
-        });
-        Livewire.on('modalIku2b', () => {
-            HSOverlay.open('#ModalAddIku2b');
-
-        });
-        Livewire.on('modalIku3', () => {
-            HSOverlay.open('#ModalAddIku3');
-
-        });
-        Livewire.on('modalIku5', () => {
-            HSOverlay.open('#ModalAddIku5');
-
-        });
-        Livewire.on('modalIku6', () => {
-            HSOverlay.open('#ModalAddIku6');
-
-        });
-
-        Livewire.on('modalIku7', () => {
-            HSOverlay.open('#ModalAddIku7');
-
-        });
-
-        Livewire.on('openModalIku2a', () => {
-            HSOverlay.open('#ModalAddIku2a');
-        });
-
-        Livewire.on('openModalIku2b', () => {
-            HSOverlay.open('#ModalAddIku2b');
+        Livewire.on('closemodal', function() {
+            $('#modal').modal('hide'); // Jika Anda menggunakan Bootstrap modal
+            $('#modal2').modal('hide'); // Jika Anda menggunakan Bootstrap modal
         });
 
         Livewire.on('showDeleteConfirmation', id => {
@@ -189,43 +128,23 @@
                 Livewire.dispatch('confirmDelete', id); // Emit only if confirmed
             }
         });
-
-        Livewire.on('notif', () => {
-            setTimeout(() => {
-                const alertBox = document.getElementById('custom-alert');
-
-                if (alertBox) {
-                    alertBox.classList.remove('hidden'); // Ensure the alert is shown
-                    alertBox.classList.add('fade-in'); // Apply fade-in effect
-
-                    setTimeout(() => {
-                        alertBox.classList.add(
-                            'fade-out-up'
-                        ); // Tambahkan kelas opacity-0 untuk efek fade-out
-                        setTimeout(() => alertBox.remove(),
-                            1000
-                        ); // Hapus elemen setelah durasi fade-out selesai (1 detik)
-                    }, 3000)
-
-                }
-            });
-        })
-    </script>
-    <script></script>
-    <script data-navigate-once>
-        document.addEventListener("livewire:navigated", () => {
-
-            window.HSStaticMethods.autoInit();
-
-        });
     </script>
 
+   
+
+    <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}" data-navigate-once></script>
+    <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}" data-navigate-once></script>
+    <script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}" data-navigate-track></script>
+    <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}" data-navigate-track></script>
+    <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}" data-navigate-track></script>
+
+    <!-- App js -->
+    <script src="{{ asset('assets/js/app.js') }}" data-navigate-track></script>
 
 
+    @stack('scripts')
 
-
+    
 </body>
-
-
 
 </html>

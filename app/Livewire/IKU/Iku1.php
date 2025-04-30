@@ -19,52 +19,69 @@ class Iku1 extends Component
     public $sortBy = 'created_at';
     public $sortDir = 'ASC';
 
+    protected $paginationTheme = 'bootstrap';
+    public IkusatuForm $form;
 
-    public IkusatuForm $form; 
 
 
-   
+
     public $mode = 'add';
+    public $isEdit = false;
 
-    public $isModalOpen = false;
     protected $listeners = ['confirmDelete'];
+
+    public function handleSaveOrUpdate()
+    {
+        if ($this->mode == 'edit') {
+            $this->update(); // Panggil fungsi update
+        } else {
+            $this->save(); // Panggil fungsi save
+        }
+    }
 
 
     public function save()
     {
+        $this->mode = 'add';
         $this->form->store();
         session()->flash('success', 'Data berhasil ditambahkan !');
         $this->resetInput();
         $this->dispatch('notif');
         $this->dispatch('iku1store');
+        $this->dispatch('closemodal');
     }
+   
 
     public function save_lulusan()
     {
 
         $this->a->update(['jml_lulusan' => $this->jml_lulusan]);
-        
+
         $validatedData = Validator::make(
             ['jml_lulusan' => $this->jml_lulusan],
             ['jml_lulusan' => 'required'],
             ['required' => 'The :attribute field is required'],
         )->validate();
 
-        if(Setiku::where('id', 1)){
+        if (Setiku::where('id', 1)) {
             Setiku::where('id', 1)->update($validatedData);
         }
 
 
 
-        
-        
+
+
         session()->flash('success', 'Data berhasil disimpan !');
         $this->resetInput();
         $this->dispatch('notif');
         $this->dispatch('iku1store');
     }
 
-
+    public function modes()
+    {
+        $this->resetInput();
+        $this->mode = 'add';
+    }
     private function resetInput()
     {
         $this->form->nama = '';
@@ -73,6 +90,7 @@ class Iku1 extends Component
         $this->form->pekerjaan = '';
         $this->form->pendapatan = '';
         $this->form->masa_tunggu = '';
+        $this->form->bukti = '';
     }
 
     public function setsortBy($sortByField)
@@ -100,21 +118,23 @@ class Iku1 extends Component
         }
     }
 
-  
+
     public function updateiku1($data)
     {
-            $this->dispatch('openModal');
-            $this->form->ikusatu_id = $data['id'];
-            $this->form->nama = $data['nama'];
-            $this->form->program_studi = $data['program_studi'];
-            $this->form->tanggal_lulus = $data['tanggal_lulus'];
-            $this->form->pekerjaan = $data['pekerjaan'];
-            $this->form->pendapatan = $data['pendapatan'];
-            $this->form->masa_tunggu = $data['masa_tunggu'];
+
+        $this->mode = 'edit';
+        $this->form->ikusatu_id = $data['id'];
+        $this->form->nama = $data['nama'];
+        $this->form->program_studi = $data['program_studi'];
+        $this->form->tanggal_lulus = $data['tanggal_lulus'];
+        $this->form->pekerjaan = $data['pekerjaan'];
+        $this->form->pendapatan = $data['pendapatan'];
+        $this->form->masa_tunggu = $data['masa_tunggu'];
+        $this->form->bukti = $data['bukti'];
     }
     public function update()
     {
-    
+
         $this->form->update();
 
         $this->dispatch('iku1store');
@@ -123,6 +143,7 @@ class Iku1 extends Component
         $this->mode = 'add';
         // Emit event untuk JavaScript
         $this->dispatch('notif');
+        $this->dispatch('closemodal');
     }
 
     public function cancelEdit()
@@ -133,7 +154,9 @@ class Iku1 extends Component
 
     public function deleteIku1($id)
     {
-        $this->dispatch('showDeleteConfirmation', $id); // Emit an event to show the confirmation dialog
+        $this->dispatch('showDeleteConfirmation', $id); 
+
+
     }
 
     public function confirmDelete($id)

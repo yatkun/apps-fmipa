@@ -1,765 +1,485 @@
-<div class="w-full mb-5 lg:ps-64">
+@push('styles')
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}">
+@endpush
+
+<div class="main-content">
     @if (session('success'))
         @include('livewire.includes.alert-success', [
             'header' => 'Sukses',
         ])
     @endif
-    <div class="grid grid-cols-12 gap-5 px-5 mt-5">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="mb-0 card-title">IKU 2 : Mahasiswa Berkegiatan/Meraih Prestasi di Luar Program
+                                Studi
+                            </h4>
+                            <p class="card-title-desc">Persentase mahasiswa S1 dan D4/D3/D2/D1 yang menjalankan kegiatan
+                                pembelajaran di luar
+                                program studi atau meraih prestasi</p>
 
-        <div class="col-span-12">
-            <div class="bg-white border border-gray-200 rounded-lg dark:bg-neutral-800 dark:border-neutral-700">
-                <!-- Header -->
-                <div
-                    class="grid gap-3 px-6 py-4 border-b border-gray-200 md:flex md:justify-between md:items-center dark:border-neutral-700">
-                    <div>
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-neutral-200">
-                            IKU 2 : Mahasiswa Berkegiatan/Meraih Prestasi di Luar Program Studi
-                        </h2>
-                        <p class="text-sm text-gray-600 dark:text-neutral-400">
-                            Persentase mahasiswa S1 dan D4/D3/D2/D1 yang menjalankan kegiatan pembelajaran di luar
-                            program studi atau meraih prestasi
-                        </p>
-                    </div>
+                            <div class="row">
 
 
-                </div>
-                <!-- End Header -->
-                <div class="hs-accordion-group">
-                    <div class="-mt-px bg-white border border-t border-l-0 border-r-0 hs-accordion dark:bg-neutral-800 dark:border-neutral-700"
-                        id="hs-bordered-heading-one">
-                        <button
-                            class="inline-flex items-center w-full px-5 py-4 text-sm font-medium text-gray-800 hs-accordion-toggle hs-accordion-active:text-blue-600 gap-x-3 text-start hover:text-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-none dark:focus:text-neutral-400"
-                            aria-expanded="true" aria-controls="hs-basic-bordered-collapse-one">
-                            <svg class="hs-accordion-active:hidden block size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14"></path>
-                                <path d="M12 5v14"></path>
-                            </svg>
-                            <svg class="hs-accordion-active:block hidden size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14"></path>
-                            </svg>
-                            Penjelasan Umum
-                        </button>
-                        <div id="hs-basic-bordered-collapse-one"
-                            class="hs-accordion-content w-full hidden overflow-hidden transition-[height] duration-300"
-                            role="region" aria-labelledby="hs-bordered-heading-one">
-                            <div class="px-5 pb-4">
-                                <ul
-                                    class="space-y-2 text-sm text-gray-600 list-disc marker:text-blue-600 ps-5 dark:text-neutral-400">
-                                    <li>
-                                        Mahasiswa yang tercakup adalah mahasiswa aktif yang melaksanakan perkuliahan
-                                        pada semester 2022 genap dan semester 2023 ganjil.
-                                    </li>
-                                    <li>
-                                        Tidak termasuk dalam perhitungan prodi bidang kesehatan yang terintegrasi dengan
-                                        program pendidikan profesi (Kedokteran (tidak termasuk Kedokteran Gigi dan
-                                        Hewan), Kebidanan, dan Keperawatan)
-                                    </li>
+                                <div class="col-xl-12">
+                                    <div class="mt-0">
 
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="-mt-px bg-white border border-t border-l-0 border-r-0 hs-accordion dark:bg-neutral-800 dark:border-neutral-700"
-                        id="hs-bordered-heading-two">
-                        <button
-                            class="inline-flex items-center w-full px-5 py-4 text-sm font-medium text-gray-800 hs-accordion-toggle hs-accordion-active:text-blue-600 gap-x-3 text-start hover:text-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-none dark:focus:text-neutral-400"
-                            aria-expanded="false" aria-controls="hs-basic-bordered-collapse-two">
-                            <svg class="hs-accordion-active:hidden block size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14"></path>
-                                <path d="M12 5v14"></path>
-                            </svg>
-                            <svg class="hs-accordion-active:block hidden size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14"></path>
-                            </svg>
-                            Jumlah SKS di Luar Program Studi
-                        </button>
-                        <div id="hs-basic-bordered-collapse-two"
-                            class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300"
-                            role="region" aria-labelledby="hs-bordered-heading-two">
-                            <div class="px-5 pb-4">
-                                <ul
-                                    class="space-y-2 text-sm text-gray-600 list-disc marker:text-blue-600 ps-5 dark:text-neutral-400">
-                                    <li>
-                                        Mahasiswa yang menghabiskan sampai dengan <b>20 sks per semester</b> di luar
-                                        prodi
-                                    </li>
-                                    <li>
-                                        Batas minimal yang dapat dihitung adalah paling sedikit <b>10 (sepuluh) sks</b>
-                                        untuk mahasiswa S1/D4/D3 dan <b>5 (lima) sks</b> untuk mahasiswa D1 dan D2 per
-                                        semester
-                                    </li>
-                                    <li>
-                                        Pengakuan sks dihitung setahun penuh yang mencakup semester genap dan ganjil
-                                        (2022-2 & 2023-1). Semester antara tidak diperhitungkan.
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="-mt-px bg-white border border-t border-l-0 border-r-0 hs-accordion dark:bg-neutral-800 dark:border-neutral-700"
-                        id="hs-bordered-heading-two">
-                        <button
-                            class="inline-flex items-center w-full px-5 py-4 text-sm font-medium text-gray-800 hs-accordion-toggle hs-accordion-active:text-blue-600 gap-x-3 text-start hover:text-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-none dark:focus:text-neutral-400"
-                            aria-expanded="false" aria-controls="hs-basic-bordered-collapse-two">
-                            <svg class="hs-accordion-active:hidden block size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14"></path>
-                                <path d="M12 5v14"></path>
-                            </svg>
-                            <svg class="hs-accordion-active:block hidden size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14"></path>
-                            </svg>
-                            Pertukaran Pelajar Internal
-                        </button>
-                        <div id="hs-basic-bordered-collapse-two"
-                            class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300"
-                            role="region" aria-labelledby="hs-bordered-heading-two">
-                            <div class="px-5 pb-4">
-                                <ul
-                                    class="space-y-2 text-sm text-gray-600 list-disc marker:text-blue-600 ps-5 dark:text-neutral-400">
-                                    <li>
-                                        Bentuk pembelajaran untuk menunjang terpenuhinya capaian pembelajaran baik yang
-                                        sudah tertuang dalam struktur kurikulum program studi maupun pengembangan
-                                        kurikulum untuk memperkaya capaian pembelajaran lulusan yang dapat berbentuk
-                                        mata kuliah pilihan
-                                    </li>
-                                    <li>
-                                        Mata kuliah yang merupakan mata kuliah wajib kurikulum pendidikan tinggi
-                                        (Pancasila, Agama, Bahasa Indonesia, dan Kewarganegaraan) tidak termasuk dalam
-                                        perhitungan
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="-mt-px bg-white border border-t border-l-0 border-r-0 hs-accordion dark:bg-neutral-800 dark:border-neutral-700"
-                        id="hs-bordered-heading-two">
-                        <button
-                            class="inline-flex items-center w-full px-5 py-4 text-sm font-medium text-gray-800 hs-accordion-toggle hs-accordion-active:text-blue-600 gap-x-3 text-start hover:text-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-none dark:focus:text-neutral-400"
-                            aria-expanded="false" aria-controls="hs-basic-bordered-collapse-two">
-                            <svg class="hs-accordion-active:hidden block size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M5 12h14"></path>
-                                <path d="M12 5v14"></path>
-                            </svg>
-                            <svg class="hs-accordion-active:block hidden size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M5 12h14"></path>
-                            </svg>
-                            Mahasiswa Inbound
-                        </button>
-                        <div id="hs-basic-bordered-collapse-two"
-                            class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300"
-                            role="region" aria-labelledby="hs-bordered-heading-two">
-                            <div class="px-5 pb-4">
-                                <ul
-                                    class="space-y-2 text-sm text-gray-600 list-disc marker:text-blue-600 ps-5 dark:text-neutral-400">
-                                    <li>
-                                        Mahasiswa S1/D4/D3/D2/D1 yang diterima perguruan tinggi dalam program pertukaran
-                                        pelajar di luar Perguruan Tinggi (eksternal)
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="-mt-px bg-white border border-t border-l-0 border-r-0 hs-accordion dark:bg-neutral-800 dark:border-neutral-700"
-                        id="hs-bordered-heading-two">
-                        <button
-                            class="inline-flex items-center w-full px-5 py-4 text-sm font-medium text-gray-800 hs-accordion-toggle hs-accordion-active:text-blue-600 gap-x-3 text-start hover:text-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-none dark:focus:text-neutral-400"
-                            aria-expanded="false" aria-controls="hs-basic-bordered-collapse-two">
-                            <svg class="hs-accordion-active:hidden block size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M5 12h14"></path>
-                                <path d="M12 5v14"></path>
-                            </svg>
-                            <svg class="hs-accordion-active:block hidden size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M5 12h14"></path>
-                            </svg>
-                            Meraih Prestasi
-                        </button>
-                        <div id="hs-basic-bordered-collapse-two"
-                            class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300"
-                            role="region" aria-labelledby="hs-bordered-heading-two">
-                            <div class="px-5 pb-4">
-                                <ul
-                                    class="space-y-2 text-sm text-gray-600 list-disc marker:text-blue-600 ps-5 dark:text-neutral-400">
-                                    <li>
-                                        Berprestasi dalam kompetisi atau lomba pada peringkat juara I - III pada
-                                        kompetisi:
-
-                                    </li>
-                                    <div class="ml-5">
-                                        <li>tingkat internasional;</li>
-                                        <li>tingkat nasional; atau</li>
-                                        <li>tingkat provinsi.</li>
-                                        <li>Khusus untuk kepesertaan pada
-                                            kompetisi tingkat internasional, dapat niliai sebagai kriteria (dapat
-                                            dibuktikan
-                                            dengan mekanisme seleksi yang ketat).</li>
-                                    </div>
-
-                                    <li>
-                                        Memiliki karya yang digunakan dunia usaha, industri dan masyarakat yang bukan
-                                        merupakan hasil dari kompetisi → Karya harus disertai dengan SK karya dari
-                                        Perguruan Tinggi
-                                    </li>
-                                    <li>
-                                        Mendapatkan sertifikasi kompetensi internasional.
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="-mt-px bg-white border border-t border-b-0 border-l-0 border-r-0 hs-accordion first:rounded-t-lg last:rounded-b-lg dark:bg-neutral-800 dark:border-neutral-700"
-                        id="hs-bordered-heading-three">
-                        <button
-                            class="inline-flex items-center w-full px-5 py-4 text-sm font-medium text-gray-800 hs-accordion-toggle hs-accordion-active:text-blue-600 gap-x-3 text-start hover:text-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-none dark:focus:text-neutral-400"
-                            aria-expanded="false" aria-controls="hs-basic-bordered-collapse-three">
-                            <svg class="hs-accordion-active:hidden block size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M5 12h14"></path>
-                                <path d="M12 5v14"></path>
-                            </svg>
-                            <svg class="hs-accordion-active:block hidden size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M5 12h14"></path>
-                            </svg>
-                            Pembobotan
-                        </button>
-                        <div id="hs-basic-bordered-collapse-three"
-                            class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300"
-                            role="region" aria-labelledby="hs-bordered-heading-three">
-                            <div class="px-5 pb-4">
-                                <div class="grid grid-cols-12 gap-4">
-                                    <div class="col-span-12 md:col-span-6">
-                                        <div class="bg-white dark:bg-neutral-800">
-                                            <div class="flex flex-col">
-                                                <div class="-m-1.5 overflow-x-auto">
-                                                    <div class="p-1.5 min-w-full inline-block align-middle">
-                                                        <div
-                                                            class="overflow-hidden border rounded-lg dark:border-neutral-700">
-                                                            <div
-                                                                class="grid px-6 py-4 border-b border-gray-200 md:flex md:justify-between md:items-center dark:border-neutral-700">
-                                                                <div>
-
-                                                                    <p
-                                                                        class="text-sm text-gray-600 dark:text-neutral-400">
-                                                                        Matriks Pembobotan untuk kriteria bekerja
-                                                                    </p>
-                                                                </div>
+                                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="flush-headingOne">
+                                                    <button class="accordion-button fw-medium collapsed" type="button"
+                                                        data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                                        aria-expanded="false" aria-controls="flush-collapseOne">
+                                                        Penjelasan Umum
+                                                    </button>
+                                                </h2>
+                                                <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                                    aria-labelledby="flush-headingOne"
+                                                    data-bs-parent="#accordionFlushExample" style="">
+                                                    <div class="accordion-body text-muted">
+                                                        <li>
+                                                            Mahasiswa yang tercakup adalah mahasiswa aktif yang
+                                                            melaksanakan perkuliahan
+                                                            pada semester 2022 genap dan semester 2023 ganjil.
+                                                        </li>
+                                                        <li>
+                                                            Tidak termasuk dalam perhitungan prodi bidang kesehatan yang
+                                                            terintegrasi dengan
+                                                            program pendidikan profesi (Kedokteran (tidak termasuk
+                                                            Kedokteran Gigi dan
+                                                            Hewan), Kebidanan, dan Keperawatan)
+                                                        </li>
 
 
-                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="flush-headingTwo">
+                                                    <button class="accordion-button fw-medium collapsed" type="button"
+                                                        data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo"
+                                                        aria-expanded="true" aria-controls="flush-collapseTwo">
+                                                        Jumlah SKS di Luar Program Studi
+                                                    </button>
+                                                </h2>
+                                                <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                                    aria-labelledby="flush-headingTwo"
+                                                    data-bs-parent="#accordionFlushExample" style="">
+                                                    <div class="accordion-body text-muted">
+                                                        <li>
+                                                            Mahasiswa yang menghabiskan sampai dengan <b>20 sks per
+                                                                semester</b> di luar
+                                                            prodi
+                                                        </li>
+                                                        <li>
+                                                            Batas minimal yang dapat dihitung adalah paling sedikit
+                                                            <b>10 (sepuluh) sks</b>
+                                                            untuk mahasiswa S1/D4/D3 dan <b>5 (lima) sks</b> untuk
+                                                            mahasiswa D1 dan D2 per
+                                                            semester
+                                                        </li>
+                                                        <li>
+                                                            Pengakuan sks dihitung setahun penuh yang mencakup semester
+                                                            genap dan ganjil
+                                                            (2022-2 & 2023-1). Semester antara tidak diperhitungkan.
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="flush-3a">
+                                                    <button class="accordion-button fw-medium collapsed" type="button"
+                                                        data-bs-toggle="collapse" data-bs-target="#flush-3"
+                                                        aria-expanded="true" aria-controls="flush-3a">
+                                                        Pertukaran Pelajar Internal
+                                                    </button>
+                                                </h2>
+                                                <div id="flush-3" class="accordion-collapse collapse"
+                                                    aria-labelledby="flush-3" data-bs-parent="#accordionFlushExample"
+                                                    style="">
+                                                    <div class="accordion-body text-muted">
+                                                        <li>
+                                                            Bentuk pembelajaran untuk menunjang terpenuhinya capaian
+                                                            pembelajaran baik yang
+                                                            sudah tertuang dalam struktur kurikulum program studi maupun
+                                                            pengembangan
+                                                            kurikulum untuk memperkaya capaian pembelajaran lulusan yang
+                                                            dapat berbentuk
+                                                            mata kuliah pilihan
+                                                        </li>
+                                                        <li>
+                                                            Mata kuliah yang merupakan mata kuliah wajib kurikulum
+                                                            pendidikan tinggi
+                                                            (Pancasila, Agama, Bahasa Indonesia, dan Kewarganegaraan)
+                                                            tidak termasuk dalam
+                                                            perhitungan
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="flush-4a">
+                                                    <button class="accordion-button fw-medium collapsed" type="button"
+                                                        data-bs-toggle="collapse" data-bs-target="#flush-4"
+                                                        aria-expanded="true" aria-controls="flush-collapseTwo">
+                                                        Mahasiswa Inbound
+                                                    </button>
+                                                </h2>
+                                                <div id="flush-4" class="accordion-collapse collapse"
+                                                    aria-labelledby="flush-headingTwo"
+                                                    data-bs-parent="#accordionFlushExample" style="">
+                                                    <div class="accordion-body text-muted">
+                                                        <li>
+                                                            Mahasiswa S1/D4/D3/D2/D1 yang diterima perguruan tinggi
+                                                            dalam program pertukaran
+                                                            pelajar di luar Perguruan Tinggi (eksternal)
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="flush-5a">
+                                                    <button class="accordion-button fw-medium collapsed" type="button"
+                                                        data-bs-toggle="collapse" data-bs-target="#flush-5"
+                                                        aria-expanded="true" aria-controls="flush-collapseTwo">
+                                                        Meraih Prestasi
+                                                    </button>
+                                                </h2>
+                                                <div id="flush-5" class="accordion-collapse collapse"
+                                                    aria-labelledby="flush-headingTwo"
+                                                    data-bs-parent="#accordionFlushExample" style="">
+                                                    <div class="accordion-body text-muted">
+                                                        <li>
+                                                            Berprestasi dalam kompetisi atau lomba pada peringkat juara
+                                                            I - III pada
+                                                            kompetisi:
 
-                                                            <table
-                                                                class="min-w-full text-center divide-y divide-gray-200 dark:divide-neutral-700">
-                                                                <thead class="bg-gray-50 dark:bg-neutral-800">
-                                                                    <tr>
-                                                                        <th scope="col"
-                                                                            class="px-6 py-3 text-xs font-medium text-gray-500 uppercase border-r dark:border-neutral-700 dark:text-neutral-400">
-                                                                            Gaji / Masa Tunggu</th>
-                                                                        <th scope="col"
-                                                                            class="px-6 py-3 text-xs font-medium text-gray-500 uppercase dark:text-neutral-400">
-                                                                            ≤ 6 bulan</th>
-                                                                        <th scope="col"
-                                                                            class="px-6 py-3 text-xs font-medium text-gray-500 uppercase dark:text-neutral-400">
-                                                                            6 < Waktu Tunggu ≤ 12 bulan</th>
-
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody
-                                                                    class="divide-y divide-gray-200 dark:divide-neutral-700">
-                                                                    <tr>
-                                                                        <td
-                                                                            class="px-6 py-3 text-xs font-medium text-gray-500 uppercase border-r dark:bg-neutral-800 bg-gray-50 dark:border-neutral-700 dark:text-neutral-400">
-                                                                            Gaji ≥ 1.2x UMP</td>
-                                                                        <td
-                                                                            class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
-                                                                            1.0</td>
-                                                                        <td
-                                                                            class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
-                                                                            0.8</td>
-
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                        <td
-                                                                            class="px-6 py-3 text-xs font-medium text-gray-500 uppercase border-r dark:bg-neutral-800 bg-gray-50 dark:border-neutral-700 dark:text-neutral-400">
-                                                                            Gaji < 1.2x UMP</td>
-                                                                        <td
-                                                                            class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
-                                                                            0.7</td>
-                                                                        <td
-                                                                            class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
-                                                                            0.5</td>
-
-                                                                    </tr>
-
-
-                                                                </tbody>
-                                                            </table>
+                                                        </li>
+                                                        <div class="ml-5">
+                                                            <li>tingkat internasional;</li>
+                                                            <li>tingkat nasional; atau</li>
+                                                            <li>tingkat provinsi.</li>
+                                                            <li>Khusus untuk kepesertaan pada
+                                                                kompetisi tingkat internasional, dapat niliai sebagai
+                                                                kriteria (dapat
+                                                                dibuktikan
+                                                                dengan mekanisme seleksi yang ketat).</li>
                                                         </div>
+
+                                                        <li>
+                                                            Memiliki karya yang digunakan dunia usaha, industri dan
+                                                            masyarakat yang bukan
+                                                            merupakan hasil dari kompetisi → Karya harus disertai dengan
+                                                            SK karya dari
+                                                            Perguruan Tinggi
+                                                        </li>
+                                                        <li>
+                                                            Mendapatkan sertifikasi kompetensi internasional.
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="flush-6a">
+                                                    <button class="accordion-button fw-medium collapsed"
+                                                        type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#flush-6" aria-expanded="false"
+                                                        aria-controls="flush-collapseThree">
+                                                        Pembobotan
+                                                    </button>
+                                                </h2>
+                                                <div id="flush-6" class="accordion-collapse collapse"
+                                                    aria-labelledby="flush-headingThree"
+                                                    data-bs-parent="#accordionFlushExample">
+                                                    <div class="accordion-body text-muted">
+                                                        <div class="d-flex">
+                                                            <div class="table-responsive">
+
+                                                                <p class="mb-0 card-title-desc">Matriks Pembobotan
+                                                                    untuk
+                                                                    kriteria bekerja</p>
+                                                                <table class="table mb-0">
+
+                                                                    <thead class="table-light">
+                                                                        <tr>
+                                                                            <th>Gaji / Masa Tunggu</th>
+                                                                            <th>≤ 6 bulan</th>
+                                                                            <th>6 < Waktu Tunggu ≤ 12 bulan</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="text-center">
+                                                                        <tr>
+                                                                            <th scope="row">Gaji ≥ 1.2x UMP</th>
+                                                                            <td>1.0</td>
+                                                                            <td>0.8</td>
+
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row">Gaji < 1.2x UMP</th>
+                                                                            <td>0.7</td>
+                                                                            <td>0.5</td>
+
+                                                                        </tr>
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-span-12 md:col-span-6">
-                                        <div class="bg-white dark:bg-neutral-800">
-                                            <div class="flex flex-col">
-                                                <div class="-m-1.5 overflow-x-auto">
-                                                    <div class="p-1.5 min-w-full inline-block align-middle">
-                                                        <div
-                                                            class="overflow-hidden border rounded-lg dark:border-neutral-700">
-                                                            <div
-                                                                class="grid gap-3 px-6 py-4 border-b border-gray-200 md:flex md:justify-between md:items-center dark:border-neutral-700">
-                                                                <div>
-
-                                                                    <p
-                                                                        class="text-sm text-gray-600 dark:text-neutral-400">
-                                                                        Matriks Pembobotan untuk kriteria wirausaha
-                                                                    </p>
-                                                                </div>
-
-
-                                                            </div>
-
-                                                            <table
-                                                                class="min-w-full text-center divide-y divide-gray-200 dark:divide-neutral-700">
-                                                                <thead class="bg-gray-50 dark:bg-neutral-800">
-                                                                    <tr>
-                                                                        <th scope="col"
-                                                                            class="px-6 py-3 text-xs font-medium text-gray-500 uppercase border-r dark:border-neutral-700 dark:text-neutral-400">
-                                                                            Pendapatan / Masa Tunggu</th>
-                                                                        <th scope="col"
-                                                                            class="px-6 py-3 text-xs font-medium text-gray-500 uppercase dark:text-neutral-400">
-                                                                            ≤ 6 bulan</th>
-                                                                        <th scope="col"
-                                                                            class="px-6 py-3 text-xs font-medium text-gray-500 uppercase dark:text-neutral-400">
-                                                                            6 < Waktu Tunggu ≤ 12 bulan</th>
-
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody
-                                                                    class="divide-y divide-gray-200 dark:divide-neutral-700">
-                                                                    <tr>
-                                                                        <td
-                                                                            class="px-6 py-3 text-xs font-medium text-gray-500 uppercase border-r dark:bg-neutral-800 bg-gray-50 dark:border-neutral-700 dark:text-neutral-400">
-                                                                            Pendapatan ≥ 1.2x UMP</td>
-                                                                        <td
-                                                                            class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
-                                                                            1.2</td>
-                                                                        <td
-                                                                            class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
-                                                                            1.0</td>
-
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                        <td
-                                                                            class="px-6 py-3 text-xs font-medium text-gray-500 uppercase border-r dark:bg-neutral-800 bg-gray-50 dark:border-neutral-700 dark:text-neutral-400">
-                                                                            Pendapatan < 1.2x UMP</td>
-                                                                        <td
-                                                                            class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
-                                                                            1.0</td>
-                                                                        <td
-                                                                            class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
-                                                                            0.8</td>
-
-                                                                    </tr>
-
-
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <!-- end accordion -->
                                     </div>
                                 </div>
+                                <!-- end col -->
                             </div>
+                            <!-- end row -->
                         </div>
                     </div>
                 </div>
+
+
             </div>
-        </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="align-items-center d-flex">
+                                <div class="gap-2 flex-grow-1 d-flex">
 
 
-        <div class="col-span-12">
-            @include('livewire.includes.tables.table-iku2')
-        </div>
+                                    <div class="items-center d-flex col-md-2">
 
-        <div class="col-span-12">
-            @include('livewire.includes.tables.table-iku2b')
+                                        <input id="myInputTextField" type="search"
+                                            wire:model.live.debounce.300ms="search" class="mb-2 form-control"
+                                            placeholder="Cari Data" aria-controls="example">
+                                    </div>
+
+                                    <div class="flex items-center flex-1 space-x-2">
+                                        <!-- Select -->
+
+                                        <!-- End Select -->
+
+                                        <!-- Select -->
+                                        <select class="form-select" wire:model.live='perPage'>
+                                            <option value="10">10</option>
+                                            <option value="15">15</option>
+                                            <option value="20">20</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                        </select>
+
+                                        <!-- End Select -->
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="button" data-bs-toggle="modal" wire:click="modes"
+                                        data-bs-target=".bs-example-modal-center"
+                                        class="mb-2 btn btn-success waves-effect btn-label waves-light"><i
+                                            class=" bx bx-check-double label-icon"></i> Tambah Data</button>
+                                </div>
+                            </div>
+
+                            <table id="example" class="table table-bordered dt-responsive nowrap w-100"
+                                wire:key={{ uniqid() }}>
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th wire:click="setsortBy('nama')" class="sorting_asc"><x-datatable-items
+                                                columnName="Nama Lengkap" :sortBy="$sortBy"></x-datatable-items></th>
+                                        <th wire:click="setsortBy('program_studi')" class="sorting_asc">
+                                            <x-datatable-items columnName="Program Studi"
+                                                :sortBy="$sortBy"></x-datatable-items>
+                                        </th>
+                                        <th wire:click="setsortBy('sks_juara')" class="sorting_asc">
+                                            <x-datatable-items columnName="Juara"
+                                                :sortBy="$sortBy"></x-datatable-items>
+                                        </th>
+                                        <th wire:click="setsortBy('level')" class="sorting_asc">
+                                            <x-datatable-items columnName="Level"
+                                                :sortBy="$sortBy"></x-datatable-items>
+                                        </th>
+                                        <th wire:click="setsortBy('keterangan')" class="sorting_asc">
+                                            <x-datatable-items columnName="Keterangan"
+                                                :sortBy="$sortBy"></x-datatable-items></th>
+
+                                        <th>Bobot</th>
+
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    @php
+                                        $no = 1;
+                                    @endphp
+                                    @foreach ($a as $i)
+                                        <tr>
+                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $i->nama }}</td>
+                                            <td>{{ $i->program_studi }}</td>
+                                            <td>{{ $i->sks_juara }}</td>
+                                            <td>{{ $i->level }}</td>
+                                            <td>{{ $i->keterangan }}</td>
+                                            <td>{{ $i->bobot }}</td>
+
+                                            <td>
+                                                <div class="gap-2 d-flex">
+                                                    <a href="{{ $i->bukti }}"
+                                                        class="btn btn-sm btn-info waves-effect waves-light {{ $i->bukti ? '' : 'disabled' }}"
+                                                        target="_blank"><i class="mdi mdi-file-document"></i></a>
+
+                                                    <a wire:click="updatea({{ $i }})" id="btn-edit"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target=".bs-example-modal-center"
+                                                        class="btn btn-sm btn-warning waves-effect waves-light btn-edit"
+                                                        data-id="{{ $i->id }}"><i
+                                                            class="mdi mdi-square-edit-outline "></i></a>
+                                                    <a wire:click="deleteIku1({{ $i->id }})"
+                                                        class="btn btn-sm btn-danger waves-effect waves-light"><i
+                                                            class="mdi mdi-trash-can"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+                            <div class="">
+                                {{ $a->links() }}
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
         </div>
     </div>
-        <div id="ModalAddIku2a" wire:ignore.self
-            class="hs-overlay hidden  size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none"
-            role="dialog" tabindex="-1" aria-labelledby="ModalAddIku2a-label" >
-            <form wire:submit="save">
-                <div
-                    class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-3xl sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
-                    <div
-                        class="flex flex-col w-full bg-white border shadow-sm pointer-events-auto rounded-xl dark:bg-neutral-800 dark:border-neutral-700 dark:shadow-neutral-700/70">
-                        <div class="flex items-center justify-between px-4 py-3 border-b dark:border-neutral-700">
-                            <h3 id="hs-scale-animation-modal-label" class="font-bold text-gray-800 dark:text-white">
-                                {{ $mode == 'edit' ? 'Edit' : 'Tambah' }} Data IKU 2 | Berkegiatan di Luar Program Studi
-                            </h3>
-                            <button type="button" wire:click="cancelEdit"
-                                class="inline-flex items-center justify-center text-gray-800 bg-gray-100 border border-transparent rounded-full size-8 gap-x-2 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600"
-                                aria-label="Close" data-hs-overlay="#ModalAddIku2a">
-                                <span class="sr-only">Close</span>
-                                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M18 6 6 18"></path>
-                                    <path d="m6 6 12 12"></path>
-                                </svg>
-                            </button>
-                        </div>
-
-                        <div class="p-6 overflow-y-auto">
-
-                            <!-- Grid -->
-                            <div class="grid gap-2 sm:grid-cols-12 sm:gap-6">
 
 
-
-                                <div class="sm:col-span-3">
-                                    <label for="af-account-full-name"
-                                        class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
-                                        Nama Lengkap
-                                    </label>
-                                </div>
-                                <!-- End Col -->
-
-
-
-                                <div class="sm:col-span-9">
-                                    <div class="sm:flex">
-                                        <input id="af-account-full-name" type="text"
-                                            class="relative block w-full px-3 py-2 -mt-px text-sm border border-gray-200 rounded-lg shadow-sm pe-11 -ms-px sm:mt-0 sm:first:ms-0 focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                                            placeholder="Masukkan nama lengkap mahasiswa" name="nama"
-                                            wire:model="form.nama">
-
-                                    </div>
-                                </div>
-                                <!-- End Col -->
-
-                                <div class="sm:col-span-3">
-                                    <label for="af-account-gender-checkbox"
-                                        class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
-                                        Program Studi
-                                    </label>
-                                </div>
-                                <!-- End Col -->
-
-                                <div class="sm:col-span-9">
-                                    <div class="sm:flex">
-                                        <label for="matematika"
-                                            class="relative flex w-full px-3 py-2 -mt-px text-sm border border-gray-200 shadow-sm -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                            <input type="radio" name="program_studi"
-                                                class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                id="matematika" checked wire:model="form.program_studi"
-                                                value="Matematika">
-                                            <span
-                                                class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Matematika</span>
-                                        </label>
-
-                                        <label for="statistika"
-                                            class="relative flex w-full px-3 py-2 -mt-px text-sm border border-gray-200 shadow-sm -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                            <input type="radio" name="program_studi"
-                                                class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                id="statistika" wire:model="form.program_studi" value="Statistika">
-                                            <span
-                                                class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Statistika</span>
-                                        </label>
-                                        <label for="aktuaria"
-                                            class="relative flex w-full px-3 py-2 -mt-px text-sm border border-gray-200 shadow-sm -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                            <input type="radio" name="program_studi"
-                                                class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                id="aktuaria" wire:model="form.program_studi" value="Aktuaria">
-                                            <span
-                                                class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Aktuaria</span>
-                                        </label>
-
-                                        <label for="bioteknologi"
-                                            class="relative flex w-full px-3 py-2 -mt-px text-sm border border-gray-200 shadow-sm -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                            <input type="radio" name="program_studi"
-                                                class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                id="bioteknologi" wire:model="form.program_studi"
-                                                value="Bioteknologi">
-                                            <span
-                                                class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Bioteknologi</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <!-- End Col -->
-
-                                <div class="sm:col-span-3">
-                                    <label for="tanggal_lulus"
-                                        class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
-                                        Total SKS
-                                    </label>
-                                </div>
-                                <!-- End Col -->
-
-                                <div class="sm:col-span-9">
-                                    <input id="sks_juara" type="text"
-                                        class="block w-full px-3 py-2 text-sm text-gray-800 border border-gray-200 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                                        name="sks_juara" placeholder="Contoh: 20" wire:model="form.sks_juara">
-                                </div>
-
-                                <div class="sm:col-span-3">
-                                    <label for="keterangan"
-                                        class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
-                                        Keterangan
-                                    </label>
-                                </div>
-                                <!-- End Col -->
-
-                                <div class="sm:col-span-9">
-                                    <input id="keterangan" type="text"
-                                        class="block w-full px-3 py-2 text-sm text-gray-800 border border-gray-200 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                                        name="keterangan" wire:model="form.keterangan">
-                                </div>
-                                <!-- End Col -->
-
-
-                            </div>
-                            <!-- End Grid -->
-
-
-
-                        </div>
-                        <div class="flex items-center justify-end px-4 py-3 border-t gap-x-2 dark:border-neutral-700">
-                            <button type="button" wire:click="cancelEdit"
-                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-800 bg-white border border-gray-200 rounded-lg shadow-sm gap-x-2 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-                                data-hs-overlay="#ModalAddIku2a">
-                                Batal
-                            </button>
-                            <button wire:loading.attr="disabled" wire:click="handleSaveOrUpdate"
-                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                                {{ $mode == 'edit' ? 'Update' : 'Simpan' }}
-                            </button>
-                            <!-- Indikator Loading -->
-                            <div wire:loading class="mt-2 text-blue-500">
-                                Processing...
-                            </div>
-                        </div>
-
-                    </div>
+    <div wire:ignore.self class="modal fade bs-example-modal-center" role="dialog" id="modal">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> {{ $mode == 'edit' ? 'Edit' : 'Tambah' }} Data IKU 2 | Prestasi Mahasiswa
+                    </h5>
+                    <button type="button" wire:click="cancelEdit" class="btn-close"
+                        data-bs-dismiss="modal"></button>
                 </div>
-            </form>
-
-        </div>
-
-
-    <div id="ModalAddIku2b" wire:ignore.self
-        class="hs-overlay hidden  size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none"
-        role="dialog" tabindex="-1" aria-labelledby="ModalAddIku2a-label">
-        <form wire:submit="save">
-            <div
-                class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-3xl sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
-                <div
-                    class="flex flex-col w-full bg-white border shadow-sm pointer-events-auto rounded-xl dark:bg-neutral-800 dark:border-neutral-700 dark:shadow-neutral-700/70">
-                    <div class="flex items-center justify-between px-4 py-3 border-b dark:border-neutral-700">
-                        <h3 id="hs-scale-animation-modal-label" class="font-bold text-gray-800 dark:text-white">
-                            {{ $mode == 'edit' ? 'Edit Data IKU 2' : 'Tambah' }} Data IKU 2 | Prestasi Mahasiswa
-                        </h3>
-                        <button type="button" wire:click="cancelEdit"
-                            class="inline-flex items-center justify-center text-gray-800 bg-gray-100 border border-transparent rounded-full size-8 gap-x-2 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600"
-                            aria-label="Close" data-hs-overlay="#ModalAddIku2b">
-                            <span class="sr-only">Close</span>
-                            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
-                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M18 6 6 18"></path>
-                                <path d="m6 6 12 12"></path>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <div class="p-6 overflow-y-auto">
-
-                        <!-- Grid -->
-                        <div class="grid gap-2 sm:grid-cols-12 sm:gap-6">
-
-
-
-                            <div class="sm:col-span-3">
-                                <label for="af-account-full-name"
-                                    class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
-                                    Nama Lengkap
-                                </label>
+                <form wire:submit="save">
+                    <div class="modal-body">
+                        <div class="mb-3 row">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Nama Lengkap</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" id="example-text-input"
+                                    wire:model="form.nama" placeholder="Masukkan nama lengkap mahasiswa"
+                                    name="nama">
                             </div>
-                            <!-- End Col -->
+                        </div>
 
-
-
-                            <div class="sm:col-span-9">
-                                <div class="sm:flex">
-                                    <input id="af-account-full-name" type="text"
-                                        class="relative block w-full px-3 py-2 -mt-px text-sm border border-gray-200 rounded-lg shadow-sm pe-11 -ms-px sm:mt-0 sm:first:ms-0 focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                                        placeholder="Masukkan nama lengkap mahasiswa" name="nama"
-                                        wire:model="form.nama">
-
-                                </div>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="sm:col-span-3">
-                                <label for="af-account-gender-checkbox"
-                                    class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
-                                    Program Studi
-                                </label>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="sm:col-span-9">
-                                <div class="sm:flex">
-                                    <label for="matematika"
-                                        class="relative flex w-full px-3 py-2 -mt-px text-sm border border-gray-200 shadow-sm -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                        <input type="radio" name="program_studi"
-                                            class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                            id="matematika" checked wire:model="form.program_studi"
-                                            value="Matematika">
-                                        <span
-                                            class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Matematika</span>
-                                    </label>
-
-                                    <label for="statistika"
-                                        class="relative flex w-full px-3 py-2 -mt-px text-sm border border-gray-200 shadow-sm -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                        <input type="radio" name="program_studi"
-                                            class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                            id="statistika" wire:model="form.program_studi" value="Statistika">
-                                        <span
-                                            class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Statistika</span>
-                                    </label>
-                                    <label for="aktuaria"
-                                        class="relative flex w-full px-3 py-2 -mt-px text-sm border border-gray-200 shadow-sm -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                        <input type="radio" name="program_studi"
-                                            class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                            id="aktuaria" wire:model="form.program_studi" value="Aktuaria">
-                                        <span class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Aktuaria</span>
-                                    </label>
-
-                                    <label for="bioteknologi"
-                                        class="relative flex w-full px-3 py-2 -mt-px text-sm border border-gray-200 shadow-sm -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                        <input type="radio" name="program_studi"
-                                            class="shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                            id="bioteknologi" wire:model="form.program_studi" value="Bioteknologi">
-                                        <span
-                                            class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Bioteknologi</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="sm:col-span-3">
-                                <label for="sks_juara"
-                                    class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
-                                    Juara
-                                </label>
-                            </div>
-
-
-
-                            <div class="sm:col-span-9">
-                                <select wire:model="form.sks_juara"
-                                    class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg pe-9 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                    <option selected="">Pilih Juara</option>
-                                    <option name="sks_juara" value="1"">1</option>
-                                    <option name="sks_juara" value="2" ">2</option>
-                                    <option name="sks_juara" value="3" ">3</option>
-                                    <option name="sks_juara" value="Peserta" ">Peserta</option>
-                                  </select>
-                            </div>
-
-                            <div class="sm:col-span-3">
-                                <label for="level"
-                                    class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
-                                    Level
-                                </label>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="sm:col-span-9">
-                                <select wire:model="form.level" class="block w-full px-4 py-3 text-sm border-gray-200 rounded-lg pe-9 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                                    <option selected="">Pilih level</option>
-                                    <option name="level" value="Provinsi"">Provinsi</option>
-                                    <option name="level" value="Nasional" ">Nasional</option>
-                                    <option name="level" value="Internasional" ">Internasional</option>
+                        <div class="mb-3 row">
+                            <label class="col-md-2 col-form-label">Program Studi</label>
+                            <div class="col-md-10">
+                                <select class="form-select" name="program_studi" wire:model="form.program_studi">
+                                    <option>Pilih Program Studi</option>
+                                    <option value="Matematika">Matematika</option>
+                                    <option value="Statistika">Statistika</option>
+                                    <option value="Aktuaria">Aktuaria</option>
+                                    <option value="Bioteknologi">Bioteknologi</option>
                                 </select>
                             </div>
-
-                            <div class="sm:col-span-3">
-                                <label for="keterangan"
-                                    class="inline-block text-sm text-gray-800 mt-2.5 dark:text-neutral-200">
-                                    Keterangan
-                                </label>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="sm:col-span-9">
-                                <input id="keterangan" type="text"
-                                    class="block w-full px-3 py-2 text-sm text-gray-800 border border-gray-200 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                                    name="keterangan" wire:model="form.keterangan"
-                                    placeholder="Contoh: Lomba Infografis">
-                            </div>
-                            <!-- End Col -->
                         </div>
-                        <!-- End Grid -->
 
+                        <div class="mb-3 row">
+                            <label class="col-md-2 col-form-label">Juara</label>
+                            <div class="col-md-10">
+                                <select class="form-select" name="sks_juara" wire:model="form.sks_juara">
+                                    <option selected="">Pilih Juara</option>
+                                    <option name="sks_juara" value="1">1</option>
+                                    <option name="sks_juara" value="2">2</option>
+                                    <option name="sks_juara" value="3">3</option>
+                                    <option name="sks_juara" value="Peserta">Peserta</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-md-2 col-form-label">Level</label>
+                            <div class="col-md-10">
+                                <select class="form-select" name="level" wire:model="form.level">
+                                    <option selected="">Pilih level</option>
+                                    <option name="level" value="Provinsi">Provinsi</option>
+                                    <option name="level" value="Nasional">Nasional</option>
+                                    <option name="level" value="Internasional">Internasional</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Keterangan</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" id="example-text-input"
+                                    wire:model="form.keterangan" placeholder="Contoh: Lomba Infografis"
+                                    name="keterangan">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Bukti Dokumen</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" id="example-text-input"
+                                    wire:model="form.bukti" placeholder="Masukkan link google drive" name="bukti">
+                            </div>
+                        </div>
 
 
                     </div>
-                    <div class="flex items-center justify-end px-4 py-3 border-t gap-x-2 dark:border-neutral-700">
-                        <button type="button" wire:click="cancelEdit"
-                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-800 bg-white border border-gray-200 rounded-lg shadow-sm gap-x-2 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-                            data-hs-overlay="#ModalAddIku2b">
-                            Batal
-                        </button>
-                        <button type="submit" wire:loading.attr="disabled" wire:click="handleSaveOrUpdateb"
-                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                            {{ $mode == 'edit' ? 'Update' : 'Simpan' }}
-                        </button>
-                        <!-- Indikator Loading -->
-                        <div wire:loading class="mt-2 text-blue-500">
-                            Processing...
-                        </div>
+                    <div class="modal-footer">
+                        <button type="submit" wire:click="handleSaveOrUpdate" wire:loading.attr="disabled"
+                            class="btn btn-primary"> {{ $mode == 'edit' ? 'Update' : 'Simpan' }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                     </div>
-
-                </div>
-            </div>
-        </form>
-
+                </form>
+            </div><!-- /.modal-content -->
+        </div>
     </div>
+
 </div>
+
+
+@push('scripts')
+    <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}" data-navigate-once></script>
+    <script src="{{ asset('assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}" data-navigate-once>
+    </script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}" data-navigate-once>
+    </script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}" data-navigate-once>
+    </script>
+    <script src="{{ asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}" data-navigate-once>
+    </script>
+    <script src="{{ asset('assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"
+        data-navigate-once></script>
+    <script src="{{ asset('assets/js/pages/datatables.init.js') }}" data-navigate-once></script>
+
+    <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}" data-navigate-once>
+    </script>
+
+
+    <script src="{{ asset('assets/js/livewire.js') }}" data-navigate-track></script>
+
+    {{-- <script>
+        
+        $('#myInputTextField').keyup(function() {
+            oTable.search($(this).val()).draw();
+        })
+    </script> --}}
+@endpush

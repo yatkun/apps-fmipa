@@ -134,7 +134,7 @@
                                                 <td
                                                     class="p-3 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
                                                     {{ $item->sks_juara }}</td>
-                                                <td
+                                                
                                                 <td
                                                     class="p-3 text-sm text-gray-800 whitespace-nowrap dark:text-neutral-200">
                                                     {{ $item->keterangan }}</td>

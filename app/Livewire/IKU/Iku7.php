@@ -27,6 +27,7 @@ class Iku7 extends Component
         $this->resetInput();
         $this->dispatch('notif');
         $this->dispatch('iku1store');
+        $this->dispatch('closemodal');
     }
 
     public function deleteIku7($id)
@@ -63,6 +64,7 @@ class Iku7 extends Component
         $this->mode = 'add';
         // Emit event untuk JavaScript
         $this->dispatch('notif');
+        $this->dispatch('closemodal');
     }
 
     public function setsortBy($sortByField)

@@ -6,66 +6,86 @@
         ])
     @endif
 
+   
 
-    
-
-
-    <div class="relative flex flex-col justify-center min-h-screen py-6 overflow-hidden bg-gray-50 sm:py-12">
-        <img src="{{ asset('storage/gambar/beams-2.jpg') }}" alt=""
-            class="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 max-w-none" width="1308" />
-        <div style="background: url('storage/gambar/grid.svg')"
-            class="absolute inset-0  bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]">
-        </div>
-        <div
-            class="relative w-full px-6 pt-10 pb-8 bg-white shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-5">
-            <div class="max-w-md mx-auto">
-                <div class="flex space-x-2">
-                    <h1 class="text-4xl font-bold text-indigo-600">APPS</h1>
-                    <h1 class="text-4xl font-light text-indigo-900">FMIPA</h1>
-                </div>
-                <div class="divide-y divide-gray-300/50">
-                    <div class="py-2 space-y-6 text-base leading-7 text-gray-600">
-                        <p>Log in to your account</p>
-                        <form class="" wire:submit="login">
-                            <div class="mb-5">
-                                <label for="username"
-                                    class="block mb-2 text-sm font-medium text-gray-600">Username</label>
-
-                                <input value="{{ old('username') }}" autofocus autocomplete type="text"
-                                    wire:model="username" id="username" name="username"
-                                    class="block w-full p-3 bg-gray-200 border border-transparent rounded focus:outline-none" />
-                            </div>
-
-                            <div class="mb-5">
-                                <label for="password"
-                                    class="block mb-2 text-sm font-medium text-gray-600">Password</label>
-
-                                <input type="password" value="{{ old('password') }}" wire:model="password"
-                                    id="password" name="password"
-                                    class="block w-full p-3 bg-gray-200 border border-transparent rounded focus:outline-none" />
-                            </div>
-                            <button type="submit" wire:loading.attr="disabled"
-                                class="w-full p-3 mt-4 text-white bg-indigo-600 rounded shadow">
-                                <div wire:loading
-                                    class="animate-spin inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full dark:text-white"
-                                    role="status" aria-label="loading">
-                                    <span class="sr-only">Loading...</span>
+    <div class="my-5 account-pages pt-sm-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="overflow-hidden card">
+                        <div class="bg-primary bg-soft">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="p-4 text-primary">
+                                        <h5 class="text-primary">Selamat Datang di Aplikasi
+                                            {{ session('selected_application') == 'IKU' ? 'IKU' : 'E-Dokumen' }} !</h5>
+                                        <p>{{ session('selected_application') == 'IKU' ? 'Aplikasi penginputan kinerja fakultas' : 'Aplikasi untuk pengelolaan dokumen FMIPA' }}
+                                        </p>
+                                    </div>
                                 </div>
-                                <span wire:loading.remove wire.target="save">Masuk</span>
-                            </button>
 
-                        </form>
+                            </div>
+                        </div>
+                        <div class="pt-0 card-body">
+                            <div class="auth-logo">
+                                <a class="auth-logo-light">
+                                    <div class="mb-4 avatar-md profile-user-wid">
+                                        <span class="avatar-title rounded-circle bg-light">
+                                            <img src="assets/images/logo-light.svg" alt=""
+                                                class="rounded-circle" height="34">
+                                        </span>
+                                    </div>
+                                </a>
+
+                                <a class="auth-logo-dark">
+                                    <div class="mb-4 avatar-md profile-user-wid">
+                                        <span class="avatar-title rounded-circle bg-light">
+                                            <img src="assets/images/logo.svg" alt="" class="rounded-circle"
+                                                height="34">
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="p-2">
+                                <form class="form-horizontal" wire:submit="login">
+
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Username</label>
+                                        <input value="{{ old('username') }}" autofocus autocomplete type="text"
+                                            class="form-control" wire:model="username" id="username" name="username"
+                                            placeholder="Masukkan username (NIP/NIDN/NIDK)">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="password">Password</label>
+                                        <div class="input-group auth-pass-inputgroup">
+                                            <input type="password" value="{{ old('password') }}" wire:model="password"
+                                                id="password" name="password" class="form-control"
+                                                placeholder="Masukkan password" aria-label="password"
+                                                aria-describedby="password-addon">
+                                            <button class="btn btn-light " type="button" id="password-addon"><i
+                                                    class="mdi mdi-eye-outline"></i></button>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="mt-3 d-grid">
+                                        <button class="btn btn-primary waves-effect waves-light" type="submit"
+                                            wire:loading.attr="disabled">Masuk</button>
+                                    </div>
+
+
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="pt-8 text-sm">
-                        <p class="text-gray-700">© 2024 Apps MIPA - All Rights Reserved.</p>
-                    </div>
+
+
                 </div>
             </div>
         </div>
     </div>
-
-
-
 </div>
 
 <script>
@@ -97,3 +117,4 @@
 
     });
 </script>
+

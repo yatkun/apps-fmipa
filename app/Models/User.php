@@ -17,7 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-   protected $guarded = [];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -42,15 +42,26 @@ class User extends Authenticatable
         ];
     }
 
-    public function scopeSearch()
+    public function scopeSearch($query, $value)
     {
-       
-
+       $query->where('name', 'like', "%{$value}%")
+       ->orWhere('username', 'like', "%{$value}%")
+       ->orWhere('email', 'like', "%{$value}%");
+    //    ->orWhere('user_id', 'like', "%{$value}%");
     }
-
 
     public function skripsi()
     {
         return $this->belongsTo(Skripsi::class, 'id');
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Dokumentertandai::class, 'uploaded_by');
+    }
+
+    public function dokumen()
+    {
+        return $this->belongsToMany(Dokumentertandai::class, 'document_user','user_id', 'document_id');
     }
 }

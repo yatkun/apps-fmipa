@@ -29,6 +29,7 @@ class Iku2 extends Component
         $this->resetInput();
         $this->dispatch('notif');
         $this->dispatch('iku1store');
+        $this->dispatch('closemodal');
     }
 
     public function modes()
@@ -44,6 +45,7 @@ class Iku2 extends Component
         $this->resetInput();
         $this->dispatch('notif');
         $this->dispatch('iku1store');
+        $this->dispatch('closemodal');
     }
 
     public function cancelEdit()
@@ -158,6 +160,7 @@ class Iku2 extends Component
         $this->mode = 'add';
         // Emit event untuk JavaScript
         $this->dispatch('notif');
+        $this->dispatch('closemodal');
     }
 
     public function update_b()
@@ -172,6 +175,7 @@ class Iku2 extends Component
         $this->mode = 'add';
         // Emit event untuk JavaScript
         $this->dispatch('notif');
+        $this->dispatch('closemodal');
     }
 
     public function render()

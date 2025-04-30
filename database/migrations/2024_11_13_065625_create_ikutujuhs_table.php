@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('mata_kuliah');
             $table->string('semester');
-            $table->string('link');
+            $table->string('link')->nullable();
             $table->float('bobot');
             $table->timestamps();
         });

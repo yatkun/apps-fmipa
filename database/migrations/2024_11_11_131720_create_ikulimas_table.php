@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('keterangan')->nullable();
             $table->float('bobot');
+            $table->string('bukti')->nullable();
             $table->timestamps();
         });
     }

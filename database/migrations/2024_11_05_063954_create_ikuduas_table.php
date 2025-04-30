@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('sks_juara');
             $table->string('level')->nullable();
             $table->string('keterangan')->nullable();
+            $table->string('bukti')->nullable();
             $table->float('bobot');
             $table->timestamps();
         });
