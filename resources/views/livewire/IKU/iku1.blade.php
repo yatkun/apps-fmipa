@@ -279,7 +279,8 @@
                                 </tbody>
                             </table>
                             <div class="">
-                                {{ $ikusatu->links() }}
+                         
+                                {{ $ikusatu->links('pagination::bootstrap-5') }}
                             </div>
                         </div>
                     </div>
