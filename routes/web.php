@@ -18,23 +18,22 @@ use App\Livewire\IKU\Iku8;
 use App\Livewire\Dashboard;
 use App\Livewire\Auth\Login;
 
+use App\Livewire\DaftarUser;
 use App\Http\Middleware\Auth;
 use App\Http\Middleware\Guest;
-use App\Livewire\DaftarUser;
-use App\Livewire\Edokumen\DokumenTertandai;
-use App\Livewire\Edokumen\Dokumenpublik as Dokumenpublik;
-use App\Livewire\Edokumen\Dashboard as EdokumenDashboard;
-use App\Livewire\Edokumen\EditDokumenTertandai;
 use App\Livewire\Edokumen\Saya;
-use App\Livewire\Edokumen\UploadTertandai;
-use App\Livewire\Eskripsi\Eskripsi;
 use App\Livewire\UpdateProfile;
+use App\Livewire\Eskripsi\Eskripsi;
+
+
 use Illuminate\Support\Facades\Route;
-
-
-
-
-
+use App\Livewire\Edokumen\UploadTertandai;
+use App\Livewire\Edokumen\DokumenTertandai;
+use App\Livewire\Edokumen\pribadi\Pendidikan;
+use App\Livewire\Edokumen\EditDokumenTertandai;
+use App\Livewire\Edokumen\Dashboard as EdokumenDashboard;
+use App\Livewire\Edokumen\Dokumenpublik as Dokumenpublik;
+use App\Livewire\Edokumen\pribadi\Skp;
 
 Route::group(['middleware' => Guest::class], function () {
 
@@ -69,12 +68,13 @@ Route::get('/logout', Logout::class)->name('logout');
 Route::middleware('auth.dokumen')->group(function () {
     Route::get('/dokumen/dashboard', EdokumenDashboard::class)->name('edokumen.dashboard');
     Route::get('/dokumen/pribadi', Saya::class)->name('dokumen.saya');
+    Route::get('/dokumen/pribadi/pendidikan', Pendidikan::class)->name('pribadi.pendidikan');
     Route::get('/dokumen/publik', Dokumenpublik::class)->name('dokumen.publik');
     Route::get('/dokumen/tandai', DokumenTertandai::class)->name('dokumen.tandai');
     Route::get('/dokumen/tandai/upload', UploadTertandai::class)->name('dokumen.tandai.upload');
     Route::get('/dokumen/tandai/edit/{hashid}', EditDokumenTertandai::class)->name('dokumen.tandai.edit');
     Route::get('/profile', UpdateProfile::class)->name('profile');
-
+    Route::get('/dokumen/pribadi/skp', Skp::class)->name('skp');
 });
 
 Route::middleware('auth.iku')->group(function(){

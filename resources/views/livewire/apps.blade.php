@@ -66,7 +66,33 @@
             </div>
         </div>
     </div>
-
-
 </div>
+<div class="items-center row justify-content-center">
+    <div class="col-12 col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="favorite-icon">
+                    <a href="javascript:void(0)"><i class="uil uil-heart-alt fs-18"></i></a>
+                </div>
+               
+                <img height="50" class="mb-3" src="{{ asset('assets/images/logo.svg') }}">
+                <h5 class="mb-2 fs-17"><span class="text-dark">Aplikasi Absensi MIPA</span></h5>
+                <ul class="mb-0 list-inline">
+                    <li class="list-inline-item">
+                        <p class="mb-1 text-muted fs-14">Aplikasi absensi MIPA</p>
+                    </li>
+
+                </ul>
+
+                <div class="gap-2 mt-4 hstack">
+
+                    <button wire:click="choose('IKU')" data-bs-toggle="modal"
+                        class="btn btn-soft-primary w-100">Masuk</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</div>
+
 </div>

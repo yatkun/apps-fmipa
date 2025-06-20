@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Jenissoal;
+use App\Models\Pendidikan;
 use App\Models\Soal;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -47,10 +48,17 @@ class DatabaseSeeder extends Seeder
             'email' => 'test3@example.com',
         ]);
 
+        Pendidikan::create([
+            'nama' => 'Ijazah S1',
+            'document' => 'www.google.com',
+            'user_id' => 1,
+        ]);
+
         $this->call([
             JenissoalSeeder::class,
             SoalSeeder::class,
             PilihanSeeder::class,
+            
         ]);
     }
 }

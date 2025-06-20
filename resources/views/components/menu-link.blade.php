@@ -68,23 +68,56 @@
                         <span key="t-dashboard">Dashboard</span>
                     </a>
                 </li>
-                <li>
-                    <a wire:navigate href="/dokumen/pribadi" class="waves-effect {{ request()->is('dokumen/pribadi/*') ? 'active' : '' }}">
-                        <i class="bx bx-book-content"></i>
-                        <span key="t-saya">Dokumen Pribadi</span>
+                <li class="">
+                    <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                        <i class="bx bx-calendar"></i>
+                        <span key="t-dashboards">Dokumen Pribadi</span>
                     </a>
+                    <ul class="sub-menu mm-collapse" aria-expanded="false">
+                        <li><a wire:navigate href="/dokumen/pribadi/pendidikan" key="t-tui-calendar">Pendidikan</a></li>
+                        <li><a href="calendar-full.html" key="t-full-calendar">Pengajaran</a></li>
+                        <li><a href="calendar-full.html" key="t-full-calendar">Penelitian</a></li>
+                        <li><a href="calendar-full.html" key="t-full-calendar">Pengabdian</a></li>
+                        <li><a href="calendar-full.html" key="t-full-calendar">Kepangkatan</a></li>
+                        <li><a wire:navigate href="/dokumen/pribadi/skp" key="t-full-calendar">SKP</a></li>
+                        <li><a href="calendar-full.html" key="t-full-calendar">Lain-lain</a></li>
+                    </ul>
                 </li>
-                <li>
-                    <a wire:navigate href="/dokumen/publik" class="waves-effect {{ request()->is('dokumen/publik/*') ? 'active' : '' }}">
+
+              
+             
+                {{-- href="/dokumen/publik"  wire:navigate class="waves-effect {{ request()->is('dokumen/publik/*') ? 'active' : '' }}" --}}
+                <li class="">
+                    <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                         <i class="bx bx-world"></i>
                         <span key="t-publik">Dokumen Publik</span>
                     </a>
+                    <ul class="sub-menu mm-collapse" aria-expanded="true" style="height: 0px;">
+    
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow" key="t-akreditasi">Akreditasi</a>
+                            <ul class="sub-menu mm-collapse" aria-expanded="true">
+                                <li><a href="javascript: void(0);" key="t-akreditasi-matematika">Matematika</a></li>
+                                <li><a href="javascript: void(0);" key="t-akreditasi-statistika">Statistika</a></li>
+                                <li><a href="javascript: void(0);" key="t-akreditasi-aktuaria">Aktuaria</a></li>
+                                <li><a href="javascript: void(0);" key="t-akreditasi-bioteknologi">Bioteknologi</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a wire:navigate href="/dokumen/tandai" class="waves-effect {{ request()->is('dokumen/tandai/*') ? 'active' : '' }}">
                         <i class="bx bx-user-check"></i>
                         <span key="t-tandai">Dokumen Tertandai</span>
                     </a>
+                   
+                </li>
+                <li class="">
+                    <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                        <i class="bx bx-share-alt"></i>
+                        <span key="t-multi-level">Multi Level</span>
+                    </a>
+                    
                 </li>
                 @if (Auth::user()->level == 'admin')
                 <li>
