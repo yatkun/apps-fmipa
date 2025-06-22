@@ -1,7 +1,7 @@
 @push('styles')
 @endpush
 
-@section('title', 'Dokumen Pribadi')
+@section('title', 'Dokumen Pendidikan | Pengajaran')
 
 <div class="main-content">
     @if (session('success'))
@@ -15,8 +15,8 @@
                 <div class="col-12">
                     
                     <ul class="breadcrumb">
-                        <li>Dokumen Pribadi</li>
-                        <li>SKP</li>
+                        <li>Dokumen Pendidikan</li>
+                        <li>Pengajaran</li>
                       </ul>
                 </div>
             </div>

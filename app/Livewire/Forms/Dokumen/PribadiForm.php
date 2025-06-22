@@ -82,6 +82,7 @@ class PribadiForm extends Form
 
     public function update()
     {
+     
         $doc = Dokumensaya::find($this->dokumen_id);
 
         if ($doc) {

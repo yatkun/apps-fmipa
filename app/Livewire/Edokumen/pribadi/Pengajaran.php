@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Edokumen\pribadi;
 
+use App\Livewire\Forms\Dokumen\PengajaranForm;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
@@ -29,7 +30,11 @@ class Pengajaran extends Component
     public $mode = 'add';
 
     public $nama;
+    public $dokumen_id;
     public $document;
+
+
+    public PengajaranForm $form;
 
     protected $rules = [
         'nama' => 'required|string|max:255',
@@ -61,6 +66,25 @@ class Pengajaran extends Component
         $this->existingFile = '';
     }
 
+    public function update($data)
+    {
+        $this->mode = 'edit';
+        $this->dokumen_id = $data['id'];
+        $this->nama = $data['nama'];
+
+        $doc = ModelsPengajaran::find($data);
+
+        if ($doc) {
+            $this->form->dokumen_id = $data['id'];
+            $this->form->nama = $data['nama'];
+            $this->existingFile =  $data['document']; // Simpan path dokumen lama
+        }
+    
+
+
+
+    }
+
     public function upload(){
 
         $this->validate();
@@ -87,7 +111,7 @@ class Pengajaran extends Component
      
         
         
-        $data = ModelsSKP::create([
+        $data = ModelsPengajaran::create([
             'nama' => $this->nama,
             'document' => $this->document,
             'user_id' => Auth::id()
@@ -96,6 +120,17 @@ class Pengajaran extends Component
         $this->dispatch('notif');
         $this->resetInput();
 
+        $this->dispatch('closemodal');
+    }
+
+    public function update_a()
+    {
+        $this->form->update();
+        session()->flash('success', 'Dokumen berhasil diupdate !');
+        $this->resetInput();
+        $this->mode = 'add';
+        // Emit event untuk JavaScript
+        $this->dispatch('notif');
         $this->dispatch('closemodal');
     }
 
@@ -136,7 +171,7 @@ class Pengajaran extends Component
     public function download($document)
     {
   
-        $file = ModelsSKP::findOrFail($document);
+        $file = ModelsPengajaran::findOrFail($document);
     
         $filePath = $file->document;
         $fileName = basename($filePath);
