@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Edokumen\pribadi;
 
+use App\Models\Bimbingan as ModelsBimbingan;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
@@ -10,11 +11,11 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Pendidikan as ModelsPendidikan;
-use App\Models\SKP as ModelsSKP;
 
-class Skp extends Component
+
+class Bimbingan extends Component
 {
-    public $title = 'Dokumen SKP';
+    public $title = 'Dokumen Pendidikan';
 
     use WithFileUploads;
     use WithPagination;
@@ -72,7 +73,7 @@ class Skp extends Component
         $fileName = Str::slug($originalName) . "_{$timestamp}.{$extension}";
 
         // $this->document->storeAs('documents', $fileName, 'public');
-        $googleFolder = "documents-pribadi/pendidikan/skp/{$username}-{$user}";
+        $googleFolder = "documents-pribadi/pendidikan/bimbingan/{$username}-{$user}";
 
         if (!Storage::disk('google')->exists($googleFolder)) {
             Storage::disk('google')->makeDirectory($googleFolder);
@@ -84,18 +85,29 @@ class Skp extends Component
 
         // Simpan informasi file ke database dengan user_id
      
-        
-        
-        $data = ModelsSKP::create([
-            'nama' => $this->nama,
+        $data = ModelsBimbingan::create([
+            'nama_mahasiswa' => $this->nama,
+            'judul' => $this->judul,
             'document' => $this->document,
-            'user_id' => Auth::id()
+            'pembimbing_1' => $this->pembimbing1,
+            'pembimbing_2' => $this->pembimbing2,
+
         ]);
         session()->flash('success', 'Dokumen berhasil ditambahkan !');
         $this->dispatch('notif');
         $this->resetInput();
 
         $this->dispatch('closemodal');
+    }
+
+    public function handleSaveOrUpdate()
+    {
+
+        if ($this->mode == 'edit') {
+            $this->update_a(); // Panggil fungsi update
+        } else {
+            $this->upload(); // Panggil fungsi save
+        }
     }
 
     public function setsortBy($sortByField)
@@ -123,19 +135,10 @@ class Skp extends Component
         }
     }
 
-    public function handleSaveOrUpdate()
-    {
-
-        if ($this->mode == 'edit') {
-            $this->update_a(); // Panggil fungsi update
-        } else {
-            $this->upload(); // Panggil fungsi save
-        }
-    }
     public function download($document)
     {
   
-        $file = ModelsSKP::findOrFail($document);
+        $file = ModelsBimbingan::findOrFail($document);
     
         $filePath = $file->document;
         $fileName = basename($filePath);
@@ -158,9 +161,9 @@ class Skp extends Component
     public function render()
     {
         
-        return view('livewire.EDOKUMEN.pribadi.skp',[
+        return view('livewire.EDOKUMEN.pribadi.bimbingan',[
             'title' => $this->title,
-            'a' => ModelsSKP::when($this->sortDir, function ($query) {
+            'a' => ModelsPendidikan::when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {
                 $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)

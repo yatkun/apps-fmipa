@@ -71,11 +71,13 @@
                 <li class="">
                     <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                         <i class="bx bx-calendar"></i>
-                        <span key="t-dashboards">Dokumen Pribadi</span>
+                        <span key="t-dashboards">Pendidikan</span>
                     </a>
                     <ul class="sub-menu mm-collapse" aria-expanded="false">
+                        <li><a wire:navigate href="/dokumen/pendidikan/pengajaran" key="t-full-calendar">Pengajaran</a></li>
+                        <li><a wire:navigate href="/dokumen/pendidikan/bimbingan" key="t-full-calendar">Bimbingan Mahasiswa</a></li>
+                        <li><a wire:navigate href="/dokumen/pendidikan/pengujian" key="t-full-calendar">Pengujian Mahasiswa</a></li>
                         <li><a wire:navigate href="/dokumen/pribadi/pendidikan" key="t-tui-calendar">Pendidikan</a></li>
-                        <li><a href="calendar-full.html" key="t-full-calendar">Pengajaran</a></li>
                         <li><a href="calendar-full.html" key="t-full-calendar">Penelitian</a></li>
                         <li><a href="calendar-full.html" key="t-full-calendar">Pengabdian</a></li>
                         <li><a href="calendar-full.html" key="t-full-calendar">Kepangkatan</a></li>

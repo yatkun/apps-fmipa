@@ -10,11 +10,12 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Pendidikan as ModelsPendidikan;
+use App\Models\Pengajaran as ModelsPengajaran;
 use App\Models\SKP as ModelsSKP;
 
-class Skp extends Component
+class Pengajaran extends Component
 {
-    public $title = 'Dokumen SKP';
+    public $title = 'Dokumen Pengajaran';
 
     use WithFileUploads;
     use WithPagination;
@@ -72,7 +73,7 @@ class Skp extends Component
         $fileName = Str::slug($originalName) . "_{$timestamp}.{$extension}";
 
         // $this->document->storeAs('documents', $fileName, 'public');
-        $googleFolder = "documents-pribadi/pendidikan/skp/{$username}-{$user}";
+        $googleFolder = "documents-pribadi/pendidikan/pengajaran/{$username}-{$user}";
 
         if (!Storage::disk('google')->exists($googleFolder)) {
             Storage::disk('google')->makeDirectory($googleFolder);
@@ -158,9 +159,9 @@ class Skp extends Component
     public function render()
     {
         
-        return view('livewire.EDOKUMEN.pribadi.skp',[
+        return view('livewire.EDOKUMEN.pribadi.pengajaran',[
             'title' => $this->title,
-            'a' => ModelsSKP::when($this->sortDir, function ($query) {
+            'a' => ModelsPengajaran::when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {
                 $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)

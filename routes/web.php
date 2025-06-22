@@ -6,9 +6,10 @@ use App\Livewire\Logout;
 use App\Livewire\Tryout;
 use App\Livewire\Counter;
 use App\Livewire\Landing;
+use App\Models\Bimbingan;
 use App\Livewire\IKU\Iku1;
-use App\Livewire\IKU\Iku2;
 
+use App\Livewire\IKU\Iku2;
 use App\Livewire\IKU\Iku3;
 use App\Livewire\IKU\Iku4;
 use App\Livewire\IKU\Iku5;
@@ -16,24 +17,26 @@ use App\Livewire\IKU\Iku6;
 use App\Livewire\IKU\Iku7;
 use App\Livewire\IKU\Iku8;
 use App\Livewire\Dashboard;
-use App\Livewire\Auth\Login;
 
+use App\Livewire\Auth\Login;
 use App\Livewire\DaftarUser;
 use App\Http\Middleware\Auth;
 use App\Http\Middleware\Guest;
 use App\Livewire\Edokumen\Saya;
 use App\Livewire\UpdateProfile;
+
+
 use App\Livewire\Eskripsi\Eskripsi;
-
-
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Edokumen\pribadi\Skp;
 use App\Livewire\Edokumen\UploadTertandai;
 use App\Livewire\Edokumen\DokumenTertandai;
 use App\Livewire\Edokumen\pribadi\Pendidikan;
 use App\Livewire\Edokumen\EditDokumenTertandai;
 use App\Livewire\Edokumen\Dashboard as EdokumenDashboard;
 use App\Livewire\Edokumen\Dokumenpublik as Dokumenpublik;
-use App\Livewire\Edokumen\pribadi\Skp;
+use App\Livewire\Edokumen\pribadi\Bimbingan as PribadiBimbingan;
+use App\Livewire\Edokumen\pribadi\Pengajaran;
 
 Route::group(['middleware' => Guest::class], function () {
 
@@ -75,6 +78,8 @@ Route::middleware('auth.dokumen')->group(function () {
     Route::get('/dokumen/tandai/edit/{hashid}', EditDokumenTertandai::class)->name('dokumen.tandai.edit');
     Route::get('/profile', UpdateProfile::class)->name('profile');
     Route::get('/dokumen/pribadi/skp', Skp::class)->name('skp');
+    Route::get('/dokumen/pendidikan/bimbingan', PribadiBimbingan::class)->name('bimbingan');
+    Route::get('/dokumen/pendidikan/pengajaran', Pengajaran::class)->name('pengajaran');
 });
 
 Route::middleware('auth.iku')->group(function(){
