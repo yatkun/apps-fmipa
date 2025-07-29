@@ -48,6 +48,14 @@ class DatabaseSeeder extends Seeder
             'email' => 'test3@example.com',
         ]);
 
+        User::factory()->create([
+            'name' => 'Tendik 1',
+            'username' => 'tendik',
+            'password' => bcrypt('tendik'),
+            'email' => 'tendik@example.com',
+            'level' => 'Tendik'
+        ]);
+
         Pendidikan::create([
             'nama' => 'Ijazah S1',
             'document' => 'www.google.com',

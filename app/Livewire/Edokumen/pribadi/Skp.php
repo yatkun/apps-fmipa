@@ -22,13 +22,14 @@ class Skp extends Component
     public $search = '';
     public $sortBy = 'created_at';
     public $sortDir = 'ASC';
- 
+
     public $existingFile;
 
     public $mode = 'add';
 
     public $nama;
     public $document;
+    public $dokumen_id;
 
     protected $rules = [
         'nama' => 'required|string|max:255',
@@ -60,7 +61,8 @@ class Skp extends Component
         $this->existingFile = '';
     }
 
-    public function upload(){
+    public function upload()
+    {
 
         $this->validate();
         $username = Auth::user()->username;
@@ -81,16 +83,13 @@ class Skp extends Component
 
         $filePath = "{$googleFolder}/{$fileName}";
 
-
-        // Simpan informasi file ke database dengan user_id
-     
-        
-        
         $data = ModelsSKP::create([
             'nama' => $this->nama,
-            'document' => $this->document,
+            'document' => $filePath,
             'user_id' => Auth::id()
         ]);
+
+
         session()->flash('success', 'Dokumen berhasil ditambahkan !');
         $this->dispatch('notif');
         $this->resetInput();
@@ -134,31 +133,120 @@ class Skp extends Component
     }
     public function download($document)
     {
-  
+
         $file = ModelsSKP::findOrFail($document);
-    
+
         $filePath = $file->document;
         $fileName = basename($filePath);
 
-    
+
         // Periksa apakah file ada di Google Drive
         if (!Storage::disk('google')->exists($filePath)) {
             session()->flash('error', 'File not found on Google Drive');
             return;
         }
 
-         // Ambil konten file dari Google Drive
-         $fileContent = Storage::disk('google')->get($filePath);
-         // Kembalikan sebagai response download
-         return response()->streamDownload(function () use ($fileContent) {
-             echo $fileContent;
-         }, $fileName);
+        // Ambil konten file dari Google Drive
+        $fileContent = Storage::disk('google')->get($filePath);
+        // Kembalikan sebagai response download
+        return response()->streamDownload(function () use ($fileContent) {
+            echo $fileContent;
+        }, $fileName);
+    }
+
+    public function update($data)
+    {
+
+        $this->mode = 'edit';
+        $this->dokumen_id = $data['id'];
+        $this->nama = $data['nama'];
+        $this->existingFile =  $data['document'];
+    }
+
+    public function update_a()
+    {
+
+        $doc = ModelsSKP::find($this->dokumen_id);
+
+        if ($doc) {
+            $username = Auth::user()->username;
+            $user = Auth::user()->name;
+            $googleFolder = "documents-pribadi/pendidikan/skp/{$username}-{$user}";
+
+            // Cek apakah nama dokumen diubah
+            if ($this->nama !== $doc->nama) {
+                $extension = pathinfo($doc->document, PATHINFO_EXTENSION);
+                $timestamp = Carbon::now()->format('Ymd_His');
+                $newFileName = Str::slug($this->nama) . "_{$timestamp}.{$extension}";
+                $newFilePath = "{$googleFolder}/{$newFileName}";
+
+                // Pindahkan file lama ke nama baru
+                if (Storage::disk('google')->exists($doc->document)) {
+                    Storage::disk('google')->move($doc->document, $newFilePath);
+                    $doc->document = $newFilePath;
+                }
+            }
+
+            // Update nama dokumen di database
+            $doc->nama = $this->nama;
+
+            // Jika ada file baru yang diunggah
+            if ($this->document) {
+                // Hapus file lama jika ada
+                if (Storage::disk('google')->exists($doc->document)) {
+                    Storage::disk('google')->delete($doc->document);
+                }
+
+                // Simpan file baru
+                $extension = $this->document->getClientOriginalExtension();
+                $timestamp = Carbon::now()->format('Ymd_His');
+                $newFileName = Str::slug($this->nama) . "_{$timestamp}.{$extension}";
+                $newFilePath = "{$googleFolder}/{$newFileName}";
+
+                if (!Storage::disk('google')->exists($googleFolder)) {
+                    Storage::disk('google')->makeDirectory($googleFolder);
+                }
+                Storage::disk('google')->put($newFilePath, file_get_contents($this->document->getRealPath()));
+
+
+                $doc->document = $newFilePath;
+            }
+            // Simpan perubahan ke database
+            $doc->save();
+            session()->flash('success', 'Dokumen berhasil diperbaharui !');
+            $this->resetInput();
+            $this->mode = 'add';
+            // Emit event untuk JavaScript
+            $this->dispatch('notif');
+            $this->dispatch('closemodal');
+            
+        } else {
+            session()->flash('error', 'Dokumen tidak ditemukan.');
+        }
+    }
+
+    public function delete($id)
+    {
+      
+        $file = ModelsSKP::findOrFail($id);
+        $filePath = $file->document;
+
+        if (Storage::disk('google')->exists($filePath)) {
+            Storage::disk('google')->delete($filePath);
+        }
+
+        $file->delete();
+
+        session()->flash('success', 'Dokumen berhasil dihapus');
+        $this->dispatch('notif'); 
+    
+        
     }
 
     public function render()
     {
-        
-        return view('livewire.EDOKUMEN.pribadi.skp',[
+
+        return view('livewire.EDOKUMEN.pribadi.skp', [
             'title' => $this->title,
             'a' => ModelsSKP::when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
@@ -168,6 +256,5 @@ class Skp extends Component
                 ->search($this->search)
                 ->paginate($this->perPage),
         ]);
-   
     }
 }

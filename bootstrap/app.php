@@ -19,6 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth.iku' => \App\Http\Middleware\Iku::class,
             'auth.dokumen' => \App\Http\Middleware\Dokumen::class,
             'auth.admin' => \App\Http\Middleware\Admin::class,
+            'tendik' => \App\Http\Middleware\IsTendik::class,
+            'dosen' => \App\Http\Middleware\IsDosen::class,
         ]);
         
     })

@@ -11,15 +11,7 @@
     @endif
     <div class="page-content">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    
-                    <ul class="breadcrumb">
-                        <li>Dokumen Pribadi</li>
-                        <li>Pendidikan</li>
-                      </ul>
-                </div>
-            </div>
+           
             <div class="row">
                 <div class="d-xl-flex">
                     <div class="w-100">

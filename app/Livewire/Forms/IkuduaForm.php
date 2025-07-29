@@ -27,20 +27,30 @@ class IkuduaForm extends Form
     #[Validate([''])]
     public string $level = '';
 
+    public $triwulan = '';
+    public $bukti = '';
+
+    #[Validate('required')]
+    public $tahun = ''; // Tambahkan ini
+
     public $ikudua_id;
 
-    public function store_a()
+    public function store_b()
     {
-    
+
         $validate = $this->validate();
         $validate['kategori'] = 'Kegiatan Luar Prodi';
-     
-
+       
         $validate['bobot'] = $validate['sks_juara'] / 20;
+        
+        $validate['triwulan'] = $this->triwulan;
+        $validate['tahun'] = $this->tahun;
+        $validate['bukti'] = $this->bukti;
+
         Ikudua::create($validate);
     }
 
-    public function store_b()
+    public function store_a()
     {
 
         $validate = $this->validate();
@@ -67,6 +77,11 @@ class IkuduaForm extends Form
         } elseif ($validate['sks_juara'] == 'Peserta') {
             $validate['bobot'] = 0.7;
         }
+
+        $validate['triwulan'] = $this->triwulan;
+        $validate['tahun'] = $this->tahun;
+        $validate['bukti'] = $this->bukti;
+
         Ikudua::create($validate);
     }
 
@@ -75,6 +90,9 @@ class IkuduaForm extends Form
         $validate = $this->validate();
         $validate['kategori'] = 'Kegiatan Luar Prodi';
         $validate['bobot'] = $validate['sks_juara'] / 20;
+         $validate['triwulan'] = $this->triwulan;
+        $validate['tahun'] = $this->tahun;
+        $validate['bukti'] = $this->bukti;
         Ikudua::where('id', $this->ikudua_id)->update($validate);
     }
 
@@ -105,6 +123,9 @@ class IkuduaForm extends Form
         } elseif ($validate['sks_juara'] == 'Peserta') {
             $validate['bobot'] = 0.7;
         }
+        $validate['triwulan'] = $this->triwulan;
+        $validate['tahun'] = $this->tahun;
+        $validate['bukti'] = $this->bukti;
         Ikudua::where('id', $this->ikudua_id)->update($validate);
     }
 }

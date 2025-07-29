@@ -8,39 +8,43 @@
     <link rel="shortcut icon" href="https://preline.co/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-        @stack('styles')
+    @stack('styles')
 
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <!-- Icons Css -->
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-    
+
     @livewireStyles
     <style>
         ul.breadcrumb {
-          padding: 10px 16px;
-          list-style: none;
-          background-color: #fff;
+            padding: 10px 16px;
+            list-style: none;
+            background-color: #fff;
         }
+
         ul.breadcrumb li {
-          display: inline;
-          font-size: 13px;
+            display: inline;
+            font-size: 13px;
         }
+
         ul.breadcrumb li+li:before {
-          padding: 8px;
-          color: black;
-          content: "/\00a0";
+            padding: 8px;
+            color: black;
+            content: "/\00a0";
         }
+
         ul.breadcrumb li a {
-          color: #0275d8;
-          text-decoration: none;
+            color: #0275d8;
+            text-decoration: none;
         }
+
         ul.breadcrumb li a:hover {
-          color: #01447e;
-          text-decoration: underline;
+            color: #01447e;
+            text-decoration: underline;
         }
-        </style>
+    </style>
     <style>
         .error-notif {
             position: fixed;
@@ -58,7 +62,7 @@
             display: flex;
             align-items: center;
             background: #ffffff;
-            
+
             gap: 1rem;
             padding-left: 0.75rem
                 /* 12px */
@@ -124,16 +128,30 @@
         .fade-in.show {
             opacity: 1;
         }
+
+        .required:after {
+            content: " *";
+            color: red;
+        }
     </style>
 
-   
+
 </head>
 
 <body data-sidebar="dark" data-layout-mode="light">
     <x-navbar></x-navbar>
 
     <x-menu-link></x-menu-link>
-
+    @if (session('success'))
+        @include('livewire.includes.alert-success', [
+            'header' => 'Sukses',
+        ])
+    @endif
+    @if (session('error'))
+        @include('livewire.includes.alert-error', [
+            'header' => 'Sukses',
+        ])
+    @endif
     {{ $slot }}
     {{ $scripts ?? '' }}
 
@@ -154,21 +172,22 @@
         });
     </script>
 
-   
-
-    <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}" data-navigate-once></script>
+    <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}" data-navigate-track></script>
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}" data-navigate-once></script>
     <script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}" data-navigate-track></script>
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}" data-navigate-track></script>
     <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}" data-navigate-track></script>
 
     <!-- App js -->
+    @stack('scripts')
+
+
+
+
     <script src="{{ asset('assets/js/app.js') }}" data-navigate-track></script>
 
 
-    @stack('scripts')
 
-    
 </body>
 
 </html>

@@ -61,6 +61,47 @@
                         <span key="t-iku-8">IKU-8</span>
                     </a>
                 </li>
+                @elseif ( request()->is('dokumen/*') &  Auth::user()->level == 'Tendik')
+                <li>
+                    <a wire:navigate href="/dokumen/tendik/dashboard" class="waves-effect">
+                        <i class="bx bx-chat"></i>
+                        <span key="t-dashboard">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a wire:navigate href="/dokumen/tendik/data-pengajaran" class="waves-effect">
+                        <i class="bx bx-chat"></i>
+                        <span key="t-pengajaran">Data Pengajaran</span>
+                    </a>
+                </li>
+                <li>
+                    <a wire:navigate href="/dokumen/tendik/data-pembimbingan" class="waves-effect {{ request()->is('dokumen/tendik/data-pembimbingan/*') ? 'active' : '' }}">
+                        <i class="bx bx-chat"></i>
+                        <span key="t-pembimbingan">Data Pembimbingan</span>
+                    </a>
+                </li>
+                
+                <li class="{{ request()->is('dokumen/persuratan/*') ? 'mm-active' : '' }}">
+                    <a href="javascript: void(0);" class="has-arrow waves-effect {{ request()->is('dokumen/persuratan/*') ? 'active' : '' }}" aria-expanded="false">
+                        <i class="bx bx-calendar"></i>
+                        <span key="t-dashboards">Persuratan</span>
+                    </a>
+                    {{-- <ul class="sub-menu mm-collapse" aria-expanded="false">
+                        <li><a wire:navigate href="/dokumen/persuratan/templates" key="t-full-calendar">Template Surat</a></li>
+                    
+                    </ul>
+                    <ul class="sub-menu mm-collapse" aria-expanded="false">
+                        <li><a wire:navigate href="{{ route('list.approved.letters') }}" key="t-full-calendar">Surat Disetujui</a></li>
+                    
+                    </ul> --}}
+
+                     <ul class="sub-menu mm-collapse" aria-expanded="false">
+                        <li><a wire:navigate href="{{ route('list.pending.letters') }}" key="t-full-calendar" class="{{ request()->is('dokumen/persuratan/butuh-persetujuan/*') ? 'active' : '' }}">Menunggu Persetujuan</a></li>
+                        <li><a wire:navigate href="{{ route('list.approved.letters') }}" key="t-full-calendar">Surat Disetujui</a></li>
+                        <li><a wire:navigate href="{{ route('list.surat.tolak') }}" key="t-full-calendar">Surat Ditolak</a></li>
+                        <li><a wire:navigate href="/dokumen/persuratan/templates" key="t-full-calendar" class="{{ request()->is('dokumen/persuratan/templates/*') ? 'active' : '' }}">Template Surat</a></li>
+                    </ul>
+                </li>
                 @else
                 <li>
                     <a wire:navigate href="/dokumen/dashboard" class="waves-effect {{ request()->is('dokumen/dashboard/*') ? 'active' : '' }}">
@@ -68,21 +109,17 @@
                         <span key="t-dashboard">Dashboard</span>
                     </a>
                 </li>
+              
                 <li class="">
-                    <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                    <a href="javascript: void(0);" class="has-arrow waves-effect {{ request()->is('dokumen/pendidikan/*') ? 'active' : '' }}" aria-expanded="false">
                         <i class="bx bx-calendar"></i>
                         <span key="t-dashboards">Pendidikan</span>
                     </a>
                     <ul class="sub-menu mm-collapse" aria-expanded="false">
                         <li><a wire:navigate href="/dokumen/pendidikan/pengajaran" key="t-full-calendar">Pengajaran</a></li>
-                        <li><a wire:navigate href="/dokumen/pendidikan/bimbingan" key="t-full-calendar">Bimbingan Mahasiswa</a></li>
+                        <li class="{{ request()->is('dokumen/pendidikan/bimbingan/*') ? 'mm-active' : '' }}"><a wire:navigate href="/dokumen/pendidikan/bimbingan" key="t-full-calendar">Bimbingan Mahasiswa</a></li>
                         <li><a wire:navigate href="/dokumen/pendidikan/pengujian" key="t-full-calendar">Pengujian Mahasiswa</a></li>
-                        <li><a wire:navigate href="/dokumen/pribadi/pendidikan" key="t-tui-calendar">Pendidikan</a></li>
-                        <li><a href="calendar-full.html" key="t-full-calendar">Penelitian</a></li>
-                        <li><a href="calendar-full.html" key="t-full-calendar">Pengabdian</a></li>
-                        <li><a href="calendar-full.html" key="t-full-calendar">Kepangkatan</a></li>
-                        <li><a wire:navigate href="/dokumen/pribadi/skp" key="t-full-calendar">SKP</a></li>
-                        <li><a href="calendar-full.html" key="t-full-calendar">Lain-lain</a></li>
+                       
                     </ul>
                 </li>
 

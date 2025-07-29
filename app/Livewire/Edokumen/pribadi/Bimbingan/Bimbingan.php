@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Livewire\Edokumen\pribadi;
+namespace App\Livewire\Edokumen\pribadi\Bimbingan;
 
 use App\Models\Bimbingan as ModelsBimbingan;
+use App\Models\BimbinganDocument;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
@@ -28,8 +29,10 @@ class Bimbingan extends Component
 
     public $mode = 'add';
 
-    public $nama;
+    public $nama, $nim, $prodi, $angkatan, $judul, $pembimbing_1, $pembimbing_2;
+   
     public $document;
+    public $document_id;
 
     protected $rules = [
         'nama' => 'required|string|max:255',
@@ -47,6 +50,12 @@ class Bimbingan extends Component
     // {
     //     $this->validateOnly('document');
     // }
+
+    public function mount()
+    {
+        $this->dispatch('notif');
+        
+    }
 
     public function cancelEdit()
     {
@@ -137,9 +146,14 @@ class Bimbingan extends Component
 
     public function download($document)
     {
-  
-        $file = ModelsBimbingan::findOrFail($document);
-    
+      
+        $file = BimbinganDocument::where('bimbingan_id', $document)->first();
+        
+        if (!$file) {
+            session()->flash('error', 'Dokumen belum tersedia !');
+            $this->dispatch('notif');
+            return;
+        }
         $filePath = $file->document;
         $fileName = basename($filePath);
 
@@ -158,12 +172,39 @@ class Bimbingan extends Component
          }, $fileName);
     }
 
+    public function update($data)
+    {
+
+        $this->mode = 'edit';
+        $this->document_id = $data['id'];
+        $this->nama = $data['nama'];
+
+    }
+
+    public function lihat($data)
+    {
+
+        $this->mode = 'edit';
+        $this->document_id = $data['id'];
+        $this->nama = $data['nama'];
+        $this->nim = $data['nim'];
+        $this->angkatan = $data['angkatan'];
+        $this->prodi = $data['prodi'];
+        $this->judul = $data['judul'];
+        $this->pembimbing_1 = $data['pembimbing_1'];
+        $this->pembimbing_2 = $data['pembimbing_2'];
+
+    }
+
     public function render()
     {
         
-        return view('livewire.EDOKUMEN.pribadi.bimbingan',[
+        return view('livewire.EDOKUMEN.pribadi.bimbingan.bimbingan',[
             'title' => $this->title,
-            'a' => ModelsPendidikan::when($this->sortDir, function ($query) {
+            'a' => ModelsBimbingan::where(function ($query) {
+                $query->where('pembimbing_1', Auth::id())
+                      ->orWhere('pembimbing_2', Auth::id());
+            })->when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {
                 $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)

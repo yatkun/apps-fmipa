@@ -16,7 +16,16 @@ class Login extends Component
     #[Validate('required|min:3')] 
     public $password = '';
 
-    
+    public function mount(){
+        $login = session('authenticated_application');
+   
+        if ($login == 'EDokumen' && Auth::user()->level == 'Dosen') {
+            return redirect()->route('edokumen.dashboard');
+        }elseif ($login == 'EDokumen' && Auth::user()->level == 'Tendik') {
+            return redirect()->route('tendik.dashboard');
+        }
+    }
+
     public function login()
     {
         // dd($this->username, $this->password);
@@ -26,11 +35,17 @@ class Login extends Component
         if(Auth::attempt(['username' => $this->username, 'password' => $this->password])){
             session(['authenticated_application' => session('selected_application')]);
             $application = session('authenticated_application');
-            if ($application == 'EDokumen'){
+            if ($application == 'EDokumen' && Auth::user()->level == 'Dosen') {
                 session()->flash('success', 'Login Berhasil');
                 return redirect()->route('edokumen.dashboard');
                 $this->dispatch('notif');
-            }elseif($application == 'IKU'){
+            }elseif ($application == 'EDokumen' && Auth::user()->level == 'Tendik') {
+                session()->flash('success', 'Login Berhasil');
+            
+                return redirect()->route('tendik.dashboard');
+                $this->dispatch('notif');
+            }
+            elseif($application == 'IKU'){
                 session()->flash('success', 'Login Berhasil');
                 return redirect()->route('iku.dashboard');
                 $this->dispatch('notif');
@@ -40,9 +55,6 @@ class Login extends Component
             session()->flash('error', 'Username / password salah !');
             $this->dispatch('notif');
         }
-
-        
- 
     }
 
     

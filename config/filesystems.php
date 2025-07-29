@@ -52,6 +52,13 @@ return [
             'throw' => false,
         ],
 
+        'generated_letters' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'), // <-- Pastikan root ini benar
+            'url' => env('APP_URL') . '/storage/generated_letters', // Jika diakses via URL
+            'visibility' => 'private', // atau 'public' jika diakses langsung
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

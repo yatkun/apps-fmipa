@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pembimbing_1')->constrained('users')->onDelete('cascade');
             $table->foreignId('pembimbing_2')->constrained('users')->onDelete('cascade');
-            $table->string('nama_mahasiswa');
+            $table->string('nama');
+            $table->string('nim');
+            $table->string('prodi');
+            $table->string('angkatan');
             $table->string('judul');
-            $table->string('document')->nullable();
+           
             $table->timestamps();
         });
     }

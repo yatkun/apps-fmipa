@@ -365,5 +365,4 @@
 
 @push('scripts')
     <script src="{{ asset('assets/js/livewire.js') }}" data-navigate-track></script>
-   
 @endpush

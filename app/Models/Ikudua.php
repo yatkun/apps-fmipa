@@ -19,7 +19,9 @@ class Ikudua extends Model
        ->orWhere('level', 'like', "%{$value}%")
        ->orWhere('keterangan', 'like', "%{$value}%")
        ->orWhere('kategori', 'like', "%{$value}%")
-       ->orWhere('bobot', 'like', "%{$value}%");
+       ->orWhere('bobot', 'like', "%{$value}%")
+       ->orWhere('triwulan', 'like', "%{$value}%")
+        ->orWhere('tahun', 'like', "%{$value}%"); // Tambahkan ini agar tahun bisa dicari
     }
 
     

@@ -40,10 +40,12 @@ class Apps extends Component
         $applications = session('authenticated_application');
         if(Auth::user() && ($applications == 'EDokumen') && (session('selected_application') == 'EDokumen')){
             return redirect()->route('edokumen.dashboard');
+        }elseif (Auth::user() && ($applications == 'EDokumen') && (session('selected_application') == 'EDokumen')){
+            return redirect()->route('tendik.dashboard');
         }elseif (Auth::user() && ($applications == 'IKU') && (session('selected_application') == 'IKU')){
             return redirect()->route('iku.dashboard');
         }
-
+        
    
         return redirect()->route('auth.login');
     }

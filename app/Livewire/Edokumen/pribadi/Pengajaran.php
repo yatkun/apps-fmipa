@@ -34,8 +34,6 @@ class Pengajaran extends Component
     public $document;
 
 
-    public PengajaranForm $form;
-
     protected $rules = [
         'nama' => 'required|string|max:255',
         'document' => 'required|file|max:12240',
@@ -48,11 +46,7 @@ class Pengajaran extends Component
         'document.max' => 'Dokumen maksimal 10 MB',
     ];
 
-    // public function updatedDocument()
-    // {
-    //     $this->validateOnly('document');
-    // }
-
+   
     public function cancelEdit()
     {
         $this->resetInput(); // Clear form fields
@@ -71,21 +65,11 @@ class Pengajaran extends Component
         $this->mode = 'edit';
         $this->dokumen_id = $data['id'];
         $this->nama = $data['nama'];
-
-        $doc = ModelsPengajaran::find($data);
-
-        if ($doc) {
-            $this->form->dokumen_id = $data['id'];
-            $this->form->nama = $data['nama'];
-            $this->existingFile =  $data['document']; // Simpan path dokumen lama
-        }
-    
-
-
-
+        $this->existingFile =  $data['document'];
     }
 
-    public function upload(){
+    public function upload()
+    {
 
         $this->validate();
         $username = Auth::user()->username;
@@ -106,16 +90,13 @@ class Pengajaran extends Component
 
         $filePath = "{$googleFolder}/{$fileName}";
 
-
-        // Simpan informasi file ke database dengan user_id
-     
-        
-        
         $data = ModelsPengajaran::create([
             'nama' => $this->nama,
-            'document' => $this->document,
+            'document' => $filePath,
             'user_id' => Auth::id()
         ]);
+
+   
         session()->flash('success', 'Dokumen berhasil ditambahkan !');
         $this->dispatch('notif');
         $this->resetInput();
@@ -125,13 +106,82 @@ class Pengajaran extends Component
 
     public function update_a()
     {
-        $this->form->update();
-        session()->flash('success', 'Dokumen berhasil diupdate !');
-        $this->resetInput();
-        $this->mode = 'add';
-        // Emit event untuk JavaScript
-        $this->dispatch('notif');
-        $this->dispatch('closemodal');
+
+        $doc = ModelsPengajaran::find($this->dokumen_id);
+
+        if ($doc) {
+            $username = Auth::user()->username;
+            $user = Auth::user()->name;
+            $googleFolder = "documents-pribadi/pendidikan/pengajaran/{$username}-{$user}";
+
+            // Cek apakah nama dokumen diubah
+            if ($this->nama !== $doc->nama) {
+                $extension = pathinfo($doc->document, PATHINFO_EXTENSION);
+                $timestamp = Carbon::now()->format('Ymd_His');
+                $newFileName = Str::slug($this->nama) . "_{$timestamp}.{$extension}";
+                $newFilePath = "{$googleFolder}/{$newFileName}";
+
+                // Pindahkan file lama ke nama baru
+                if (Storage::disk('google')->exists($doc->document)) {
+                    Storage::disk('google')->move($doc->document, $newFilePath);
+                    $doc->document = $newFilePath;
+                }
+            }
+
+            // Update nama dokumen di database
+            $doc->nama = $this->nama;
+
+            // Jika ada file baru yang diunggah
+            if ($this->document) {
+                // Hapus file lama jika ada
+                if (Storage::disk('google')->exists($doc->document)) {
+                    Storage::disk('google')->delete($doc->document);
+                }
+
+                // Simpan file baru
+                $extension = $this->document->getClientOriginalExtension();
+                $timestamp = Carbon::now()->format('Ymd_His');
+                $newFileName = Str::slug($this->nama) . "_{$timestamp}.{$extension}";
+                $newFilePath = "{$googleFolder}/{$newFileName}";
+
+                if (!Storage::disk('google')->exists($googleFolder)) {
+                    Storage::disk('google')->makeDirectory($googleFolder);
+                }
+                Storage::disk('google')->put($newFilePath, file_get_contents($this->document->getRealPath()));
+
+
+                $doc->document = $newFilePath;
+            }
+            // Simpan perubahan ke database
+            $doc->save();
+            session()->flash('success', 'Dokumen berhasil diperbaharui !');
+            $this->resetInput();
+            $this->mode = 'add';
+            // Emit event untuk JavaScript
+            $this->dispatch('notif');
+            $this->dispatch('closemodal');
+            
+        } else {
+            session()->flash('error', 'Dokumen tidak ditemukan.');
+        }
+    }
+
+    public function delete($id)
+    {
+      
+        $file = ModelsPengajaran::findOrFail($id);
+        $filePath = $file->document;
+
+        if (Storage::disk('google')->exists($filePath)) {
+            Storage::disk('google')->delete($filePath);
+        }
+
+        $file->delete();
+
+        session()->flash('success', 'Dokumen berhasil dihapus');
+        $this->dispatch('notif'); 
+    
+        
     }
 
     public function setsortBy($sortByField)

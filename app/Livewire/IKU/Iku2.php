@@ -21,8 +21,10 @@ class Iku2 extends Component
     public $mode = 'add';
     public IkuduaForm $form;
 
+    
+
     protected $listeners = ['confirmDelete'];
-    public function save()
+    public function savea()
     {
         $this->form->store_a();
         session()->flash('success', 'Data berhasil ditambahkan !');
@@ -40,6 +42,7 @@ class Iku2 extends Component
 
     public function saveb()
     {
+
         $this->form->store_b();
         session()->flash('success', 'Data berhasil ditambahkan !');
         $this->resetInput();
@@ -60,6 +63,9 @@ class Iku2 extends Component
         $this->form->program_studi = '';
         $this->form->sks_juara = '';
         $this->form->keterangan = '';
+        $this->form->triwulan = '';
+        $this->form->tahun = '';
+        $this->form->bukti = '';
     }
 
     public function setsortBy($sortByField)
@@ -117,6 +123,9 @@ class Iku2 extends Component
         $this->form->program_studi = $data['program_studi'];
         $this->form->sks_juara = $data['sks_juara'];
         $this->form->keterangan = $data['keterangan'];
+        $this->form->triwulan = $data['triwulan'];
+        $this->form->tahun = $data['tahun'];
+        $this->form->bukti = $data['bukti'];
     }
 
     public function updateb($data)
@@ -129,19 +138,23 @@ class Iku2 extends Component
         $this->form->sks_juara = $data['sks_juara'];
         $this->form->level = $data['level'];
         $this->form->keterangan = $data['keterangan'];
+        $this->form->triwulan = $data['triwulan'];
+        $this->form->tahun = $data['tahun'];
+        $this->form->bukti = $data['bukti'];
     }
 
-    public function handleSaveOrUpdate()
+    public function handleSaveOrUpdatea()
     {
         if ($this->mode == 'edit') {
             $this->update_a(); // Panggil fungsi update
         } else {
-            $this->save(); // Panggil fungsi save
+            $this->savea(); // Panggil fungsi save
         }
     }
 
     public function handleSaveOrUpdateb()
     {
+
         if ($this->mode == 'edit') {
             $this->update_b(); // Panggil fungsi update
         } else {
@@ -181,7 +194,7 @@ class Iku2 extends Component
     public function render()
     {
         return view('livewire.IKU.iku2', [
-            'a' => Ikudua::where('kategori', 'Kegiatan Luar Prodi')->when($this->sortDir, function ($query) {
+            'b' => Ikudua::where('kategori', 'Kegiatan Luar Prodi')->when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {
                 $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)
@@ -189,13 +202,16 @@ class Iku2 extends Component
                 ->search($this->searcha)
                 ->paginate($this->perPage),
 
-            'b' => Ikudua::where('kategori', 'Prestasi')->when($this->sortDir, function ($query) {
+            'a' => Ikudua::where('kategori', 'Prestasi')->when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {
                 $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)
             })
                 ->search($this->searchb)
                 ->paginate($this->perPage),
+                
+
+            
         ]);
     }
 }

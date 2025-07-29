@@ -27,8 +27,6 @@ class EditDokumenTertandai extends Component
    
     public function mount($hashid)
     {
-      
-
         $decodedId = Hashids::decode($hashid);
         if (empty($decodedId)) {
             abort(404, 'Dokumen tidak ditemukan');

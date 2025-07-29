@@ -11,15 +11,7 @@
     @endif
     <div class="page-content">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    
-                    <ul class="breadcrumb">
-                        <li>Dokumen Pendidikan</li>
-                        <li>Pengajaran</li>
-                      </ul>
-                </div>
-            </div>
+         
             <div class="row">
                 <div class="d-xl-flex">
                     <div class="w-100">
@@ -149,7 +141,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"> {{ $mode == 'edit' ? 'Edit' : 'Tambah' }} Dokumen Pribadi | SKP
+                    <h5 class="modal-title"> {{ $mode == 'edit' ? 'Edit' : 'Tambah' }} Dokumen Pribadi | Pengajaran
                     </h5>
                     <button type="button" wire:click="cancelEdit" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
