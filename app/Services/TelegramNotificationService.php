@@ -14,7 +14,7 @@ class TelegramNotificationService
 
     public function __construct()
     {
-        $this->botToken = env('TELEGRAM_BOT_TOKEN', '8446128745:AAGRBVniJe6PGWjSBrZvyZpHJnDLmqrjPrc');
+        $this->botToken = env('TELEGRAM_BOT_TOKEN');
        
     }
 
