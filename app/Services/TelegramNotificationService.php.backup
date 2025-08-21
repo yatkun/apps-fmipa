@@ -1,0 +1,350 @@
+<?php
+
+namespace App\Services;
+
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Letter;
+
+class TelegramNotificationSer        // Get user's telegram chat ID
+        $userChatId = $letter->creator->telegram_chat_id;
+        
+        // Send notification message first
+        $message = "🎉 *SURAT DISETUJUI DEKAN*\n\n";
+        $message .= "📄 *Judul:* {$letter->title}\n";
+        $message .= "📋 *No. Surat:* `{$noSurat}`\n";
+        $message .= "👤 *Pengaju:* {$letter->creator->name}\n";
+        $message .= "👨‍💼 *Disetujui oleh:* {$letter->dekanVerifier->name}\n";
+        
+        if ($letter->dekan_notes) {
+            $message .= "📝 *Catatan:* {$letter->dekan_notes}\n";
+        }
+        
+        $message .= "📅 *Tanggal Persetujuan:* " . $letter->verified_at_dekan->format('d M Y H:i') . "\n";
+        $message .= "✅ *Status:* DISETUJUI\n\n";
+        $message .= "📄 Dokumen surat akan dikirim berikutnya...";
+
+        // Send to user's personal chat if available, otherwise send to default group
+        $targetChatId = $userChatId ?: null;
+        $messageResult = $this->sendMessage($message, 'Markdown', $targetChatId);
+        
+        // Also send to default group chat for monitoring
+        if ($userChatId) {
+            $groupMessage = "📢 *NOTIFIKASI GRUP*\n\n";
+            $groupMessage .= "🎉 Surat telah disetujui Dekan dan dikirim ke pengguna\n";
+            $groupMessage .= "👤 *Pengguna:* {$letter->creator->name}\n";
+            $groupMessage .= "📄 *Judul:* {$letter->title}\n";
+            $groupMessage .= "📋 *No. Surat:* `{$noSurat}`\n";
+            $this->sendMessage($groupMessage);
+        }te $botToken;
+    private $chatId;
+
+    public function __construct()
+    {
+        $this->botToken = env('TELEGRAM_BOT_TOKEN', '8446128745:AAGRBVniJe6PGWjSBrZvyZpHJnDLmqrjPrc');
+        $this->chatId = env('TELEGRAM_CHAT_ID', '1943944168');
+    }
+
+    public function sendMessage($message, $parseMode = 'Markdown', $customChatId = null)
+    {
+        try {
+            $url = "https://api.telegram.org/bot{$this->botToken}/sendMessage";
+            $chatId = $customChatId ?? $this->chatId;
+            
+            $response = Http::post($url, [
+                'chat_id' => $chatId,
+                'text' => $message,
+                'parse_mode' => $parseMode,
+                'disable_web_page_preview' => true
+            ]);
+
+            if ($response->successful()) {
+                Log::info('Telegram notification sent successfully', [
+                    'chat_id' => $chatId,
+                    'custom_chat' => $customChatId ? true : false
+                ]);
+                return true;
+            } else {
+                Log::error('Failed to send Telegram notification', [
+                    'chat_id' => $chatId,
+                    'response' => $response->json()
+                ]);
+                return false;
+            }
+        } catch (\Exception $e) {
+            Log::error('Telegram notification error: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function sendDocument($filePath, $caption = '', $parseMode = 'Markdown', $customChatId = null)
+    {
+        try {
+            $url = "https://api.telegram.org/bot{$this->botToken}/sendDocument";
+            $chatId = $customChatId ?? $this->chatId;
+            
+            // Validasi file exists
+            if (!file_exists($filePath)) {
+                Log::error('File not found for Telegram document send', ['file_path' => $filePath]);
+                return false;
+            }
+
+            // Validasi ukuran file (max 50MB untuk Telegram)
+            $fileSize = filesize($filePath);
+            if ($fileSize > 50 * 1024 * 1024) {
+                Log::error('File too large for Telegram (max 50MB)', [
+                    'file_path' => $filePath,
+                    'file_size' => $fileSize
+                ]);
+                return false;
+            }
+
+            // Kirim dokumen menggunakan multipart
+            $response = Http::attach(
+                'document', file_get_contents($filePath), basename($filePath)
+            )->post($url, [
+                'chat_id' => $chatId,
+                'caption' => $caption,
+                'parse_mode' => $parseMode
+            ]);
+
+            if ($response->successful()) {
+                Log::info('Telegram document sent successfully', [
+                    'chat_id' => $chatId,
+                    'file_path' => $filePath,
+                    'file_size' => $fileSize,
+                    'custom_chat' => $customChatId ? true : false
+                ]);
+                return true;
+            } else {
+                Log::error('Failed to send Telegram document', [
+                    'chat_id' => $chatId,
+                    'file_path' => $filePath,
+                    'response' => $response->json()
+                ]);
+                return false;
+            }
+        } catch (\Exception $e) {
+            Log::error('Telegram document send error: ' . $e->getMessage(), [
+                'file_path' => $filePath
+            ]);
+            return false;
+        }
+    }
+
+    public function sendDocumentFromGoogleDrive($googleDrivePath, $caption = '', $parseMode = 'Markdown', $customChatId = null)
+    {
+        try {
+            // Download file from Google Drive to temporary location
+            if (!Storage::disk('google')->exists($googleDrivePath)) {
+                Log::error('File not found in Google Drive', ['path' => $googleDrivePath]);
+                return false;
+            }
+
+            $content = Storage::disk('google')->get($googleDrivePath);
+            
+            // Create temporary file
+            $tempFileName = 'temp_telegram_' . time() . '_' . basename($googleDrivePath);
+            $tempFilePath = storage_path('app/temp/' . $tempFileName);
+            
+            // Ensure temp directory exists
+            if (!file_exists(dirname($tempFilePath))) {
+                mkdir(dirname($tempFilePath), 0755, true);
+            }
+            
+            // Save content to temp file
+            if (file_put_contents($tempFilePath, $content) === false) {
+                Log::error('Failed to create temporary file for Telegram send');
+                return false;
+            }
+
+            // Send document
+            $result = $this->sendDocument($tempFilePath, $caption, $parseMode, $customChatId);
+            
+            // Cleanup temporary file
+            if (file_exists($tempFilePath)) {
+                unlink($tempFilePath);
+            }
+            
+            return $result;
+            
+        } catch (\Exception $e) {
+            Log::error('Telegram Google Drive document send error: ' . $e->getMessage(), [
+                'google_drive_path' => $googleDrivePath
+            ]);
+            return false;
+        }
+    }
+
+    public function notifyLetterSubmitted(Letter $letter)
+    {
+        $template = $letter->template ? $letter->template->name : 'Surat Custom';
+        
+        $message = "🆕 *SURAT BARU DIAJUKAN*\n\n";
+        $message .= "📄 *Judul:* {$letter->title}\n";
+        $message .= "📋 *Template:* {$template}\n";
+        $message .= "👤 *Pengaju:* {$letter->creator->name}\n";
+        $message .= "🏢 *Level:* {$letter->creator->level}\n";
+        $message .= "�� *Tanggal:* " . $letter->created_at->format('d M Y H:i') . "\n";
+        $message .= "🔄 *Status:* Menunggu Verifikasi Tendik\n\n";
+        $message .= "🔗 [Lihat Detail Surat](" . route('verify.by.tendik', $letter->hashed_id) . ")";
+
+        return $this->sendMessage($message);
+    }
+
+    public function notifyLetterVerifiedByTendik(Letter $letter)
+    {
+        $dataFilled = is_string($letter->data_filled) 
+            ? json_decode($letter->data_filled, true) 
+            : $letter->data_filled;
+        $noSurat = $dataFilled['no_surat'] ?? 'Belum ada nomor';
+        
+        $message = "✅ *SURAT DIVERIFIKASI TENDIK*\n\n";
+        $message .= "📄 *Judul:* {$letter->title}\n";
+        $message .= "📋 *No. Surat:* `{$noSurat}`\n";
+        $message .= "👤 *Pengaju:* {$letter->creator->name}\n";
+        $message .= "🛡️ *Diverifikasi oleh:* {$letter->tendikVerifier->name}\n";
+        
+        if ($letter->tendik_notes) {
+            $message .= "📝 *Catatan:* {$letter->tendik_notes}\n";
+        }
+        
+        $message .= "📅 *Tanggal Verifikasi:* " . $letter->verified_at_tendik->format('d M Y H:i') . "\n";
+        $message .= "�� *Status:* Menunggu Persetujuan Dekan\n\n";
+        $message .= "🔗 [Lihat Detail Surat](" . route('letters.show', $letter->hashed_id) . ")";
+
+        return $this->sendMessage($message);
+    }
+
+    public function notifyLetterApprovedByDekan(Letter $letter)
+    {
+        $dataFilled = is_string($letter->data_filled) 
+            ? json_decode($letter->data_filled, true) 
+            : $letter->data_filled;
+        $noSurat = $dataFilled['no_surat'] ?? 'Belum ada nomor';
+        
+        // Send notification message first
+        $message = "🎉 *SURAT DISETUJUI DEKAN*\n\n";
+        $message .= "📄 *Judul:* {$letter->title}\n";
+        $message .= "📋 *No. Surat:* `{$noSurat}`\n";
+        $message .= "👤 *Pengaju:* {$letter->creator->name}\n";
+        $message .= "👨‍💼 *Disetujui oleh:* {$letter->dekanVerifier->name}\n";
+        
+        if ($letter->dekan_notes) {
+            $message .= "📝 *Catatan:* {$letter->dekan_notes}\n";
+        }
+        
+        $message .= "📅 *Tanggal Persetujuan:* " . $letter->verified_at_dekan->format('d M Y H:i') . "\n";
+        $message .= "✅ *Status:* DISETUJUI\n\n";
+        $message .= "� Dokumen surat akan dikirim berikutnya...";
+
+        $messageResult = $this->sendMessage($message);
+        
+        // Try to send the document
+        $documentResult = false;
+        if ($letter->file_path) {
+            // Prepare document caption
+            $documentCaption = "📄 *Surat Disetujui*\n";
+            $documentCaption .= "🏷️ {$letter->title}\n";
+            $documentCaption .= "📋 No: `{$noSurat}`\n";
+            $documentCaption .= "👤 {$letter->creator->name}\n";
+            $documentCaption .= "📅 " . $letter->verified_at_dekan->format('d M Y');
+            
+            // Check if file is in Google Drive or local storage
+            if (str_starts_with($letter->file_path, 'Surat/')) {
+                // File is in Google Drive
+                Log::info('Sending document from Google Drive', [
+                    'letter_id' => $letter->id,
+                    'file_path' => $letter->file_path
+                ]);
+                $documentResult = $this->sendDocumentFromGoogleDrive($letter->file_path, $documentCaption);
+            } else {
+                // File is in local storage
+                $localFilePath = Storage::disk('public')->path($letter->file_path);
+                if (file_exists($localFilePath)) {
+                    Log::info('Sending document from local storage', [
+                        'letter_id' => $letter->id,
+                        'file_path' => $localFilePath
+                    ]);
+                    $documentResult = $this->sendDocument($localFilePath, $documentCaption);
+                } else {
+                    Log::warning('Local file not found for document send', [
+                        'letter_id' => $letter->id,
+                        'file_path' => $localFilePath
+                    ]);
+                }
+            }
+            
+            // Send fallback message if document send failed
+            if (!$documentResult) {
+                $fallbackMessage = "⚠️ Dokumen tidak dapat dikirim otomatis.\n";
+                $fallbackMessage .= "🔗 [Unduh Surat](" . route('letters.show', $letter->hashed_id) . ")";
+                $this->sendMessage($fallbackMessage);
+            }
+        }
+
+        return $messageResult;
+    }
+
+    public function notifyLetterRejected(Letter $letter, $rejectedBy = 'Tendik')
+    {
+        $message = "❌ *SURAT DITOLAK*\n\n";
+        $message .= "📄 *Judul:* {$letter->title}\n";
+        $message .= "👤 *Pengaju:* {$letter->creator->name}\n";
+        $message .= "🚫 *Ditolak oleh:* {$rejectedBy}\n";
+        
+        if ($letter->rejection_reason) {
+            $message .= "📝 *Alasan Penolakan:* {$letter->rejection_reason}\n";
+        }
+        
+        $message .= "📅 *Tanggal Penolakan:* " . now()->format('d M Y H:i') . "\n";
+        $message .= "🔄 *Status:* DITOLAK\n\n";
+        $message .= "🔗 [Lihat Detail Surat](" . route('letters.show', $letter->hashed_id) . ")";
+
+        return $this->sendMessage($message);
+    }
+
+    public function sendDailySummary()
+    {
+        $today = now()->format('Y-m-d');
+        
+        $pendingTendik = Letter::where('status', 'verification_tendik')->count();
+        $pendingDekan = Letter::where('status', 'verification_dekan')->count();
+        $approvedToday = Letter::where('status', 'approved')
+            ->whereDate('verified_at_dekan', $today)
+            ->count();
+        $rejectedToday = Letter::where('status', 'rejected')
+            ->whereDate('updated_at', $today)
+            ->count();
+
+        $message = "📊 *RINGKASAN HARIAN SURAT*\n";
+        $message .= "_" . now()->format('d M Y') . "_\n\n";
+        $message .= "⏳ *Menunggu Verifikasi Tendik:* {$pendingTendik}\n";
+        $message .= "⏳ *Menunggu Persetujuan Dekan:* {$pendingDekan}\n";
+        $message .= "✅ *Disetujui Hari Ini:* {$approvedToday}\n";
+        $message .= "❌ *Ditolak Hari Ini:* {$rejectedToday}\n\n";
+        $message .= "🔗 [Dashboard E-Dokumen](" . url('/dokumen/dashboard') . ")";
+
+        return $this->sendMessage($message);
+    }
+
+    public function testConnection()
+    {
+        $message = "🤖 *Test Koneksi Bot Telegram*\n\n";
+        $message .= "✅ Bot FMIPA USB berhasil terhubung!\n";
+        $message .= "📅 " . now()->format('d M Y H:i:s') . "\n\n";
+        $message .= "🔔 Notifikasi sistem verifikasi surat aktif.";
+
+        return $this->sendMessage($message);
+    }
+
+    public function testDocumentSend($filePath)
+    {
+        $caption = "📄 *Test Pengiriman Dokumen*\n";
+        $caption .= "📅 " . now()->format('d M Y H:i:s') . "\n";
+        $caption .= "🧪 Testing document send functionality";
+
+        return $this->sendDocument($filePath, $caption);
+    }
+}

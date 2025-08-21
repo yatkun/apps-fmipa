@@ -65,17 +65,17 @@
                                         <thead>
                                             <tr>
 
-                                                <th wire:click="setsortBy('name')"
+                                                <th style="width: 70%" wire:click="setsortBy('name')"
                                                     class="sortable-column sorting_asc">
                                                     <x-datatable-items columnName="Nama Dokumen"
                                                         :sortBy="$sortBy"></x-datatable-items>
                                                 </th>
-                                                <th  wire:click="setsortBy('created_at')"
+                                                <th style="width: 20%" wire:click="setsortBy('created_at')"
                                                     class="sortable-column sorting_asc">
                                                     <x-datatable-items columnName="Tanggal Unggah"
                                                         :sortBy="$sortBy"></x-datatable-items>
                                                 </th>
-                                                <th>Aksi</th>
+                                                <th style="width: 10%">Aksi</th>
                                             </tr>
                                         </thead>
 
@@ -99,10 +99,9 @@
                                                                     <i class="mdi mdi-pencil"></i></a>
                                                             </li>
                                                             <li>
-                                                                <a wire:navigate
-                                                                    href="{{ route('generate.letter', $template->id) }}"
+                                                                <button wire:click="downloadTemplate({{ $template->id }})"
                                                                     class="btn btn-sm btn-soft-primary">
-                                                                    <i class="mdi mdi-download"></i></a>
+                                                                    <i class="mdi mdi-download"></i></button>
                                                             </li>
                                                             <li>
                                                                 <a wire:click="deleteTemplate({{ $template->id }})"

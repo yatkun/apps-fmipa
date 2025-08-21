@@ -46,13 +46,19 @@ use App\Livewire\Edokumen\pribadi\Bimbingan\TambahBimbingan;
 use App\Livewire\Edokumen\Tendik\Bimbingan\DataPembimbingan;
 use App\Livewire\Edokumen\Tendik\Persuratan\SetTemplateHints;
 use App\Livewire\Edokumen\Tendik\Dashboard as TendikDashboard;
+use App\Livewire\Edokumen\Tendik\Persuratan\LetterDetailViewer;
 use App\Livewire\Edokumen\Tendik\Bimbingan\EditDataPembimbingan;
 use App\Livewire\Edokumen\Tendik\Bimbingan\TambahDataPembimbingan;
 use App\Livewire\Edokumen\Tendik\Persuratan\Approval\ApproveLetters;
+use App\Livewire\Edokumen\Tendik\Persuratan\Approved\ListSuratDitolak;
 use App\Livewire\Edokumen\Tendik\Persuratan\Approval\ListPendingLetters;
 use App\Livewire\Edokumen\Tendik\Persuratan\Approved\ListApprovedLetters;
+use App\Livewire\Edokumen\Tendik\Persuratan\Verification\VerifyByTendik;
+use App\Livewire\Edokumen\Tendik\Persuratan\Verification\ListVerificationTendik;
+use App\Livewire\Edokumen\Tendik\Persuratan\Verification\ListVerificationDekan;
 use App\Livewire\Edokumen\pribadi\Bimbingan\Bimbingan as BimbinganBimbingan;
-use App\Livewire\Edokumen\Tendik\Persuratan\Approved\ListSuratDitolak;
+use App\Livewire\Edokumen\Tendik\Persuratan\AjukanSurat;
+use App\Livewire\Edokumen\Tendik\Persuratan\CustomLetterManager;
 use App\Livewire\Edokumen\Tendik\Persuratan\ListTemplates as PersuratanListTemplates;
 use App\Livewire\Edokumen\Tendik\Persuratan\GenerateLetter as PersuratanGenerateLetter;
 use App\Livewire\Edokumen\Tendik\Persuratan\UploadTemplate as PersuratanUploadTemplate;
@@ -86,7 +92,7 @@ Route::group(['middleware' => Auth::class], function () {
 
 
 Route::get('/apps', Apps::class)->name('apps');
-Route::get('/', Apps::class)->name('apps');
+Route::get('/', Apps::class)->name('home');
 Route::get('/logout', Logout::class)->name('logout');
 
 
@@ -97,15 +103,10 @@ Route::get('/logout', Logout::class)->name('logout');
 Route::get('/approval/letters/{letterId}', ApproveLetters::class)->name('approve.letter');
 
 // Rute untuk melihat surat yang disetujui (jika Anda ingin QR code mengarah ke sini)
-// Anda perlu membuat komponen Livewire atau Controller untuk ini
-Route::get('/letters/view/{letterId}', function($letterId) {
-    $letter = App\Models\Letter::findOrFail($letterId);
-    // Mungkin tampilkan preview atau redirect ke file_path
-    if (Storage::disk('public')->exists($letter->file_path)) {
-        return response()->file(Storage::disk('public')->path($letter->file_path));
-    }
-    abort(404);
-})->name('view.approved.letter');
+// Route public untuk QR Code access
+Route::get('/surat/approved/{letterId}', LetterDetailViewer::class)->name('letters.approved.public');
+
+Route::get('/surat/{letterId}/detail', LetterDetailViewer::class)->name('letters.show');
 
 Route::middleware(['auth.dokumen','dosen'])->group(function () {
     Route::get('/dokumen/dashboard', EdokumenDashboard::class)->name('edokumen.dashboard');
@@ -121,6 +122,13 @@ Route::middleware(['auth.dokumen','dosen'])->group(function () {
     Route::get('/dokumen/pendidikan/bimbingan/detail', DetailBimbingan::class)->name('bimbingan.detail');
     Route::get('/dokumen/pendidikan/bimbingan/tambah', TambahBimbingan::class)->name('bimbingan.tambah');
     Route::get('/dokumen/pendidikan/pengajaran', Pengajaran::class)->name('pengajaran');
+
+
+    Route::get('/dokumen/dosen/persuratan/ajukan', AjukanSurat::class)->name('dosen.persuratan.ajukan-surat');
+    Route::get('/dokumen/dosen/persuratan/menunggu', ListPendingLetters::class)->name('dosen.persuratan.list-pending-letters');
+    Route::get('/dokumen/dosen/persuratan/disetujui', ListApprovedLetters::class)->name('dosen.persuratan.list-approved-letters');
+    Route::get('/dokumen/dosen/persuratan/ditolak', ListSuratDitolak::class)->name('dosen.persuratan.list-rejected-letters');
+  Route::get('/dokumen/persuratan/butuh-persetujuan/detail/{letterId}', ApproveLetters::class)->name('dosen.approve.letter');
 });
 
 Route::middleware(['auth.dokumen','tendik'])->group(function () {
@@ -130,12 +138,24 @@ Route::middleware(['auth.dokumen','tendik'])->group(function () {
     Route::get('/dokumen/tendik/data-pembimbingan/edit/{hashid}', EditDataPembimbingan::class)->name('tendik.edit.pembimbingan');
     Route::get('/dokumen/persuratan/templates/upload-template', PersuratanUploadTemplate::class)->name('admin.upload.template');
     Route::get('/dokumen/persuratan/templates', PersuratanListTemplates::class)->name('admin.templates');
-    Route::get('/dokumen/persuratan/generate-letter/{templateId}', PersuratanGenerateLetter::class)->name('generate.letter');
+    Route::get('/dokumen/persuratan/templates/generate-letter/{templateId}', PersuratanGenerateLetter::class)->name('generate.letter');
     Route::get('/dokumen/persuratan/disetujui/', ListApprovedLetters::class)->name('list.approved.letters');
     Route::get('/dokumen/persuratan/ditolak/', ListSuratDitolak::class)->name('list.surat.tolak');
     Route::get('/dokumen/persuratan/templates/{templateId}/set-hints', SetTemplateHints::class)->name('templates.set-hints');
+    
+    // Verifikasi Tendik
+    Route::get('/dokumen/persuratan/verifikasi-tendik', ListVerificationTendik::class)->name('list.verification.tendik');
+    Route::get('/dokumen/persuratan/verifikasi-tendik/detail/{letterId}', VerifyByTendik::class)->name('verify.by.tendik');
+    
+    // Verifikasi Dekan (untuk melihat surat yang menunggu persetujuan Dekan)
+    Route::get('/dokumen/persuratan/verifikasi-dekan', ListVerificationDekan::class)->name('list.verification.dekan');
+    Route::get('/dokumen/persuratan/verifikasi-dekan/detail/{letterId}', ApproveLetters::class)->name('dekan.approve.letter');
+    
+    Route::get('/dokumen/persuratan/surat-custom', CustomLetterManager::class)->name('tendik.custom.letters');
+    
+    // Legacy routes for backward compatibility
     Route::get('/dokumen/persuratan/butuh-persetujuan', ListPendingLetters::class)->name('list.pending.letters');
-    Route::get('/dokumen/persuratan/butuh-persetujuan/detail/{letterId}', ApproveLetters::class)->name('approve.letter');
+    Route::get('/dokumen/persuratan/butuh-persetujuan/detail/{letterId}', ApproveLetters::class)->name('legacy.approve.letter');
 });
 
 Route::middleware('auth.iku')->group(function(){
@@ -149,3 +169,13 @@ Route::middleware('auth.iku')->group(function(){
     Route::get('/iku/iku-7', Iku7::class)->name('iku7');
     Route::get('/iku/iku-8', Iku8::class)->name('iku8');
 });
+
+// Telegram Bot Testing Routes (only in development)
+if (config('app.debug')) {
+    Route::prefix('telegram')->group(function () {
+        Route::get('/test', [\App\Http\Controllers\TelegramTestController::class, 'index'])->name('telegram.test.index');
+        Route::get('/test-connection', [\App\Http\Controllers\TelegramTestController::class, 'testConnection'])->name('telegram.test.connection');
+        Route::post('/daily-summary', [\App\Http\Controllers\TelegramTestController::class, 'sendDailySummary'])->name('telegram.daily.summary');
+        Route::post('/test-letter/{letterId}', [\App\Http\Controllers\TelegramTestController::class, 'testLetterNotification'])->name('telegram.test.letter');
+    });
+}

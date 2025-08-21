@@ -51,11 +51,9 @@
             left: 0px;
             right: 0px;
             z-index: 9999;
-            display: flex;
+            display: none; /* Hidden by default */
             justify-content: center;
-            display: hidden;
             top: 1.25rem;
-
         }
 
         .notif-content {
@@ -152,7 +150,13 @@
             'header' => 'Sukses',
         ])
     @endif
-    {{ $slot }}
+
+
+     
+        {{ $slot }}
+
+
+
     {{ $scripts ?? '' }}
 
 
@@ -169,6 +173,48 @@
             if (confirm('Apakah anda yakin menghapus data ini ?')) {
                 Livewire.dispatch('confirmDelete', id); // Emit only if confirmed
             }
+        });
+
+        // Alert auto-show and auto-hide functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const alert = document.getElementById('custom-alert');
+            if (alert) {
+                // Show alert with fade-in animation
+                alert.style.display = 'flex';
+                alert.classList.add('fade-in');
+                
+                // Auto-hide alert after 4 seconds
+                setTimeout(function() {
+                    alert.classList.remove('fade-in');
+                    alert.classList.add('fade-out-up');
+                    
+                    // Remove alert from DOM after animation completes
+                    setTimeout(function() {
+                        alert.style.display = 'none';
+                    }, 300);
+                }, 4000);
+            }
+        });
+
+        // Listen for profile update event from Livewire
+        Livewire.on('profile-updated', () => {
+            // Show alert after profile update
+            setTimeout(() => {
+                const alert = document.getElementById('custom-alert');
+                if (alert) {
+                    alert.style.display = 'flex';
+                    alert.classList.add('fade-in');
+                    
+                    setTimeout(function() {
+                        alert.classList.remove('fade-in');
+                        alert.classList.add('fade-out-up');
+                        
+                        setTimeout(function() {
+                            alert.style.display = 'none';
+                        }, 300);
+                    }, 4000);
+                }
+            }, 100);
         });
     </script>
 

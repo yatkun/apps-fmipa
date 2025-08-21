@@ -28,6 +28,21 @@ class ListTemplates extends Component
         //     ->paginate($this->perPage);
     }
 
+    // Method untuk mengunduh template
+    public function downloadTemplate($templateId)
+    {
+        $template = Template::find($templateId);
+        if ($template && \Illuminate\Support\Facades\Storage::disk('public')->exists($template->file_path)) {
+            $filePath = \Illuminate\Support\Facades\Storage::disk('public')->path($template->file_path);
+            $fileName = $template->name . '.docx';
+            
+            return response()->download($filePath, $fileName);
+        } else {
+            session()->flash('error', 'Template tidak ditemukan atau file tidak ada.');
+            return;
+        }
+    }
+
     // Method untuk menghapus template
     public function deleteTemplate($templateId)
     {

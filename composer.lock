@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a57274bbeabbcc39381f458dc8021b74",
+    "content-hash": "5a36f6d7b9cd1d1475d4c0806d46deaa",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -416,6 +416,61 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "cloudmersive/cloudmersive_document_convert_api_client",
+            "version": "3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Cloudmersive/Cloudmersive.APIClient.PHP.DocumentAndDataConvert.git",
+                "reference": "ad8fcb31d2e0b08c7f571a322525c41cb7945efe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Cloudmersive/Cloudmersive.APIClient.PHP.DocumentAndDataConvert/zipball/ad8fcb31d2e0b08c7f571a322525c41cb7945efe",
+                "reference": "ad8fcb31d2e0b08c7f571a322525c41cb7945efe",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "guzzlehttp/guzzle": "^7.5",
+                "php": ">=7.2.5"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2.12",
+                "phpunit/phpunit": "^4.8",
+                "squizlabs/php_codesniffer": "~2.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Swagger\\Client\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Cloudmersive",
+                    "homepage": "https://cloudmersive.com"
+                }
+            ],
+            "homepage": "https://cloudmersive.com",
+            "keywords": [
+                "api",
+                "php",
+                "sdk",
+                "swagger"
+            ],
+            "support": {
+                "issues": "https://github.com/Cloudmersive/Cloudmersive.APIClient.PHP.DocumentAndDataConvert/issues",
+                "source": "https://github.com/Cloudmersive/Cloudmersive.APIClient.PHP.DocumentAndDataConvert/tree/v3.2.0"
+            },
+            "time": "2023-12-11T03:55:39+00:00"
         },
         {
             "name": "dasprid/enum",

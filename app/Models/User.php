@@ -39,7 +39,16 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_dekan' => 'boolean',
         ];
+    }
+
+    /**
+     * Check if user is a Dekan (Dosen with is_dekan = true)
+     */
+    public function isDekan(): bool
+    {
+        return $this->level === 'Dosen' && $this->is_dekan === true;
     }
 
     public function scopeSearch($query, $value)

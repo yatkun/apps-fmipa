@@ -39,7 +39,7 @@ class Login extends Component
                 session()->flash('success', 'Login Berhasil');
                 return redirect()->route('edokumen.dashboard');
                 $this->dispatch('notif');
-            }elseif ($application == 'EDokumen' && Auth::user()->level == 'Tendik') {
+            }elseif ($application == 'EDokumen' && (Auth::user()->level == 'Tendik' || Auth::user()->level == 'Dekan')) {
                 session()->flash('success', 'Login Berhasil');
             
                 return redirect()->route('tendik.dashboard');

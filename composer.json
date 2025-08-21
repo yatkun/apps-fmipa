@@ -8,6 +8,7 @@
         "php": "^8.2",
         "blade-ui-kit/blade-heroicons": "^2.5",
         "blade-ui-kit/blade-ui-kit": "^0.6.4",
+        "cloudmersive/cloudmersive_document_convert_api_client": "^3.2",
         "endroid/qr-code": "^6.0",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",

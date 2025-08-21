@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Edokumen\Tendik\Persuratan;
 
+use IntlDateFormatter;
 use Livewire\Component;
 use App\Models\Template;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
 use App\Models\Letter; // Untuk menyimpan riwayat surat
@@ -47,6 +49,9 @@ class GenerateLetter extends Component
 
         // Muat placeholder hints
         $this->placeholderHints = $this->template->placeholder_hints ?? [];
+
+ 
+        
     }
 
 
@@ -87,6 +92,35 @@ class GenerateLetter extends Component
      */
     public function generate()
     {
+
+        $processedData = $this->formData;
+        $processedData['qr_code'] = '${qr_code}';
+        if (isset($processedData['tanggal_surat']) && !empty($processedData['tanggal_surat'])) {
+            try {
+                // Buat objek Carbon dari string tanggal (misal: "2025-07-29")
+                $date = Carbon::parse($processedData['tanggal_surat']);
+
+                // Buat formatter untuk bahasa Indonesia (id_ID)
+                $formatter = new IntlDateFormatter(
+                    'id_ID', // Locale untuk bahasa Indonesia
+                    IntlDateFormatter::LONG, // Format panjang (contoh: "29 Juli 2025")
+                    IntlDateFormatter::NONE // Tidak ada waktu
+                );
+
+                // Format tanggal
+                $formattedDate = $formatter->format($date->timestamp);
+
+                // Timpa nilai tanggal_surat di processedData dengan format baru
+                $processedData['tanggal_surat'] = $formattedDate;
+
+            } catch (\Exception $e) {
+            
+                // Tetap gunakan format asli atau berikan pesan error ke user
+                session()->flash('error', 'Gagal memformat tanggal: ' . $e->getMessage());
+                // Anda bisa memilih untuk menghentikan proses atau melanjutkan dengan format mentah
+            }
+        }
+       
         try {
             // 1. Dapatkan path lengkap file template dari storage
             $templateSourcePath = Storage::disk('public')->path($this->template->file_path);
@@ -100,7 +134,7 @@ class GenerateLetter extends Component
             $templateProcessor = new TemplateProcessor($templateSourcePath);
 
             // 3. Isi placeholder umum (non-tabel) dengan data dari formData
-            foreach ($this->formData as $placeholder => $value) {
+            foreach ($processedData as $placeholder => $value) {
                 $templateProcessor->setValue($placeholder, (string) $value);
             }
 
@@ -173,9 +207,12 @@ class GenerateLetter extends Component
                 'template_id' => $this->template->id,
                 'file_path' => $outputPathRelative,
                 'data_filled' => $dataToSave,
-                'status' => 'pending',
+                'user_id' => \Illuminate\Support\Facades\Auth::user()->id,
+                'status' => 'verification_tendik', // Status awal untuk verifikasi Tendik
                 // 'user_id' => auth()->id(), // Uncomment jika Anda melacak user
             ]);
+
+            
 
             // Beri tahu pengguna bahwa surat berhasil dibuat
             session()->flash('message', 'Surat berhasil dibuat dan menunggu persetujuan!'); // Ubah pesan

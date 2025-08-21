@@ -99,7 +99,9 @@
                         <li><a wire:navigate href="{{ route('list.pending.letters') }}" key="t-full-calendar" class="{{ request()->is('dokumen/persuratan/butuh-persetujuan/*') ? 'active' : '' }}">Menunggu Persetujuan</a></li>
                         <li><a wire:navigate href="{{ route('list.approved.letters') }}" key="t-full-calendar">Surat Disetujui</a></li>
                         <li><a wire:navigate href="{{ route('list.surat.tolak') }}" key="t-full-calendar">Surat Ditolak</a></li>
+                        <li><a wire:navigate href="{{ route('tendik.custom.letters') }}" key="t-full-calendar" class="{{ request()->is('dokumen/persuratan/surat-custom') ? 'active' : '' }}">Surat Custom</a></li>
                         <li><a wire:navigate href="/dokumen/persuratan/templates" key="t-full-calendar" class="{{ request()->is('dokumen/persuratan/templates/*') ? 'active' : '' }}">Template Surat</a></li>
+                        <li><a wire:navigate href="{{ route('list.verification.tendik') }}" key="t-verification-tendik" class="{{ request()->is('dokumen/persuratan/verifikasi-tendik/*') ? 'active' : '' }}"><i class="bx bx-check-shield"></i> Verifikasi Tendik</a></li>
                     </ul>
                 </li>
                 @else
@@ -151,13 +153,34 @@
                     </a>
                    
                 </li>
-                <li class="">
-                    <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                        <i class="bx bx-share-alt"></i>
-                        <span key="t-multi-level">Multi Level</span>
-                    </a>
-                    
-                </li>
+               <li class="{{ request()->is('dokumen/persuratan/*') ? 'mm-active' : '' }}">
+        <a href="javascript: void(0);" class="has-arrow waves-effect {{ request()->is('dokumen/persuratan/*') ? 'active' : '' }}" aria-expanded="false">
+            <i class="bx bx-calendar"></i>
+            <span key="t-dashboards">Persuratan</span>
+        </a>
+        <ul class="sub-menu mm-collapse" aria-expanded="false">
+            @if(Auth::user()->is_dekan)
+                {{-- Menu khusus untuk Dekan --}}
+                <li><a wire:navigate href="{{ route('dosen.persuratan.ajukan-surat') }}" key="t-full-calendar">Ajukan Surat</a></li>
+                <li><a wire:navigate href="{{ route('dosen.persuratan.list-pending-letters') }}" key="t-full-calendar">Surat Saya - Menunggu</a></li>
+                <li><a wire:navigate href="{{ route('dosen.persuratan.list-approved-letters') }}" key="t-full-calendar">Surat Saya - Disetujui</a></li>
+                <li><a wire:navigate href="{{ route('dosen.persuratan.list-rejected-letters') }}" key="t-full-calendar">Surat Saya - Ditolak</a></li>
+                <hr style="margin: 8px 0; border-color: #ddd;">
+                {{-- Menu approval untuk Dekan --}}
+                <li><a wire:navigate href="{{ route('list.pending.letters') }}" key="t-full-calendar" class="{{ request()->is('dokumen/persuratan/butuh-persetujuan/*') ? 'active' : '' }}"><i class="bx bx-check-circle"></i> Perlu Persetujuan</a></li>
+                <li><a wire:navigate href="{{ route('list.approved.letters') }}" key="t-full-calendar"><i class="bx bx-check"></i> Telah Disetujui</a></li>
+                <li><a wire:navigate href="{{ route('list.surat.tolak') }}" key="t-full-calendar"><i class="bx bx-x-circle"></i> Telah Ditolak</a></li>
+                <li><a wire:navigate href="{{ route('list.verification.dekan') }}" key="t-verification-dekan" class="{{ request()->is('dokumen/persuratan/verifikasi-dekan/*') ? 'active' : '' }}"><i class="bx bx-shield-check"></i> Verifikasi Dekan</a></li>
+            @else
+                {{-- Menu untuk Dosen biasa --}}
+                <li><a wire:navigate href="{{ route('dosen.persuratan.ajukan-surat') }}" key="t-full-calendar">Ajukan Surat</a></li>
+                <li><a wire:navigate href="{{ route('dosen.persuratan.list-pending-letters') }}" key="t-full-calendar">Menunggu Persetujuan</a></li>
+                <li><a wire:navigate href="{{ route('dosen.persuratan.list-approved-letters') }}" key="t-full-calendar">Surat Disetujui</a></li>
+                <li><a wire:navigate href="{{ route('dosen.persuratan.list-rejected-letters') }}" key="t-full-calendar">Surat Ditolak</a></li>
+            @endif
+            
+        </ul>
+    </li>
                 @if (Auth::user()->level == 'admin')
                 <li>
                     <a wire:navigate href="/admin/pengguna" class="waves-effect {{ request()->is('admin/pengguna') ? 'active' : '' }}">

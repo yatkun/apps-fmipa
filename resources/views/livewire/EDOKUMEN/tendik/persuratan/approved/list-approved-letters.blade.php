@@ -9,6 +9,13 @@
             'header' => 'Sukses',
         ])
     @endif
+    
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="page-content">
         <div class="container-fluid">
 
@@ -95,10 +102,20 @@
                                                     <td>{{ $letter->approved_at ? $letter->approved_at->format('d M Y') : 'N/A' }}
                                                     </td>
                                                     <td>
-                                                        <button wire:click="downloadLetter('{{ $letter->file_path }}')"
+                                                        <button wire:click="downloadLetter({{ $letter->id }})"
+                                                            wire:loading.attr="disabled"
+                                                            wire:target="downloadLetter({{ $letter->id }})"
                                                             class="btn btn-sm btn-soft-success">
-                                                            <i class="fas fa-download"></i> Unduh
+                                                            <span wire:loading.remove wire:target="downloadLetter({{ $letter->id }})">
+                                                                <i class="fas fa-download"></i> Unduh
+                                                            </span>
+                                                            <span wire:loading wire:target="downloadLetter({{ $letter->id }})">
+                                                                <i class="fas fa-spinner fa-spin"></i> Mengunduh...
+                                                            </span>
                                                         </button>
+                                                        
+                                                      
+                                                        
                                                         {{-- Jika Anda ingin fitur lihat detail, bisa tambahkan rute baru --}}
                                                         {{-- <a wire:navigate href="{{ route('view.approved.letter', $letter->id) }}" class="btn btn-sm btn-info">Lihat Detail</a> --}}
                                                     </td>
@@ -145,6 +162,11 @@
 
                                         </tbody>
                                     </table>
+                                    
+                                    <!-- Pagination -->
+                                    <div class="mt-3">
+                                        {{ $approvedLetters->links('pagination::bootstrap-5') }}
+                                    </div>
 
                                 </div>
 
