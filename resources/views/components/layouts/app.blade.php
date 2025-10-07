@@ -5,18 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
-    <link rel="shortcut icon" href="https://preline.co/favicon.ico">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="https://proline.co/favicon.ico">
     @stack('styles')
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-    <!-- Icons Css -->
-    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
 
-    @livewireStyles
+    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
     <style>
         ul.breadcrumb {
             padding: 10px 16px;
@@ -51,7 +48,8 @@
             left: 0px;
             right: 0px;
             z-index: 9999;
-            display: none; /* Hidden by default */
+            display: none;
+            /* Hidden by default */
             justify-content: center;
             top: 1.25rem;
         }
@@ -133,7 +131,7 @@
         }
     </style>
 
-
+    @livewireStyles
 </head>
 
 <body data-sidebar="dark" data-layout-mode="light">
@@ -152,18 +150,15 @@
     @endif
 
 
-     
-        {{ $slot }}
+
+    {{ $slot }}
 
 
 
     {{ $scripts ?? '' }}
 
-
-
-    @livewireScripts
-
-    <script data-navigate-once>
+    
+    {{-- <script data-navigate-once>
         Livewire.on('closemodal', function() {
             $('#modal').modal('hide'); // Jika Anda menggunakan Bootstrap modal
             $('#modal2').modal('hide'); // Jika Anda menggunakan Bootstrap modal
@@ -216,23 +211,62 @@
                 }
             }, 100);
         });
-    </script>
+    </script> --}}
 
     <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}" data-navigate-track></script>
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}" data-navigate-once></script>
     <script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}" data-navigate-track></script>
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}" data-navigate-track></script>
     <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}" data-navigate-track></script>
+    <!-- Alpine.js (required for Livewire) -->
 
     <!-- App js -->
     @stack('scripts')
-
-
-
-
     <script src="{{ asset('assets/js/app.js') }}" data-navigate-track></script>
+    <script src="{{ asset('assets/js/livewire.js') }}" data-navigate-track></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Inisialisasi Select2
+            $('.select2').select2();
 
+            // Re-inisialisasi Select2 di setiap navigasi
+            document.addEventListener("livewire:navigated", () => {
+                console.log('Re-initializing Select2 after Livewire navigation');
+                $('.select2').select2();
+            });
+        });
+    </script>
+
+    @livewireScripts
+
+    {{-- <script>
+        // Wait for Livewire to be fully loaded
+        document.addEventListener('livewire:init', () => {
+            console.log('Livewire initialized successfully');
+            
+            // Now it's safe to use Livewire.on
+            Livewire.on('notif', () => {
+                setTimeout(() => {
+                    const alertBox = document.getElementById('custom-alert');
+                    if (alertBox) {
+                        alertBox.classList.remove('hidden');
+                        alertBox.classList.add('fade-in');
+                        setTimeout(() => {
+                            alertBox.classList.add('fade-out-up');
+                        }, 3000);
+                    }
+                }, 100);
+            });
+        });
+        
+        document.addEventListener("livewire:navigated", () => {
+            // Re-inisialisasi Select2 di setiap navigasi
+            console.log('Re-initializing Select2 after Livewire navigation');
+            $('.select2').select2();
+        });
+    </script> --}}
 
 </body>
 

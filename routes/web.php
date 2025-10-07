@@ -16,6 +16,7 @@ use App\Livewire\IKU\Iku5;
 use App\Livewire\IKU\Iku6;
 use App\Livewire\IKU\Iku7;
 use App\Livewire\IKU\Iku8;
+use App\Livewire\IKU\PeriodManager;
 use App\Livewire\Dashboard;
 
 use App\Livewire\Auth\Login;
@@ -41,6 +42,7 @@ use App\Livewire\Edokumen\EditDokumenTertandai;
 use Novay\WordTemplate\WordTemplate as WordTemplate;
 use App\Livewire\Edokumen\Dashboard as EdokumenDashboard;
 use App\Livewire\Edokumen\Dokumenpublik as Dokumenpublik;
+use App\Livewire\EDOKUMEN\Persuratan\AjukanSurat as PersuratanAjukanSurat;
 use App\Livewire\Edokumen\pribadi\Bimbingan\DetailBimbingan;
 use App\Livewire\Edokumen\pribadi\Bimbingan\TambahBimbingan;
 use App\Livewire\Edokumen\Tendik\Bimbingan\DataPembimbingan;
@@ -58,6 +60,8 @@ use App\Livewire\Edokumen\Tendik\Persuratan\Verification\ListVerificationTendik;
 use App\Livewire\Edokumen\Tendik\Persuratan\Verification\ListVerificationDekan;
 use App\Livewire\Edokumen\pribadi\Bimbingan\Bimbingan as BimbinganBimbingan;
 use App\Livewire\Edokumen\Tendik\Persuratan\AjukanSurat;
+use App\Livewire\EDOKUMEN\Tendik\Persuratan\Approval\ListPendingLettersWithComponent;
+use App\Livewire\EDOKUMEN\Tendik\Persuratan\Approved\ListApprovedLettersWithComponent;
 use App\Livewire\Edokumen\Tendik\Persuratan\CustomLetterManager;
 use App\Livewire\Edokumen\Tendik\Persuratan\ListTemplates as PersuratanListTemplates;
 use App\Livewire\Edokumen\Tendik\Persuratan\GenerateLetter as PersuratanGenerateLetter;
@@ -124,11 +128,15 @@ Route::middleware(['auth.dokumen','dosen'])->group(function () {
     Route::get('/dokumen/pendidikan/pengajaran', Pengajaran::class)->name('pengajaran');
 
 
-    Route::get('/dokumen/dosen/persuratan/ajukan', AjukanSurat::class)->name('dosen.persuratan.ajukan-surat');
-    Route::get('/dokumen/dosen/persuratan/menunggu', ListPendingLetters::class)->name('dosen.persuratan.list-pending-letters');
-    Route::get('/dokumen/dosen/persuratan/disetujui', ListApprovedLetters::class)->name('dosen.persuratan.list-approved-letters');
-    Route::get('/dokumen/dosen/persuratan/ditolak', ListSuratDitolak::class)->name('dosen.persuratan.list-rejected-letters');
-  Route::get('/dokumen/persuratan/butuh-persetujuan/detail/{letterId}', ApproveLetters::class)->name('dosen.approve.letter');
+    Route::get('/dokumen/dosen/persuratan/ajukan', PersuratanAjukanSurat::class)->name('dosen.persuratan.ajukan-surat');
+    Route::get('/dokumen/dosen/persuratan/ajukan/{templateId}', PersuratanAjukanSurat::class)->name('dosen.persuratan.ajukan-surat.template');
+    Route::get('/dokumen/dosen/persuratan/detail/{letterId}', \App\Livewire\EDOKUMEN\Dosen\Persuratan\DetailSurat::class)->name('dosen.persuratan.detail-surat');
+    
+    // Test route for debugging loading issues
+    Route::get('/test-loading', \App\Livewire\TestLoading::class)->name('test.loading');
+   
+    Route::get('/dokumen/dosen/persuratan/list-surat', ListPendingLetters::class)->name('dosen.persuratan.list-surat');
+    Route::get('/dokumen/persuratan/butuh-persetujuan/detail/{letterId}', ApproveLetters::class)->name('dosen.approve.letter');
 });
 
 Route::middleware(['auth.dokumen','tendik'])->group(function () {
@@ -160,6 +168,7 @@ Route::middleware(['auth.dokumen','tendik'])->group(function () {
 
 Route::middleware('auth.iku')->group(function(){
     Route::get('/iku/dashboard', Dashboard::class)->name('iku.dashboard');
+    Route::get('/iku/periods', PeriodManager::class)->name('iku.periods');
     Route::get('/iku/iku-1', Iku1::class)->name('iku1');
     Route::get('/iku/iku-2', Iku2::class)->name('iku2');
     Route::get('/iku/iku-3', Iku3::class)->name('iku3');

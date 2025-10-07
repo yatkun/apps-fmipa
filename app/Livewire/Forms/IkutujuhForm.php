@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Models\Ikudua;
 use App\Models\Ikuenam;
+use App\Models\Period;
 use Livewire\Form;
 use App\Models\Ikusatu;
 use App\Models\Ikutujuh;
@@ -36,6 +37,12 @@ class IkutujuhForm extends Form
         
         $validate['bobot'] = 1.0;
         
+        // Auto-assign active period
+        $activePeriod = Period::getActivePeriod();
+        if ($activePeriod) {
+            $validate['period_id'] = $activePeriod->id;
+        }
+
         Ikutujuh::create($validate);
     }
 

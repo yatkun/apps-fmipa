@@ -167,11 +167,14 @@
                                                         data-bs-toggle="modal"
                                                         data-bs-target=".bs-example-modal-center"
                                                         class="btn btn-sm btn-warning waves-effect waves-light btn-edit"
+                                                        style="cursor: pointer;"
                                                         data-id="{{ $i->id }}"><i
                                                             class="mdi mdi-square-edit-outline "></i></a>
                                                     <a wire:click="deleteIku3({{ $i->id }})"
-                                                        class="btn btn-sm btn-danger waves-effect waves-light"><i
-                                                            class="mdi mdi-trash-can"></i></a>
+                                                        class="btn btn-sm btn-danger waves-effect waves-light"
+                                                        style="cursor: pointer;">
+                                                        <i class="mdi mdi-trash-can"></i>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -203,40 +206,38 @@
                 <form wire:submit="save">
                     <div class="modal-body">
                         <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-2 col-form-label">Nama Lengkap</label>
+                            <label for="example-text-input" class="col-md-2 col-form-label">Nama Lengkap <span class="text-danger">*</span></label>
                             <div class="col-md-10">
                                 <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.nama" placeholder="Masukkan nama lengkap dosen"
-                                    name="nama">
+                                    wire:model="form.nama" placeholder="Masukkan nama lengkap dosen">
                             </div>
                         </div>
 
                         <div class="mb-3 row">
-                            <label class="col-md-2 col-form-label">Kriteria</label>
+                            <label class="col-md-2 col-form-label">Kriteria <span class="text-danger">*</span></label>
                             <div class="col-md-10">
-                                <select class="form-select" name="kriteria" wire:model="form.kriteria">
+                                <select class="form-select" wire:model="form.kriteria">
                                     <option selected="">Pilih Kriteria</option>
-                                    <option name="kriteria" value="Tridharma">Tridharma (di PT lain)</option>
-                                    <option name="kriteria" value="Praktisi">Praktisi (Pengalaman Praktisi)</option>
-                                    <option name="kriteria" value="Membimbing">Membimbing Mahasiswa berkegiatan di luar prodi</option>
+                                    <option value="Tridharma">Tridharma (di PT lain)</option>
+                                    <option value="Praktisi">Praktisi (Pengalaman Praktisi)</option>
+                                    <option value="Membimbing">Membimbing Mahasiswa berkegiatan di luar prodi</option>
                                 </select>
                             </div>
                         </div>
 
                  
                         <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-2 col-form-label">Keterangan</label>
+                            <label for="example-text-input" class="col-md-2 col-form-label">Keterangan <span class="text-danger">*</span></label>
                             <div class="col-md-10">
                                 <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.keterangan" placeholder="Contoh: Reviewer"
-                                    name="keterangan">
+                                    wire:model="form.keterangan" placeholder="Contoh: Reviewer">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="example-text-input" class="col-md-2 col-form-label">Bukti Dokumen</label>
                             <div class="col-md-10">
                                 <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.bukti" placeholder="Masukkan link google drive" name="bukti">
+                                    wire:model="form.bukti" placeholder="Masukkan link google drive">
                             </div>
                         </div>
 
@@ -272,7 +273,7 @@
     </script>
 
 
-    <script src="{{ asset('assets/js/livewire.js') }}" data-navigate-track></script>
+    {{-- Livewire script sudah diload di layout --}}
 
     {{-- <script>
         

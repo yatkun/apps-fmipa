@@ -364,5 +364,5 @@
 
 
 @push('scripts')
-    <script src="{{ asset('assets/js/livewire.js') }}" data-navigate-track></script>
+    {{-- Livewire script sudah diload di layout --}}
 @endpush

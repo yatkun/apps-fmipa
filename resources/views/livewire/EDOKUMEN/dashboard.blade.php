@@ -1,3 +1,6 @@
+@push('styles')
+
+@endpush
 @section('title', 'Dashboard')
 
 <div class="main-content">
@@ -182,5 +185,5 @@
 </div>
 
 @push('scripts')
-    <script src="{{ asset('assets/js/livewire.js') }}" data-navigate-track></script>
+    {{-- Livewire script sudah diload di layout --}}
 @endpush

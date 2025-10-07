@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Ikulima;
+use App\Models\Period;
 use Livewire\Form;
 use App\Models\Ikusatu;
 use App\Models\Ikutiga;
@@ -86,6 +87,11 @@ class IkulimaForm extends Form
             $validate['bobot'] = 0.5;
         }
 
+        // Auto-assign active period
+        $activePeriod = Period::getActivePeriod();
+        if ($activePeriod) {
+            $validate['period_id'] = $activePeriod->id;
+        }
 
         Ikulima::create($validate);
     }

@@ -227,9 +227,131 @@ class ApproveLetters extends Component
                 'template_id' => $this->letter->template_id
             ]);
 
+            // --- Logika untuk mengisi data dari data_filled ke template ---
+            $dataFilled = $this->letter->data_filled ?? [];
+            
+            Log::info('Filling data from data_filled', [
+                'letter_id' => $this->letter->id,
+                'data_filled' => $dataFilled,
+                'available_variables' => $templateVariables
+            ]);
+            
+            // Isi semua placeholder yang tersedia dengan data dari data_filled
+            foreach ($templateVariables as $variable) {
+                if (isset($dataFilled[$variable])) {
+                    $value = $dataFilled[$variable];
+                    
+                    // Format tanggal jika variable mengandung 'tanggal'
+                    if (strpos(strtolower($variable), 'tanggal') !== false && !empty($value)) {
+                        try {
+                            // Coba parse dan format tanggal
+                            $date = \Carbon\Carbon::parse($value);
+                            $formatter = new \IntlDateFormatter(
+                                'id_ID',
+                                \IntlDateFormatter::LONG,
+                                \IntlDateFormatter::NONE,
+                                'Asia/Jakarta',
+                                \IntlDateFormatter::GREGORIAN
+                            );
+                            $value = $formatter->format($date->timestamp);
+                        } catch (\Exception $e) {
+                            // Jika gagal format tanggal, gunakan nilai asli
+                            Log::warning('Failed to format date', [
+                                'variable' => $variable,
+                                'original_value' => $value,
+                                'error' => $e->getMessage()
+                            ]);
+                        }
+                    }
+                    
+                    try {
+                        $templateProcessor->setValue($variable, (string) $value);
+                        
+                        Log::info('Set placeholder value', [
+                            'placeholder' => $variable,
+                            'value' => $value
+                        ]);
+                    } catch (\Exception $setValueError) {
+                        // Log error tapi lanjutkan ke placeholder berikutnya
+                        Log::warning('Failed to set placeholder value', [
+                            'placeholder' => $variable,
+                            'value' => $value,
+                            'error' => $setValueError->getMessage()
+                        ]);
+                    }
+                }
+            }
+            
+            // Khusus untuk table dinamis - isi data table jika ada
+            if (!$isCustomLetter && isset($dataFilled['table_data']) && is_array($dataFilled['table_data'])) {
+                $template = $this->letter->template;
+                if ($template && $template->dynamic_table_marker && !empty($template->table_placeholders)) {
+                    $tableData = $dataFilled['table_data'];
+                    
+                    // Filter data tabel yang terisi
+                    $filledTableData = array_filter($tableData, function($item) {
+                        if (!is_array($item)) return false;
+                        foreach ($item as $value) {
+                            if (!empty($value)) return true;
+                        }
+                        return false;
+                    });
+                    
+                    if (!empty($filledTableData)) {
+                        try {
+                            // Validasi table marker sebelum mencoba clone row
+                            if (!$this->validateTableMarker($templateProcessor, $template->dynamic_table_marker)) {
+                                Log::warning('Table marker validation failed', [
+                                    'table_marker' => $template->dynamic_table_marker,
+                                    'available_variables' => $templateVariables
+                                ]);
+                                
+                                // Skip table processing jika marker tidak valid
+                                Log::info('Skipping table data processing - marker validation failed');
+                            } else {
+                                // Clone baris tabel
+                                $templateProcessor->cloneRow($template->dynamic_table_marker, count($filledTableData));
+                                
+                                // Isi data untuk setiap baris
+                                foreach ($filledTableData as $index => $rowData) {
+                                    // Auto numbering
+                                    $templateProcessor->setValue('i#' . ($index + 1), (string) ($index + 1));
+                                    
+                                    // Isi data kolom lainnya
+                                    foreach ($template->table_placeholders as $colPlaceholder) {
+                                        if ($colPlaceholder === 'i') continue;
+                                        $value = $rowData[$colPlaceholder] ?? '';
+                                        $templateProcessor->setValue($colPlaceholder . '#' . ($index + 1), (string) $value);
+                                    }
+                                }
+                                
+                                Log::info('Table data filled successfully', [
+                                    'rows_count' => count($filledTableData),
+                                    'table_marker' => $template->dynamic_table_marker
+                                ]);
+                            }
+                        } catch (\Exception $tableError) {
+                            // Log error tapi jangan stop proses approval
+                            Log::error('Failed to process table data', [
+                                'error' => $tableError->getMessage(),
+                                'table_marker' => $template->dynamic_table_marker,
+                                'available_variables' => $templateVariables,
+                                'table_placeholders' => $template->table_placeholders
+                            ]);
+                            
+                            // Lanjutkan proses tanpa table data
+                            Log::info('Continuing approval process without table data');
+                        }
+                    }
+                }
+            }
+
             // --- Logika untuk menyisipkan QR Code menggunakan Endroid\QrCode ---
-            $qrPlaceholder = 'qr_code'; // Nama placeholder di template Anda untuk QR Code
-            $signaturePlaceholder = 'tanda_tangan_dekan'; // Nama placeholder di template Anda untuk TTD
+            $qrPlaceholder = 'qr_code'; // Nama placeholder di template untuk QR Code
+            $signaturePlaceholder = 'ttd'; // Nama placeholder di template untuk TTD (diubah dari 'tanda_tangan_dekan')
+            
+            // Juga cek placeholder lama untuk backward compatibility
+            $legacySignaturePlaceholder = 'tanda_tangan_dekan';
       
             // Data yang akan di-encode di QR Code (URL ke detail surat ini)
             $qrData = url('/surat/' . $this->letter->hashed_id . '/detail'); // URL ke detail surat ini, misalnya: /surat/12345/detail
@@ -357,24 +479,42 @@ class ApproveLetters extends Component
 
             // --- Logika untuk menyisipkan TTD (jika ada dan placeholder tersedia) ---
             $signatureImagePath = public_path('images/ttd_dekan.png');
-            if (file_exists($signatureImagePath) && in_array($signaturePlaceholder, $templateVariables)) {
+            
+            // Cek placeholder TTD yang tersedia (prioritas: 'ttd', fallback: 'tanda_tangan_dekan')
+            $activeSignaturePlaceholder = null;
+            if (in_array($signaturePlaceholder, $templateVariables)) {
+                $activeSignaturePlaceholder = $signaturePlaceholder; // 'ttd'
+            } elseif (in_array($legacySignaturePlaceholder, $templateVariables)) {
+                $activeSignaturePlaceholder = $legacySignaturePlaceholder; // 'tanda_tangan_dekan'
+            }
+            
+            if (file_exists($signatureImagePath) && $activeSignaturePlaceholder) {
                 try {
-                    $templateProcessor->setImageValue($signaturePlaceholder, [
+                    $templateProcessor->setImageValue($activeSignaturePlaceholder, [
                         'path' => $signatureImagePath,
                         'width' => 150,
                         'height' => 80,
                         'ratio' => true,
                     ]);
-                    Log::info('Digital signature inserted successfully');
+                    Log::info('Digital signature inserted successfully', [
+                        'placeholder_used' => $activeSignaturePlaceholder
+                    ]);
                 } catch (\Exception $e) {
                     Log::warning('Failed to insert digital signature', [
                         'error' => $e->getMessage(),
-                        'signature_path' => $signatureImagePath
+                        'signature_path' => $signatureImagePath,
+                        'placeholder' => $activeSignaturePlaceholder
                     ]);
                 }
             } else {
                 if (!file_exists($signatureImagePath)) {
                     Log::warning('Digital signature file not found', ['path' => $signatureImagePath]);
+                }
+                if (!$activeSignaturePlaceholder) {
+                    Log::info('No TTD placeholder found in template', [
+                        'checked_placeholders' => [$signaturePlaceholder, $legacySignaturePlaceholder],
+                        'available_variables' => $templateVariables
+                    ]);
                 }
                 if (!in_array($signaturePlaceholder, $templateVariables)) {
                     Log::info('Digital signature placeholder not found in template - skipping signature insertion', [
@@ -1167,6 +1307,42 @@ class ApproveLetters extends Component
         } catch (\Exception $e) {
             Log::error('Telegram document send test error: ' . $e->getMessage());
             session()->flash('error', 'Test pengiriman dokumen ke Telegram gagal: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Method untuk memeriksa apakah template memiliki table marker yang valid
+     */
+    private function validateTableMarker($templateProcessor, $tableMarker)
+    {
+        try {
+            $templateVariables = $templateProcessor->getVariables();
+            
+            // Cek apakah table marker ada di template variables
+            if (!in_array($tableMarker, $templateVariables)) {
+                Log::warning('Table marker not found in template', [
+                    'table_marker' => $tableMarker,
+                    'available_variables' => $templateVariables
+                ]);
+                return false;
+            }
+            
+            // Cek apakah table marker mengandung karakter yang valid
+            if (empty(trim($tableMarker)) || strpos($tableMarker, '<') !== false || strpos($tableMarker, '>') !== false) {
+                Log::warning('Table marker contains invalid characters', [
+                    'table_marker' => $tableMarker
+                ]);
+                return false;
+            }
+            
+            return true;
+            
+        } catch (\Exception $e) {
+            Log::error('Error validating table marker', [
+                'table_marker' => $tableMarker,
+                'error' => $e->getMessage()
+            ]);
+            return false;
         }
     }
 }

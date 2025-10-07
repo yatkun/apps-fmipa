@@ -16,7 +16,7 @@ class Iku2 extends Component
     public $searcha = '';
     public $searchb = '';
     public $sortBy = 'created_at';
-    public $sortDir = 'ASC';
+    public $sortDir = 'DESC';
 
     public $mode = 'add';
     public IkuduaForm $form;
@@ -63,8 +63,6 @@ class Iku2 extends Component
         $this->form->program_studi = '';
         $this->form->sks_juara = '';
         $this->form->keterangan = '';
-        $this->form->triwulan = '';
-        $this->form->tahun = '';
         $this->form->bukti = '';
     }
 
@@ -95,12 +93,12 @@ class Iku2 extends Component
 
     public function deleteIku2a($id)
     {
-        $this->dispatch('showDeleteConfirmation', $id); // Emit an event to show the confirmation dialog
+        $this->dispatch('showDeleteConfirmation', id: $id);
     }
 
     public function deleteIku2b($id)
     {
-        $this->dispatch('showDeleteConfirmation', $id); // Emit an event to show the confirmation dialog
+        $this->dispatch('showDeleteConfirmation', id: $id);
     }
 
     public function confirmDelete($id)
@@ -108,13 +106,16 @@ class Iku2 extends Component
         Ikudua::where('id', $id)->delete();
 
         session()->flash('success', 'Data berhasil dihapus!');
-        $this->dispatch('notif'); // Emit any notification event if needed
+        $this->dispatch('notif');
+        
+        // Reset to page 1 after delete to avoid empty page
+        $this->resetPage();
     }
 
 
 
 
-    public function updatea($data)
+    public function updateb($data)
     {
         $this->mode = 'edit';
         $this->dispatch('modalIku2a');
@@ -123,12 +124,10 @@ class Iku2 extends Component
         $this->form->program_studi = $data['program_studi'];
         $this->form->sks_juara = $data['sks_juara'];
         $this->form->keterangan = $data['keterangan'];
-        $this->form->triwulan = $data['triwulan'];
-        $this->form->tahun = $data['tahun'];
         $this->form->bukti = $data['bukti'];
     }
 
-    public function updateb($data)
+    public function updatea($data)
     {
         $this->mode = 'edit';
         $this->dispatch('modalIku2b');
@@ -138,8 +137,6 @@ class Iku2 extends Component
         $this->form->sks_juara = $data['sks_juara'];
         $this->form->level = $data['level'];
         $this->form->keterangan = $data['keterangan'];
-        $this->form->triwulan = $data['triwulan'];
-        $this->form->tahun = $data['tahun'];
         $this->form->bukti = $data['bukti'];
     }
 
@@ -166,7 +163,6 @@ class Iku2 extends Component
 
 
         $this->form->updatea();
-
         $this->dispatch('iku1store');
         session()->flash('success', 'Data berhasil diupdate !');
         $this->resetInput();
@@ -178,8 +174,6 @@ class Iku2 extends Component
 
     public function update_b()
     {
-
-
         $this->form->updateb();
 
         $this->dispatch('iku1store');
@@ -199,7 +193,7 @@ class Iku2 extends Component
             }, function ($query) {
                 $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)
             })
-                ->search($this->searcha)
+                ->search($this->searchb)
                 ->paginate($this->perPage),
 
             'a' => Ikudua::where('kategori', 'Prestasi')->when($this->sortDir, function ($query) {
@@ -207,7 +201,7 @@ class Iku2 extends Component
             }, function ($query) {
                 $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)
             })
-                ->search($this->searchb)
+                ->search($this->searcha)
                 ->paginate($this->perPage),
                 
 

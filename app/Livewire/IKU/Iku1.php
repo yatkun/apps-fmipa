@@ -4,6 +4,7 @@ namespace App\Livewire\IKU;
 
 use App\Models\Setiku;
 use App\Models\Ikusatu;
+use App\Models\Period;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Validate;
@@ -12,23 +13,32 @@ use Illuminate\Support\Facades\Validator;
 
 class Iku1 extends Component
 {
-
     use WithPagination;
+    
     public $perPage = 10;
     public $search = '';
     public $sortBy = 'created_at';
-    public $sortDir = 'ASC';
+    public $sortDir = 'DESC'; // Default DESC untuk data terbaru di atas
 
     protected $paginationTheme = 'bootstrap';
     public IkusatuForm $form;
-
-
-
 
     public $mode = 'add';
     public $isEdit = false;
 
     protected $listeners = ['confirmDelete'];
+    
+    // Reset pagination when search changes
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+    
+    // Reset pagination when perPage changes
+    public function updatingPerPage()
+    {
+        $this->resetPage();
+    }
 
     public function handleSaveOrUpdate()
     {
@@ -42,13 +52,24 @@ class Iku1 extends Component
 
     public function save()
     {
-        $this->mode = 'add';
         $this->form->store();
-        session()->flash('success', 'Data berhasil ditambahkan !');
+        
+        // Reset form dan mode
         $this->resetInput();
+        $this->mode = 'add';
+        
+        session()->flash('success', 'Data berhasil ditambahkan !');
+        
+        // Emit events
         $this->dispatch('notif');
-        $this->dispatch('iku1store');
         $this->dispatch('closemodal');
+        $this->dispatch('iku1store');
+        
+        // Reset Livewire internal state
+        $this->reset(['mode', 'isEdit']);
+        
+        // Reset pagination to page 1
+        $this->resetPage();
     }
    
 
@@ -81,38 +102,25 @@ class Iku1 extends Component
     {
         $this->resetInput();
         $this->mode = 'add';
+        $this->isEdit = false;
+        $this->form->reset(); // Reset form object
     }
+    
     private function resetInput()
     {
-        $this->form->nama = '';
-        $this->form->program_studi = '';
-        $this->form->tanggal_lulus = '';
-        $this->form->pekerjaan = '';
-        $this->form->pendapatan = '';
-        $this->form->masa_tunggu = '';
-        $this->form->bukti = '';
+        $this->form->reset(); // Reset entire form object
+        $this->form->ump = 1000000; // Reset to default value
+        $this->isEdit = false;
     }
 
     public function setsortBy($sortByField)
     {
-
         // Jika field yang sama diklik
         if ($this->sortBy === $sortByField) {
-            // Jika saat ini ASC, ubah menjadi DESC
-            if ($this->sortDir === 'ASC') {
-                $this->sortDir = 'DESC';
-            }
-            // Jika saat ini DESC, reset ke default
-            elseif ($this->sortDir === 'DESC') {
-                $this->sortDir = 'ASC';  // null berarti urutan default
-                $this->sortBy = 'created_at';  // kembali ke default sorting
-            }
-            // Jika saat ini null (default), set ke ASC
-            else {
-                $this->sortDir = 'ASC';
-            }
+            // Toggle between ASC and DESC
+            $this->sortDir = $this->sortDir === 'ASC' ? 'DESC' : 'ASC';
         } else {
-            // Jika field yang berbeda diklik, set ke ASC
+            // Jika field yang berbeda diklik, set field baru dengan ASC
             $this->sortBy = $sortByField;
             $this->sortDir = 'ASC';
         }
@@ -129,21 +137,30 @@ class Iku1 extends Component
         $this->form->tanggal_lulus = $data['tanggal_lulus'];
         $this->form->pekerjaan = $data['pekerjaan'];
         $this->form->pendapatan = $data['pendapatan'];
+        $this->form->ump = $data['ump'] ?? 1000000; // Set UMP or default value
         $this->form->masa_tunggu = $data['masa_tunggu'];
         $this->form->bukti = $data['bukti'];
     }
     public function update()
     {
-
         $this->form->update();
-
-        $this->dispatch('iku1store');
-        session()->flash('success', 'Data berhasil diupdate !');
+        
+        // Reset form dan mode sebelum dispatch
         $this->resetInput();
         $this->mode = 'add';
-        // Emit event untuk JavaScript
+        
+        session()->flash('success', 'Data berhasil diupdate !');
+        
+        // Emit events
         $this->dispatch('notif');
         $this->dispatch('closemodal');
+        $this->dispatch('iku1store');
+        
+        // Reset Livewire internal state
+        $this->reset(['mode', 'isEdit']);
+        
+        // Don't reset page on update, stay on current page
+        // $this->resetPage();
     }
 
     public function cancelEdit()
@@ -154,9 +171,7 @@ class Iku1 extends Component
 
     public function deleteIku1($id)
     {
-        $this->dispatch('showDeleteConfirmation', $id); 
-
-
+        $this->dispatch('showDeleteConfirmation', id: $id);
     }
 
     public function confirmDelete($id)
@@ -164,26 +179,29 @@ class Iku1 extends Component
         Ikusatu::where('id', $id)->delete();
 
         session()->flash('success', 'Data berhasil dihapus!');
-        $this->dispatch('notif'); // Emit any notification event if needed
+        $this->dispatch('notif');
+        
+        // Reset to page 1 after delete to avoid empty page
+        $this->resetPage();
     }
 
     public function render()
     {
+        $activePeriod = Period::getActivePeriod();
+        
         return view('livewire.IKU.iku1', [
-            'ikusatu' => Ikusatu::when($this->sortDir, function ($query) {
-                $query->orderBy($this->sortBy, $this->sortDir);
-            }, function ($query) {
-                $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)
-            })
+            'ikusatu' => Ikusatu::activePeriod()
+                ->orderBy($this->sortBy, $this->sortDir)
                 ->search($this->search)
                 ->paginate($this->perPage),
-            'a' => Ikusatu::where('pekerjaan', 'Bekerja')->count(),
-            'aa' => Ikusatu::where('pekerjaan', 'Bekerja')->sum('bobot'),
-            'b' => Ikusatu::where('pekerjaan', 'Wirausaha')->count(),
-            'bb' => Ikusatu::where('pekerjaan', 'Wirausaha')->sum('bobot'),
-            'c' => Ikusatu::where('pekerjaan', 'Lanjut studi')->count(),
-            'cc' => Ikusatu::where('pekerjaan', 'Lanjut studi')->sum('bobot'),
-            'd' => Ikusatu::all()->count()
+            'a' => Ikusatu::activePeriod()->where('pekerjaan', 'Bekerja')->count(),
+            'aa' => Ikusatu::activePeriod()->where('pekerjaan', 'Bekerja')->sum('bobot'),
+            'b' => Ikusatu::activePeriod()->where('pekerjaan', 'Wirausaha')->count(),
+            'bb' => Ikusatu::activePeriod()->where('pekerjaan', 'Wirausaha')->sum('bobot'),
+            'c' => Ikusatu::activePeriod()->where('pekerjaan', 'Lanjut studi')->count(),
+            'cc' => Ikusatu::activePeriod()->where('pekerjaan', 'Lanjut studi')->sum('bobot'),
+            'd' => Ikusatu::activePeriod()->count(),
+            'activePeriod' => $activePeriod,
         ]);
     }
 }

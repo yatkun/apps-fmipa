@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Ikudua;
+use App\Models\Period;
 use Livewire\Form;
 use App\Models\Ikusatu;
 use Livewire\Attributes\Rule;
@@ -27,25 +28,23 @@ class IkuduaForm extends Form
     #[Validate([''])]
     public string $level = '';
 
-    public $triwulan = '';
     public $bukti = '';
-
-    #[Validate('required')]
-    public $tahun = ''; // Tambahkan ini
 
     public $ikudua_id;
 
     public function store_b()
     {
-
         $validate = $this->validate();
         $validate['kategori'] = 'Kegiatan Luar Prodi';
        
         $validate['bobot'] = $validate['sks_juara'] / 20;
-        
-        $validate['triwulan'] = $this->triwulan;
-        $validate['tahun'] = $this->tahun;
         $validate['bukti'] = $this->bukti;
+
+        // Auto-assign active period
+        $activePeriod = Period::getActivePeriod();
+        if ($activePeriod) {
+            $validate['period_id'] = $activePeriod->id;
+        }
 
         Ikudua::create($validate);
     }
@@ -78,25 +77,28 @@ class IkuduaForm extends Form
             $validate['bobot'] = 0.7;
         }
 
-        $validate['triwulan'] = $this->triwulan;
-        $validate['tahun'] = $this->tahun;
         $validate['bukti'] = $this->bukti;
+
+        // Auto-assign active period
+        $activePeriod = Period::getActivePeriod();
+        if ($activePeriod) {
+            $validate['period_id'] = $activePeriod->id;
+        }
 
         Ikudua::create($validate);
     }
 
-    public function updatea()
+    public function updateb()
     {
         $validate = $this->validate();
         $validate['kategori'] = 'Kegiatan Luar Prodi';
         $validate['bobot'] = $validate['sks_juara'] / 20;
-         $validate['triwulan'] = $this->triwulan;
-        $validate['tahun'] = $this->tahun;
         $validate['bukti'] = $this->bukti;
+        
         Ikudua::where('id', $this->ikudua_id)->update($validate);
     }
 
-    public function updateb()
+    public function updatea()
     {
 
         $validate = $this->validate();
@@ -123,9 +125,9 @@ class IkuduaForm extends Form
         } elseif ($validate['sks_juara'] == 'Peserta') {
             $validate['bobot'] = 0.7;
         }
-        $validate['triwulan'] = $this->triwulan;
-        $validate['tahun'] = $this->tahun;
+        
         $validate['bukti'] = $this->bukti;
+        
         Ikudua::where('id', $this->ikudua_id)->update($validate);
     }
 }

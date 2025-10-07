@@ -76,7 +76,7 @@ class ListPendingLetters extends Component
         $pendingLetters = Letter::where('user_id', Auth::user()->id)
             ->with('template', 'creator', 'tendikVerifier')
             // orwhere status except 'approved'
-            ->where('status', '!=', 'approved')
+           
             ->orderBy($this->sortBy, $this->sortDir)
             ->search($this->search)
             ->paginate($this->perPage);

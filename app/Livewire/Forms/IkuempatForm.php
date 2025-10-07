@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Models\Ikudua;
 use App\Models\Ikuempat;
+use App\Models\Period;
 use Livewire\Form;
 use App\Models\Ikusatu;
 use Livewire\Attributes\Rule;
@@ -32,7 +33,11 @@ class IkuempatForm extends Form
 
         $validate = $this->validate();
         
-       
+        // Auto-assign active period
+        $activePeriod = Period::getActivePeriod();
+        if ($activePeriod) {
+            $validate['period_id'] = $activePeriod->id;
+        }
         
         Ikuempat::create($validate);
       

@@ -349,7 +349,7 @@
             </div>
 
             <!-- Aplikasi E-Dokumen -->
-            <div class="app-card fade-in fade-in-delay-2">
+            {{-- <div class="app-card fade-in fade-in-delay-2">
                 <div class="status-badge pulse">Aktif</div>
                 <div class="app-icon">
                     <img src="{{ asset('assets/images/logo.svg') }}" alt="E-Dokumen Logo">
@@ -370,22 +370,24 @@
                         Memuat...
                     </span>
                 </button>
-            </div>
+            </div> --}}
 
-            <!-- Aplikasi Absensi MIPA -->
-            <div class="app-card fade-in fade-in-delay-3">
+            <!-- Aplikasi E-Dokumen -->
+            <div class="app-card fade-in fade-in-delay-2">
                 <div class="status-badge coming-soon">Segera Hadir</div>
                 <div class="app-icon">
-                    <img src="{{ asset('assets/images/logo.svg') }}" alt="Absensi Logo">
+                    <img src="{{ asset('assets/images/logo.svg') }}" alt="E-Dokumen Logo">
                 </div>
-                <h3 class="app-title">Aplikasi Absensi MIPA</h3>
+                <h3 class="app-title">Aplikasi E-Dokumen</h3>
                 <p class="app-description">
-                    Sistem absensi digital untuk dosen dan staff FMIPA dengan fitur real-time monitoring dan laporan kehadiran.
+                    Platform digital untuk pengelolaan, penyimpanan, dan administrasi dokumen FMIPA secara terintegrasi dan paperless.
                 </p>
                 <button disabled class="app-button" style="opacity: 0.6; cursor: not-allowed;">
                     Segera Hadir
                 </button>
             </div>
+
+          
         </div>
     </div>
 </div>

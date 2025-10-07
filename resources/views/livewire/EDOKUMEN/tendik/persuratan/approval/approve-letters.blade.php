@@ -485,6 +485,61 @@
                                 @endif
                             </div>
 
+                            <!-- Tendik Data Section -->
+                            @if($letter->template && $letter->template->placeholder_permissions)
+                                @php
+                                    $tendikPermissions = $letter->template->placeholder_permissions;
+                                    $hasTendikData = false;
+                                    $tendikDataCount = 0;
+                                    
+                                    foreach($tendikPermissions as $placeholder => $permission) {
+                                        if($permission === 'tendik' && isset($letter->data_filled[$placeholder])) {
+                                            $hasTendikData = true;
+                                            $tendikDataCount++;
+                                        }
+                                    }
+                                @endphp
+                                
+                                @if($hasTendikData)
+                                <div class="data-section">
+                                    <h5 class="mb-4 text-success fw-bold">
+                                        <i class="fas fa-user-shield me-2"></i>
+                                        Data yang Diisi oleh Tendik
+                                        <span class="badge bg-success ms-2">{{ $tendikDataCount }} field</span>
+                                    </h5>
+                                    
+                                    <div class="p-3 alert alert-success" role="alert">
+                                        <i class="fas fa-check-circle me-2"></i>
+                                        <strong>Informasi:</strong> Data berikut telah diisi oleh Tendik saat proses verifikasi.
+                                    </div>
+                                    
+                                    <div class="row">
+                                        @foreach($tendikPermissions as $placeholder => $permission)
+                                            @if($permission === 'tendik' && isset($letter->data_filled[$placeholder]))
+                                                <div class="mb-3 col-md-6">
+                                                    <div class="p-3 border rounded bg-light">
+                                                        <div class="mb-2 d-flex align-items-center">
+                                                            <i class="fas fa-tag text-success me-2"></i>
+                                                            <strong class="text-success">
+                                                                {{ $letter->template->hints[$placeholder] ?? ucfirst(str_replace('_', ' ', $placeholder)) }}
+                                                            </strong>
+                                                        </div>
+                                                        <div class="fw-semibold text-dark">
+                                                            {{ $letter->data_filled[$placeholder] }}
+                                                        </div>
+                                                        <small class="text-muted">
+                                                            <i class="fas fa-code me-1"></i>
+                                                            Field: {{ $placeholder }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                                @endif
+                            @endif
+
                             <!-- Action Section -->
                             <div class="row">
                                 <!-- Download Section -->
@@ -697,7 +752,7 @@
                             <!-- Processing Phase (Hidden initially) -->
                             <div id="processingPhase" style="display: none;">
                                 <div class="text-center">
-                                    <div class="signature-container mb-4">
+                                    <div class="mb-4 signature-container">
                                         <div class="signature-animation">
                                             <i class="fas fa-signature fa-4x text-success signature-icon"></i>
                                             <div class="signature-line"></div>
@@ -705,27 +760,27 @@
                                     </div>
                                     
                                     <h6 class="fw-bold text-success">Menandatangani Surat...</h6>
-                                    <p class="text-muted small mb-3">Sedang memproses tanda tangan digital</p>
+                                    <p class="mb-3 text-muted small">Sedang memproses tanda tangan digital</p>
                                     
-                                    <div class="progress mb-3" style="height: 6px;">
+                                    <div class="mb-3 progress" style="height: 6px;">
                                         <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" 
                                              id="signatureProgress" style="width: 0%"></div>
                                     </div>
                                     
                                     <div id="processSteps">
-                                        <div class="process-step mb-2" data-step="1">
+                                        <div class="mb-2 process-step" data-step="1">
                                             <i class="fas fa-circle-notch fa-spin text-primary me-2"></i>
                                             <span>Memvalidasi dokumen...</span>
                                         </div>
-                                        <div class="process-step mb-2" data-step="2" style="display: none;">
+                                        <div class="mb-2 process-step" data-step="2" style="display: none;">
                                             <i class="fas fa-circle-notch fa-spin text-primary me-2"></i>
                                             <span>Menerapkan tanda tangan digital...</span>
                                         </div>
-                                        <div class="process-step mb-2" data-step="3" style="display: none;">
+                                        <div class="mb-2 process-step" data-step="3" style="display: none;">
                                             <i class="fas fa-circle-notch fa-spin text-primary me-2"></i>
                                             <span>Mengirim notifikasi...</span>
                                         </div>
-                                        <div class="process-step mb-2" data-step="4" style="display: none;">
+                                        <div class="mb-2 process-step" data-step="4" style="display: none;">
                                             <i class="fas fa-check-circle text-success me-2"></i>
                                             <span>Surat berhasil disetujui!</span>
                                         </div>
@@ -831,7 +886,7 @@
 
 
 @push('scripts')
-    <script src="{{ asset('assets/js/livewire.js') }}" data-navigate-track></script>
+    {{-- Livewire script sudah diload di layout --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const approveModal = document.getElementById('approveModal');

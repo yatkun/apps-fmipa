@@ -12,9 +12,21 @@ class VerifyByTendik extends Component
 {
     public $letterId;
     public $letter;
-    public $letterNumber;
+
     public $tendikNotes;
     public $rejectionReason;
+    public $tendikData = []; // Array untuk data yang diisi Tendik
+    public $tendikPlaceholders = []; // Array placeholder khusus Tendik
+    public $templateHints = []; // Array hints untuk placeholder
+
+
+
+    protected $paginationTheme = 'bootstrap';
+
+    public $perPage = 10;
+    public $search = '';
+    public $sortBy = 'created_at';
+    public $sortDir = 'DESC';
 
     protected $telegramService;
 
@@ -27,7 +39,7 @@ class VerifyByTendik extends Component
     {
         $this->letterId = $letterId;
         $this->letter = Letter::findByHashedIdOrFail($letterId);
-        
+
         // Ensure telegram service is initialized
         if (!$this->telegramService) {
             $this->telegramService = new TelegramNotificationService();
@@ -46,22 +58,54 @@ class VerifyByTendik extends Component
         }
 
         // Set nomor surat dari data_filled jika sudah ada
-        $dataFilled = is_string($this->letter->data_filled) 
-            ? json_decode($this->letter->data_filled, true) 
+        $dataFilled = is_string($this->letter->data_filled)
+            ? json_decode($this->letter->data_filled, true)
             : $this->letter->data_filled;
-        
-        $this->letterNumber = $dataFilled['no_surat'] ?? '';
+
+
+
+        // Inisialisasi data Tendik untuk placeholder yang hanya bisa diisi Tendik
+        if ($this->letter->template_id) {
+            $template = $this->letter->template;
+            if ($template && $template->placeholder_permissions) {
+                $permissions = $template->placeholder_permissions;
+                $allPlaceholders = array_merge($template->placeholders ?? [], $template->table_placeholders ?? []);
+
+                // Set template hints
+                $this->templateHints = $template->placeholder_hints ?? [];
+
+                foreach ($allPlaceholders as $placeholder) {
+                    $permission = $permissions[$placeholder] ?? 'dosen';
+                    if ($permission === 'tendik') {
+                        // Tambahkan ke array tendikPlaceholders
+                        $this->tendikPlaceholders[] = $placeholder;
+
+                        // Set nilai dari data_filled jika sudah ada, atau kosong jika belum
+                        $this->tendikData[$placeholder] = $dataFilled[$placeholder] ?? '';
+                    }
+                }
+            }
+        }
     }
 
     public function verifyLetter()
     {
-        $this->validate([
-            'letterNumber' => 'required|string|max:255',
+        // Dynamic validation rules
+        $rules = [
+
             'tendikNotes' => 'nullable|string|max:1000',
-        ], [
-            'letterNumber.required' => 'Nomor surat wajib diisi.',
-            'letterNumber.max' => 'Nomor surat maksimal 255 karakter.',
+        ];
+
+        // Add validation for tendik data
+        foreach ($this->tendikData as $key => $value) {
+            $rules["tendikData.{$key}"] = 'required|string|max:255';
+        }
+
+        $this->validate($rules, [
+
             'tendikNotes.max' => 'Catatan maksimal 1000 karakter.',
+            'tendikData.*.required' => 'Field ini wajib diisi.',
+            'tendikData.*.max' => 'Maksimal 255 karakter.',
         ]);
 
         try {
@@ -71,12 +115,17 @@ class VerifyByTendik extends Component
             }
 
             // Update nomor surat di data_filled
-            $dataFilled = is_string($this->letter->data_filled) 
-                ? json_decode($this->letter->data_filled, true) 
+            $dataFilled = is_string($this->letter->data_filled)
+                ? json_decode($this->letter->data_filled, true)
                 : $this->letter->data_filled;
-            
-            $dataFilled['no_surat'] = $this->letterNumber;
-            
+
+
+
+            // Tambahkan data dari tendikData ke dataFilled
+            foreach ($this->tendikData as $key => $value) {
+                $dataFilled[$key] = $value;
+            }
+
             // Update data surat untuk verifikasi Tendik
             $this->letter->data_filled = $dataFilled;
             $this->letter->verified_by_tendik_id = Auth::user()->id;
@@ -87,7 +136,8 @@ class VerifyByTendik extends Component
 
             Log::info('Letter verified by Tendik', [
                 'letter_id' => $this->letter->id,
-                'letter_number' => $this->letterNumber,
+
+                'tendik_data' => $this->tendikData,
                 'verified_by' => Auth::user()->id,
                 'notes' => $this->tendikNotes
             ]);
@@ -160,8 +210,36 @@ class VerifyByTendik extends Component
         }
     }
 
+    public function setsortBy($sortByField)
+    {
+        // Jika field yang sama diklik
+        if ($this->sortBy === $sortByField) {
+            // Jika saat ini ASC, ubah menjadi DESC
+            if ($this->sortDir === 'ASC') {
+                $this->sortDir = 'DESC';
+            }
+            // Jika saat ini DESC, reset ke default
+            elseif ($this->sortDir === 'DESC') {
+                $this->sortDir = 'ASC';  // null berarti urutan default
+                $this->sortBy = 'created_at';  // kembali ke default sorting
+            }
+            // Jika saat ini null (default), set ke ASC
+            else {
+                $this->sortDir = 'ASC';
+            }
+        } else {
+            // Jika field yang berbeda diklik, set ke ASC
+            $this->sortBy = $sortByField;
+            $this->sortDir = 'ASC';
+        }
+
+        // Reset pagination when sorting changes
+        $this->resetPage();
+    }
+
     public function render()
     {
+
         return view('livewire.edokumen.tendik.persuratan.verification.verify-by-tendik');
     }
 }

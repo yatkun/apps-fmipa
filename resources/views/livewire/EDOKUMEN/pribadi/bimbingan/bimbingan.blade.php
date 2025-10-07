@@ -166,5 +166,5 @@
     <!-- Datatable init js -->
     <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
     <script src="{{ asset('assets/js/pages/modal.init.js') }}"></script>
-    <script src="{{ asset('assets/js/livewire.js') }}" data-navigate-track></script>
+    {{-- Livewire script sudah diload di layout --}}
 @endpush

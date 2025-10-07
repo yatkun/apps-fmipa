@@ -24,7 +24,7 @@ class UploadTemplate extends Component
 
     protected $rules = [
         'name' => 'required|string|max:255',
-        'templateFile' => 'required|file|mimes:docx|max:10240',
+        'templateFile' => 'required|file|mimes:docx,doc|max:10240',
         'dynamicTableMarker' => 'nullable|string|max:255',
     ];
 
@@ -40,6 +40,28 @@ class UploadTemplate extends Component
 
         // --- AKHIR LOG DEBUGGING ---
 
+        // Deteksi placeholder sistem yang tidak boleh diedit
+        $systemPlaceholders = ['qr_code', 'ttd', 'tanda_tangan_dekan']; // Placeholder sistem (termasuk legacy)
+        $placeholderPermissions = [];
+        
+        // Set permissions untuk placeholder umum
+        foreach ($generalPlaceholders as $placeholder) {
+            if (in_array($placeholder, $systemPlaceholders)) {
+                $placeholderPermissions[$placeholder] = 'system'; // Tidak bisa diedit siapa pun
+            } else {
+                $placeholderPermissions[$placeholder] = 'dosen'; // Default untuk dosen
+            }
+        }
+        
+        // Set permissions untuk placeholder tabel
+        foreach ($tablePlaceholders as $placeholder) {
+            if (in_array($placeholder, $systemPlaceholders)) {
+                $placeholderPermissions[$placeholder] = 'system'; // Tidak bisa diedit siapa pun
+            } else {
+                $placeholderPermissions[$placeholder] = 'dosen'; // Default untuk dosen
+            }
+        }
+
         $template = Template::create([
             'name' => $this->name,
             'file_path' => $filePath,
@@ -47,10 +69,23 @@ class UploadTemplate extends Component
             'dynamic_table_marker' => $this->dynamicTableMarker,
             'table_placeholders' => $tablePlaceholders ?? [], // Juga pastikan ini selalu array
             'placeholder_hints' => [],
+            'placeholder_permissions' => $placeholderPermissions, // Tambahkan permissions
         ]);
 
         $this->uploadedTemplate = $template;
-        session()->flash('message', 'Template berhasil diunggah!');
+        
+        // Hitung jumlah placeholder sistem yang terdeteksi
+        $systemPlaceholdersFound = array_filter($placeholderPermissions, function($permission) {
+            return $permission === 'system';
+        });
+        
+        $message = 'Template berhasil diunggah!';
+        if (count($systemPlaceholdersFound) > 0) {
+            $systemPlaceholdersList = implode(', ', array_keys($systemPlaceholdersFound));
+            $message .= ' Placeholder sistem terdeteksi: ' . $systemPlaceholdersList . ' (akan diisi otomatis oleh sistem).';
+        }
+        
+        session()->flash('message', $message);
 
         $this->reset(['name', 'templateFile', 'dynamicTableMarker']);
     }

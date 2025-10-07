@@ -13,7 +13,7 @@
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
-        "livewire/livewire": "^3.5",
+        "livewire/livewire": "^3.6",
         "novay/laravel-word-template": "^1.1",
         "phpoffice/phpword": "^1.4",
         "rappasoft/laravel-livewire-tables": "^3.7",

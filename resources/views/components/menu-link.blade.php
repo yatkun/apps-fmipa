@@ -162,9 +162,9 @@
             @if(Auth::user()->is_dekan)
                 {{-- Menu khusus untuk Dekan --}}
                 <li><a wire:navigate href="{{ route('dosen.persuratan.ajukan-surat') }}" key="t-full-calendar">Ajukan Surat</a></li>
-                <li><a wire:navigate href="{{ route('dosen.persuratan.list-pending-letters') }}" key="t-full-calendar">Surat Saya - Menunggu</a></li>
-                <li><a wire:navigate href="{{ route('dosen.persuratan.list-approved-letters') }}" key="t-full-calendar">Surat Saya - Disetujui</a></li>
-                <li><a wire:navigate href="{{ route('dosen.persuratan.list-rejected-letters') }}" key="t-full-calendar">Surat Saya - Ditolak</a></li>
+                {{-- <li><a wire:navigate href="{{ route('dosen.persuratan.list-pending-letters') }}" key="t-full-calendar">Surat Saya - Menunggu</a></li> --}}
+                {{-- <li><a wire:navigate href="{{ route('dosen.persuratan.list-approved-letters') }}" key="t-full-calendar">Surat Saya - Disetujui</a></li> --}}
+                {{-- <li><a wire:navigate href="{{ route('dosen.persuratan.list-rejected-letters') }}" key="t-full-calendar">Surat Saya - Ditolak</a></li> --}}
                 <hr style="margin: 8px 0; border-color: #ddd;">
                 {{-- Menu approval untuk Dekan --}}
                 <li><a wire:navigate href="{{ route('list.pending.letters') }}" key="t-full-calendar" class="{{ request()->is('dokumen/persuratan/butuh-persetujuan/*') ? 'active' : '' }}"><i class="bx bx-check-circle"></i> Perlu Persetujuan</a></li>
@@ -174,9 +174,9 @@
             @else
                 {{-- Menu untuk Dosen biasa --}}
                 <li><a wire:navigate href="{{ route('dosen.persuratan.ajukan-surat') }}" key="t-full-calendar">Ajukan Surat</a></li>
-                <li><a wire:navigate href="{{ route('dosen.persuratan.list-pending-letters') }}" key="t-full-calendar">Menunggu Persetujuan</a></li>
-                <li><a wire:navigate href="{{ route('dosen.persuratan.list-approved-letters') }}" key="t-full-calendar">Surat Disetujui</a></li>
-                <li><a wire:navigate href="{{ route('dosen.persuratan.list-rejected-letters') }}" key="t-full-calendar">Surat Ditolak</a></li>
+                <li><a wire:navigate href="{{ route('dosen.persuratan.list-surat') }}" key="t-full-calendar">Daftar Surat</a></li>
+                {{-- <li><a wire:navigate href="{{ route('dosen.persuratan.list-approved-letters') }}" key="t-full-calendar">Surat Disetujui</a></li>
+                <li><a wire:navigate href="{{ route('dosen.persuratan.list-rejected-letters') }}" key="t-full-calendar">Surat Ditolak</a></li> --}}
             @endif
             
         </ul>

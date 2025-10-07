@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 use Livewire\Form;
 use App\Models\Ikusatu;
 use App\Models\Ikutiga;
+use App\Models\Period;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Validate;
 
@@ -37,6 +38,12 @@ class IkutigaForm extends Form
             $validate['bobot'] = 0.75;
         }
         
+        // Auto-assign active period
+        $activePeriod = Period::getActivePeriod();
+        if ($activePeriod) {
+            $validate['period_id'] = $activePeriod->id;
+        }
+
         Ikutiga::create($validate);
       
 

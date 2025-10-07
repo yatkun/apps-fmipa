@@ -3,13 +3,16 @@
         .modern-datatable {
             background: white;
             border-radius: 8px;
-            border: 1px solid #dee2e6;
+
             overflow: hidden;
         }
 
         .search-controls {
-            background: #f8f9fa;
-            padding: 1rem;
+            background: #fff;
+            padding-right: 1rem;
+            padding-left: 1rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
             border-bottom: 1px solid #dee2e6;
         }
 
@@ -36,12 +39,12 @@
         }
 
         .modern-table thead th {
-            background: #f8f9fa;
+            background: #fff;
             border-bottom: 1px solid #dee2e6;
             padding: 0.75rem;
-            font-weight: 600;
+            font-weight: 500;
             color: #495057;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             vertical-align: middle;
             cursor: pointer;
         }
@@ -54,7 +57,7 @@
             padding: 0.75rem;
             border-bottom: 1px solid #efefef;
             vertical-align: middle;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
         }
 
         .modern-table tbody tr:hover {
@@ -228,6 +231,11 @@
             border-radius: 8px;
         }
 
+        .judul-card {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .search-controls {
@@ -260,68 +268,45 @@
     <div class="page-content">
         <div class="container-fluid">
             <!-- Page Header -->
-            <div class="mb-4 row">
-                <div class="col-12">
-                    <div class="d-flex align-items-center justify-content-between">
-                        {{-- <div>
-                            <h1 class="page-title">
-                               
-                                
-                               
-                            </h1>
-                            <p class="page-subtitle">
-                                Kelola dan review dokumen yang memerlukan persetujuan Anda
-                            </p>
-                        </div> --}}
-                       
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="page-title-box" style="padding-bottom: 0px !important;">
-                                
-                                <h4 class="mb-sm-0 font-size-18">Daftar Surat Menunggu Persetujuan</h4>
-                            </div>
 
-                        </div>
-                        @if (Auth::user()->level == 'Dosen')
-                            <div>
-                                <a href="{{ route('dosen.persuratan.ajukan-surat') }}" class="btn btn-success">
-                                    <i class="bx bx-plus me-2"></i>
-                                    Ajukan Surat Baru
-                                </a>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
 
             <!-- Main Content Card -->
             <div class="row">
                 <div class="col-12">
                     <div class="modern-datatable">
-                        <!-- Search and Filter Controls -->
-                        <div class="search-controls">
-                            <div class="row align-items-center">
-                                <div class="col-lg-11">
-                                    <div class="search-box">
-                                        <input type="search" wire:model.live.debounce.300ms="search"
-                                            class="form-control"
-                                            placeholder="Cari berdasarkan nama surat...">
-                                        <i class="bx bx-search s-icon"></i>
-                                    </div>
-                                </div>
-                                <div class="col-lg-1">
-                                    <div class="d-flex align-items-center justify-content-end">
+                        <div class="px-3 pt-3 align-items-center d-flex justify-content-between">
+                            <div class=" judul-card">Daftar Surat</div>
 
-                                        <select class="form-select " wire:model.live='perPage'>
-                                            <option value="10">10</option>
-                                            <option value="15">15</option>
-                                            <option value="20">20</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                        </select>
-                                    </div>
+                        </div>
+                        <!-- Search and Filter Controls -->
+                        <div class="mt-2 search-controls">
+                            <div class="gap-3 d-flex">
+                                <div class="search-box flex-grow-1">
+                                    <input type="search" wire:model.live.debounce.300ms="search" class="form-control"
+                                        placeholder="Cari berdasarkan nama surat...">
+                                    <i class="bx bx-search s-icon"></i>
                                 </div>
+                                <div class="d-flex align-items-center justify-content-end">
+
+                                    <select class="form-select " wire:model.live='perPage'>
+                                        <option value="10">10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                                @if (Auth::user()->level == 'Dosen')
+                                    <div>
+                                        <a href="{{ route('dosen.persuratan.ajukan-surat') }}" class="btn btn-success">
+                                            <i class="bx bx-plus me-2"></i>
+                                            Ajukan Surat
+                                        </a>
+                                    </div>
+                                @endif
 
                             </div>
+
                         </div>
                         <!-- Data Table -->
                         <div class="table-responsive">
@@ -372,6 +357,13 @@
                                                     Aksi
                                                 </div>
                                             </th>
+                                        @else
+                                            <th style="width: 10%">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="bx bx-cog me-2 text-muted"></i>
+                                                    Aksi
+                                                </div>
+                                            </th>
                                         @endif
                                     </tr>
                                 </thead>
@@ -387,22 +379,22 @@
                                                         </div>
                                                     </div>
                                                     <div class="flex-grow-1">
-                                                        <h6 class="mb-0">
-                                                            {{ $letter->template->name ?? $letter->title }}</h6>
+                                                        <div class="mb-0">
+                                                            {{ $letter->template->name ?? $letter->title }}</div>
 
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="text-muted fs-6">
+                                                <div class="text-muted">
 
                                                     {{ $letter->created_at->format('d M Y') }}
 
                                                 </div>
                                             </td>
                                             <td>
-                                                
-                                           
+
+
 
                                                 <span class="badge rounded-pill bg-warning">{{ $letter->status }}</span>
                                             </td>
@@ -415,6 +407,48 @@
                                                             <i class="bx bx-show"></i>
                                                             <span class="d-none d-sm-inline">Review</span>
                                                         </a>
+                                                    </div>
+                                                </td>
+                                            @else
+                                                <td>
+                                                    <div class="gap-2 d-flex">
+                                                        @if ($letter->status == 'approved' && $letter->file_path)
+                                                            <button data-bs-toggle="modal"
+                                                                data-bs-target="#previewModal-{{ $letter->id }}"
+                                                                class="btn btn-sm btn-info waves-effect waves-light"><i
+                                                                    class="align-middle bx bxs-file-pdf fs-5"></i></button>
+                                                        @else
+                                                            <button href="#"
+                                                                class="btn btn-sm btn-info waves-effect waves-light"
+                                                                disabled><i
+                                                                    class="align-middle bx bxs-file-pdf fs-5"></i></button>
+                                                        @endif
+                                                        <a wire:navigate
+                                                            href="{{ route('dosen.persuratan.detail-surat', $letter->hashed_id) }}"
+                                                            class="btn btn-sm btn-outline-info waves-effect waves-light">Detail</a>
+
+                                                    </div>
+                                                    <div class="modal fade" id="previewModal-{{ $letter->id }}"
+                                                        tabindex="-1"
+                                                        aria-labelledby="previewModalLabel-{{ $letter->id }}"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog modal-xl">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title"
+                                                                        id="previewModalLabel-{{ $letter->id }}">
+                                                                        Preview Surat PDF</h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body" style="height:80vh;">
+                                                                    <iframe src="{{ $letter->file_path }}"
+                                                                        width="100%" height="100%"
+                                                                        style="border:none;"></iframe>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </td>
                                             @endif
@@ -585,7 +619,7 @@
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault();
                 const searchInput = document.querySelector(
-                'input[wire\\:model\\.live\\.debounce\\.300ms="search"]');
+                    'input[wire\\:model\\.live\\.debounce\\.300ms="search"]');
                 if (searchInput) {
                     searchInput.focus();
                     searchInput.select();

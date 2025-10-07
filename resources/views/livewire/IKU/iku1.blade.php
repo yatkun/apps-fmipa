@@ -5,45 +5,10 @@
         href="{{ asset('assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}">
     <link rel="stylesheet" type="text/css"
         href="{{ asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}">
-    <style>
-        .error-notif {
-            position: fixed;
-            left: 0px;
-            right: 0px;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            display: hidden;
-            top: 1.25rem;
-
-        }
-
-        .notif-content {
-            display: flex;
-            align-items: center;
-            background: #556ee6;
-            color: white;
-            gap: 1rem;
-            padding-left: 0.75rem
-                /* 12px */
-            ;
-            padding-right: 0.75rem
-                /* 12px */
-            ;
-            padding-top: 0.75rem
-                /* 12px */
-            ;
-            padding-bottom: 0.75rem
-                /* 12px */
-            ;
-            border-radius: 0.125rem
-                /* 2px */
-            ;
-        }
-    </style>
+    
 @endpush
 
-<div class="main-content">
+<div class="main-content"> 
     @if (session('success'))
         @include('livewire.includes.alert-success', [
             'header' => 'Sukses',
@@ -223,18 +188,25 @@
                                 </div>
                             </div>
 
-                            <table id="example" class="table table-bordered dt-responsive nowrap w-100"
+                            <table class="table table-bordered table-striped table-hover nowrap w-100"
                                 wire:key={{ uniqid() }}>
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th wire:click="setsortBy('nama')" class="sorting_asc"><x-datatable-items columnName="Nama Lengkap" :sortBy="$sortBy"></x-datatable-items></th>
+                                        <th wire:click="setsortBy('nama')" class="sorting_asc"><x-datatable-items
+                                                columnName="Nama Lengkap" :sortBy="$sortBy"></x-datatable-items></th>
                                         <th wire:click="setsortBy('program_studi')" class="sorting_asc">
-                                            <x-datatable-items columnName="Program Studi" :sortBy="$sortBy"></x-datatable-items>
+                                            <x-datatable-items columnName="Program Studi"
+                                                :sortBy="$sortBy"></x-datatable-items>
                                         </th>
-                                        <th wire:click="setsortBy('tanggal_lulus')" class="sorting_asc"><x-datatable-items columnName="Tanggal Lulus" :sortBy="$sortBy"></x-datatable-items></th>
-                                        <th wire:click="setsortBy('pekerjaan')" class="sorting_asc"><x-datatable-items columnName="Pekerjaan" :sortBy="$sortBy"></x-datatable-items></th>
-                                        <th wire:click="setsortBy('masa_tunggu')" class="sorting_asc"><x-datatable-items columnName="Masa Tunggu" :sortBy="$sortBy"></x-datatable-items></th>
+                                        <th wire:click="setsortBy('tanggal_lulus')" class="sorting_asc">
+                                            <x-datatable-items columnName="Tanggal Lulus"
+                                                :sortBy="$sortBy"></x-datatable-items></th>
+                                        <th wire:click="setsortBy('pekerjaan')" class="sorting_asc"><x-datatable-items
+                                                columnName="Pekerjaan" :sortBy="$sortBy"></x-datatable-items></th>
+                                        <th wire:click="setsortBy('masa_tunggu')" class="sorting_asc">
+                                            <x-datatable-items columnName="Masa Tunggu"
+                                                :sortBy="$sortBy"></x-datatable-items></th>
                                         <th>Bobot</th>
 
                                         <th>Aksi</th>
@@ -251,6 +223,7 @@
                                             <td>{{ $no++ }}</td>
                                             <td>{{ $i->nama }}</td>
                                             <td>{{ $i->program_studi }}</td>
+                                            {{-- mengatur format dd-mm-yyyy --}}
                                             <td>{{ $i->tanggal_lulus }}</td>
                                             <td>{{ $i->pekerjaan }}</td>
                                             <td>{{ $i->masa_tunggu }}</td>
@@ -266,11 +239,14 @@
                                                         data-bs-toggle="modal"
                                                         data-bs-target=".bs-example-modal-center"
                                                         class="btn btn-sm btn-warning waves-effect waves-light btn-edit"
+                                                        style="cursor: pointer;"
                                                         data-id="{{ $i->id }}"><i
                                                             class="mdi mdi-square-edit-outline "></i></a>
                                                     <a wire:click="deleteIku1({{ $i->id }})"
-                                                        class="btn btn-sm btn-danger waves-effect waves-light"><i
-                                                            class="mdi mdi-trash-can"></i></a>
+                                                        class="btn btn-sm btn-danger waves-effect waves-light"
+                                                        style="cursor: pointer;">
+                                                        <i class="mdi mdi-trash-can"></i>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -278,9 +254,8 @@
 
                                 </tbody>
                             </table>
-                            <div class="">
-                         
-                                {{ $ikusatu->links('pagination::bootstrap-5') }}
+                            <div class="mt-3">
+                                {{ $ikusatu->links() }}
                             </div>
                         </div>
                     </div>
@@ -300,20 +275,24 @@
                     <button type="button" wire:click="cancelEdit" class="btn-close"
                         data-bs-dismiss="modal"></button>
                 </div>
-                <form wire:submit="save">
+                <form wire:submit.prevent="handleSaveOrUpdate">
                     <div class="modal-body">
                         <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-2 col-form-label">Nama Lengkap</label>
+                            <label for="example-text-input" class="col-md-2 col-form-label">
+                                Nama Lengkap <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-10">
                                 <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.nama" placeholder="Masukkan nama lengkap alumni" name="nama">
+                                    wire:model="form.nama" placeholder="Masukkan nama lengkap alumni">
                             </div>
                         </div>
 
                         <div class="mb-3 row">
-                            <label class="col-md-2 col-form-label">Program Studi</label>
+                            <label class="col-md-2 col-form-label">
+                                Program Studi <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-10">
-                                <select class="form-select" name="program_studi" wire:model="form.program_studi">
+                                <select class="form-select" wire:model="form.program_studi">
                                     <option>Pilih Program Studi</option>
                                     <option value="Matematika">Matematika</option>
                                     <option value="Statistika">Statistika</option>
@@ -324,18 +303,22 @@
                         </div>
 
                         <div class="mb-3 row">
-                            <label for="example-date-input" class="col-md-2 col-form-label">Tanggal Lulus</label>
+                            <label for="example-date-input" class="col-md-2 col-form-label">
+                                Tanggal Lulus <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-3">
                                 <input class="form-control" type="date" value="2019-08-19"
-                                    id="example-date-input" placeholder="masukkan tanggal lulus" name="tanggal_lulus"
+                                    id="example-date-input" placeholder="masukkan tanggal lulus"
                                     wire:model="form.tanggal_lulus">
                             </div>
                         </div>
 
                         <div class="mb-3 row">
-                            <label class="col-md-2 col-form-label">Pekerjaan</label>
+                            <label class="col-md-2 col-form-label">
+                                Pekerjaan <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-10">
-                                <select class="form-select" wire:model="form.pekerjaan" name="pekerjaan">
+                                <select class="form-select" wire:model="form.pekerjaan">
                                     <option>Pilih Pekerjaan</option>
                                     <option value="Bekerja">Bekerja</option>
                                     <option value="Wirausaha">Wirausaha</option>
@@ -346,23 +329,43 @@
                         </div>
 
                         <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-2 col-form-label">Pendapatan</label>
+                            <label for="example-text-input" class="col-md-2 col-form-label">
+                                Pendapatan <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-5">
                                 <div class="input-group">
                                     <div class="input-group-text">Rp.</div>
                                     <input type="text" class="form-control" id="autoSizingInputGroup"
-                                        placeholder="Masukkan pendapatan" wire:model="form.pendapatan"
-                                        name="pendapatan">
+                                        placeholder="Masukkan pendapatan" wire:model="form.pendapatan">
                                 </div>
 
                             </div>
                         </div>
 
                         <div class="mb-3 row">
-                            <label class="col-md-2 col-form-label">Masa Tunggu</label>
+                            <label for="ump-input" class="col-md-2 col-form-label">
+                                UMP <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-5">
                                 <div class="input-group">
-                                    <select class="form-select" wire:model="form.masa_tunggu" name="masa_tunggu">
+                                    <div class="input-group-text">Rp.</div>
+                                    <input type="number" class="form-control" id="ump-input"
+                                        placeholder="Masukkan UMP" wire:model="form.ump"
+                                        min="0">
+                                </div>
+                                <small class="form-text text-muted">
+                                    Upah Minimum Provinsi tempat bekerja
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label class="col-md-2 col-form-label">
+                                Masa Tunggu <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <select class="form-select" wire:model="form.masa_tunggu">
                                         <option>Pilih masa tunggu</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -388,16 +391,26 @@
                             <label for="example-text-input" class="col-md-2 col-form-label">Bukti Dokumen</label>
                             <div class="col-md-10">
                                 <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.bukti" placeholder="Masukkan link google drive" name="bukti">
+                                    wire:model="form.bukti" placeholder="Masukkan link google drive">
                             </div>
                         </div>
 
 
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" wire:click="handleSaveOrUpdate" wire:loading.attr="disabled"
-                            class="btn btn-primary"> {{ $mode == 'edit' ? 'Update' : 'Simpan' }}</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" 
+                            wire:loading.attr="disabled" 
+                            wire:target="handleSaveOrUpdate"
+                            class="btn btn-primary">
+                            <span wire:loading.remove wire:target="handleSaveOrUpdate">
+                                {{ $mode == 'edit' ? 'Update' : 'Simpan' }}
+                            </span>
+                            <span wire:loading wire:target="handleSaveOrUpdate">
+                                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                Processing...
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" wire:click="cancelEdit" data-bs-dismiss="modal">Batal</button>
                     </div>
                 </form>
             </div><!-- /.modal-content -->
@@ -408,32 +421,29 @@
 
 
 @push('scripts')
-
-    <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}" data-navigate-once></script>
-    <script src="{{ asset('assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}" data-navigate-once>
-    </script>
-    <script src="{{ asset('assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}" data-navigate-once>
-    </script>
-    <script src="{{ asset('assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}" data-navigate-once>
-    </script>
-    <script src="{{ asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}" data-navigate-once>
-    </script>
-    <script src="{{ asset('assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"
-        data-navigate-once></script>
-    <script src="{{ asset('assets/js/pages/datatables.init.js') }}" data-navigate-once></script>
-
     <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}" data-navigate-once>
     </script>
 
-
-    <script src="{{ asset('assets/js/livewire.js') }}" data-navigate-track></script>
-
-    {{-- <script>
+    <script>
+        // Initialize datepicker when Livewire loads
+        document.addEventListener('livewire:init', () => {
+            initDatepicker();
+        });
         
-        $('#myInputTextField').keyup(function() {
-            oTable.search($(this).val()).draw();
-        })
-    </script> --}}
+        // Re-initialize after Livewire updates
+        document.addEventListener('livewire:navigated', () => {
+            initDatepicker();
+        });
+        
+        function initDatepicker() {
+            if (typeof $.fn.datepicker !== 'undefined') {
+                $('.datepicker').datepicker({
+                    format: 'yyyy-mm-dd',
+                    autoclose: true,
+                    todayHighlight: true
+                });
+            }
+        }
+    </script>
 
-    
 @endpush

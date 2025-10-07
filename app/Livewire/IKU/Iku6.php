@@ -14,7 +14,7 @@ class Iku6 extends Component
     public $perPage = 10;
     public $search = '';
     public $sortBy = 'created_at';
-    public $sortDir = 'ASC';
+    public $sortDir = 'DESC';
     public $mode = 'add';
 
     public IkuenamForm $form;
@@ -33,7 +33,7 @@ class Iku6 extends Component
 
     public function deleteIku6($id)
     {
-        $this->dispatch('showDeleteConfirmation', $id); // Emit an event to show the confirmation dialog
+        $this->dispatch('showDeleteConfirmation', id: $id);
     }
 
     public function confirmDelete($id)
@@ -41,7 +41,8 @@ class Iku6 extends Component
         Ikuenam::where('id', $id)->delete();
 
         session()->flash('success', 'Data berhasil dihapus!');
-        $this->dispatch('notif'); // Emit any notification event if needed
+        $this->dispatch('notif');
+        $this->resetPage();
     }
 
     public function update($data)

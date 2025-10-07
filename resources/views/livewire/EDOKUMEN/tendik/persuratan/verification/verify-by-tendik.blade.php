@@ -87,21 +87,7 @@
                 </div>
                 <div class="card-body">
                     <!-- Letter Number Input -->
-                    <div class="mb-4">
-                        <label for="letterNumber" class="form-label fw-bold">
-                            Nomor Surat <span class="text-danger">*</span>
-                        </label>
-                        <input type="text" wire:model="letterNumber"
-                            class="form-control @error('letterNumber') is-invalid @enderror" id="letterNumber"
-                            placeholder="Masukkan nomor surat (contoh: 001/FMIPA/2024)">
-                        @error('letterNumber')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                        <div class="form-text">
-                            <i class="fas fa-info-circle text-primary me-1"></i>
-                            Nomor surat akan digunakan sebagai identitas resmi dokumen
-                        </div>
-                    </div>
+                   
 
                     <!-- Notes Input -->
                     <div class="mb-4">
@@ -118,6 +104,46 @@
                             Catatan ini akan disertakan dalam riwayat verifikasi
                         </div>
                     </div>
+
+                    <!-- Tendik Data Fields -->
+                    @if($tendikPlaceholders && count($tendikPlaceholders) > 0)
+                    <div class="mb-4">
+                        <h6 class="mb-3 card-title">
+                            <i class="fas fa-user-edit text-primary me-2"></i>
+                            Data Yang Diisi Oleh Tendik
+                        </h6>
+                        <div class="p-3 alert alert-info" role="alert">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Informasi:</strong> Template ini memiliki field khusus yang hanya dapat diisi oleh Tendik. 
+                            Mohon lengkapi data berikut sebelum memverifikasi surat.
+                        </div>
+                        
+                        <div class="row">
+                            @foreach($tendikPlaceholders as $placeholder)
+                            <div class="mb-3 col-md-6">
+                                <label for="tendik_{{ $placeholder }}" class="form-label fw-bold">
+                                    {{ $templateHints[$placeholder] ?? $placeholder }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" 
+                                       wire:model="tendikData.{{ $placeholder }}"
+                                       class="form-control @error('tendikData.' . $placeholder) is-invalid @enderror" 
+                                       id="tendik_{{ $placeholder }}"
+                                       placeholder="Masukkan {{ strtolower($templateHints[$placeholder] ?? $placeholder) }}">
+                                @error('tendikData.' . $placeholder)
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                @if(isset($templateHints[$placeholder]) && $templateHints[$placeholder] !== $placeholder)
+                                <div class="form-text">
+                                    <i class="fas fa-lightbulb text-warning me-1"></i>
+                                    Field: {{ $placeholder }}
+                                </div>
+                                @endif
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
 
                     <!-- Action Buttons -->
                     <div class="gap-3 d-flex">

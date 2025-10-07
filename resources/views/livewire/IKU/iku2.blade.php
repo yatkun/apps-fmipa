@@ -266,7 +266,7 @@
                                     <div class="items-center d-flex col-md-2">
 
                                         <input id="myInputTextField" type="search"
-                                            wire:model.live.debounce.300ms="search" class="mb-2 form-control"
+                                            wire:model.live.debounce.300ms="searcha" class="mb-2 form-control"
                                             placeholder="Cari Data" aria-controls="example">
                                     </div>
 
@@ -318,14 +318,6 @@
                                             <x-datatable-items columnName="Keterangan"
                                                 :sortBy="$sortBy"></x-datatable-items>
                                         </th>
-                                        <th wire:click="setsortBy('tahun')" class="sorting_asc">
-                                            <x-datatable-items columnName="Tahun"
-                                                :sortBy="$sortBy"></x-datatable-items>
-                                        </th>
-                                        <th wire:click="setsortBy('triwulan')" class="sorting_asc">
-                                            <x-datatable-items columnName="Triwulan"
-                                                :sortBy="$sortBy"></x-datatable-items>
-                                        </th>
 
                                         <th>Bobot</th>
 
@@ -346,8 +338,6 @@
                                             <td>{{ $i->sks_juara }}</td>
                                             <td>{{ $i->level }}</td>
                                             <td>{{ $i->keterangan }}</td>
-                                            <td>{{ $i->tahun }}</td>
-                                            <td>{{ $i->triwulan }}</td>
                                             <td>{{ $i->bobot }}</td>
 
                                             <td>
@@ -358,13 +348,16 @@
 
                                                     <a wire:click="updatea({{ $i }})" id="btn-edit"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target=".bs-example-modal-center"
+                                                        data-bs-target=".prestasi"
                                                         class="btn btn-sm btn-warning waves-effect waves-light btn-edit"
+                                                        style="cursor: pointer;"
                                                         data-id="{{ $i->id }}"><i
                                                             class="mdi mdi-square-edit-outline "></i></a>
-                                                    <a wire:click="deleteIku2a({{ $i->id }})"
-                                                        class="btn btn-sm btn-danger waves-effect waves-light"><i
-                                                            class="mdi mdi-trash-can"></i></a>
+                                                    <a wire:click="deleteIku2b({{ $i->id }})"
+                                                        class="btn btn-sm btn-danger waves-effect waves-light"
+                                                        style="cursor: pointer;">
+                                                        <i class="mdi mdi-trash-can"></i>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -393,7 +386,7 @@
                                     <div class="items-center d-flex col-md-2">
 
                                         <input id="myInputTextField" type="search"
-                                            wire:model.live.debounce.300ms="search" class="mb-2 form-control"
+                                            wire:model.live.debounce.300ms="searchb" class="mb-2 form-control"
                                             placeholder="Cari Data" aria-controls="example">
                                     </div>
 
@@ -442,14 +435,6 @@
                                             <x-datatable-items columnName="Keterangan"
                                                 :sortBy="$sortBy"></x-datatable-items>
                                         </th>
-                                        <th wire:click="setsortBy('tahun')" class="sorting_asc">
-                                            <x-datatable-items columnName="Tahun"
-                                                :sortBy="$sortBy"></x-datatable-items>
-                                        </th>
-                                        <th wire:click="setsortBy('triwulan')" class="sorting_asc">
-                                            <x-datatable-items columnName="Triwulan"
-                                                :sortBy="$sortBy"></x-datatable-items>
-                                        </th>
 
                                         <th>Bobot</th>
 
@@ -470,8 +455,6 @@
                                             <td>{{ $i->sks_juara }}</td>
 
                                             <td>{{ $i->keterangan }}</td>
-                                            <td>{{ $i->tahun }}</td>
-                                            <td>{{ $i->triwulan }}</td>
                                             <td>{{ $i->bobot }}</td>
 
                                             <td>
@@ -480,15 +463,18 @@
                                                         class="btn btn-sm btn-info waves-effect waves-light {{ $i->bukti ? '' : 'disabled' }}"
                                                         target="_blank"><i class="mdi mdi-file-document"></i></a>
 
-                                                    <a wire:click="updatea({{ $i }})" id="btn-edit"
+                                                    <a wire:click="updateb({{ $i }})" id="btn-edit"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target=".bs-example-modal-center"
+                                                        data-bs-target=".luar-kampus"
                                                         class="btn btn-sm btn-warning waves-effect waves-light btn-edit"
+                                                        style="cursor: pointer;"
                                                         data-id="{{ $i->id }}"><i
                                                             class="mdi mdi-square-edit-outline "></i></a>
                                                     <a wire:click="deleteIku2a({{ $i->id }})"
-                                                        class="btn btn-sm btn-danger waves-effect waves-light"><i
-                                                            class="mdi mdi-trash-can"></i></a>
+                                                        class="btn btn-sm btn-danger waves-effect waves-light"
+                                                        style="cursor: pointer;">
+                                                        <i class="mdi mdi-trash-can"></i>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -517,21 +503,24 @@
                     <button type="button" wire:click="cancelEdit" class="btn-close"
                         data-bs-dismiss="modal"></button>
                 </div>
-                <form wire:submit="savea">
+                <form wire:submit="handleSaveOrUpdatea">
                     <div class="modal-body">
                         <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-2 col-form-label">Nama Lengkap</label>
+                            <label for="example-text-input" class="col-md-2 col-form-label">
+                                Nama Lengkap <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-10">
                                 <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.nama" placeholder="Masukkan nama lengkap mahasiswa"
-                                    name="nama">
+                                    wire:model="form.nama" placeholder="Masukkan nama lengkap mahasiswa">
                             </div>
                         </div>
 
                         <div class="mb-3 row">
-                            <label class="col-md-2 col-form-label">Program Studi</label>
+                            <label class="col-md-2 col-form-label">
+                                Program Studi <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-10">
-                                <select class="form-select" name="program_studi" wire:model="form.program_studi">
+                                <select class="form-select" wire:model="form.program_studi">
                                     <option>Pilih Program Studi</option>
                                     <option value="Matematika">Matematika</option>
                                     <option value="Statistika">Statistika</option>
@@ -542,55 +531,44 @@
                         </div>
 
                         <div class="mb-3 row">
-                            <label class="col-md-2 col-form-label">Juara</label>
+                            <label class="col-md-2 col-form-label">
+                                Juara <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-10">
-                                <select class="form-select" name="sks_juara" wire:model="form.sks_juara">
+                                <select class="form-select" wire:model="form.sks_juara">
                                     <option selected="">Pilih Juara</option>
-                                    <option name="sks_juara" value="1">1</option>
-                                    <option name="sks_juara" value="2">2</option>
-                                    <option name="sks_juara" value="3">3</option>
-                                    <option name="sks_juara" value="Peserta">Peserta</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="Peserta">Peserta</option>
                                 </select>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-md-2 col-form-label">Level</label>
                             <div class="col-md-10">
-                                <select class="form-select" name="level" wire:model="form.level">
+                                <select class="form-select" wire:model="form.level">
                                     <option selected="">Pilih level</option>
-                                    <option name="level" value="Provinsi">Provinsi</option>
-                                    <option name="level" value="Nasional">Nasional</option>
-                                    <option name="level" value="Internasional">Internasional</option>
+                                    <option value="Provinsi">Provinsi</option>
+                                    <option value="Nasional">Nasional</option>
+                                    <option value="Internasional">Internasional</option>
                                 </select>
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-2 col-form-label">Keterangan</label>
+                            <label for="example-text-input" class="col-md-2 col-form-label">
+                                Keterangan <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-10">
                                 <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.keterangan" placeholder="Contoh: Lomba Infografis"
-                                    name="keterangan">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-2 col-form-label">Tahun</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.tahun" placeholder="Contoh: 2025" name="tahun">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-2 col-form-label">Triwulan</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.triwulan" placeholder="Contoh: 1" name="triwulan">
+                                    wire:model="form.keterangan" placeholder="Contoh: Lomba Infografis">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="example-text-input" class="col-md-2 col-form-label">Bukti Dokumen</label>
                             <div class="col-md-10">
                                 <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.bukti" placeholder="Masukkan link google drive" name="bukti">
+                                    wire:model="form.bukti" placeholder="Masukkan link google drive">
                             </div>
                         </div>
 
@@ -617,21 +595,24 @@
                     <button type="button" wire:click="cancelEdit" class="btn-close"
                         data-bs-dismiss="modal"></button>
                 </div>
-                <form wire:submit="saveb">
+                <form wire:submit="handleSaveOrUpdateb">
                     <div class="modal-body">
                         <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-2 col-form-label">Nama Lengkap</label>
+                            <label for="example-text-input" class="col-md-2 col-form-label">
+                                Nama Lengkap <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-10">
                                 <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.nama" placeholder="Masukkan nama lengkap mahasiswa"
-                                    name="nama">
+                                    wire:model="form.nama" placeholder="Masukkan nama lengkap mahasiswa">
                             </div>
                         </div>
 
                         <div class="mb-3 row">
-                            <label class="col-md-2 col-form-label">Program Studi</label>
+                            <label class="col-md-2 col-form-label">
+                                Program Studi <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-10">
-                                <select class="form-select" name="program_studi" wire:model="form.program_studi">
+                                <select class="form-select" wire:model="form.program_studi">
                                     <option>Pilih Program Studi</option>
                                     <option value="Matematika">Matematika</option>
                                     <option value="Statistika">Statistika</option>
@@ -642,39 +623,28 @@
                         </div>
 
                         <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-2 col-form-label">Keterangan</label>
+                            <label for="example-text-input" class="col-md-2 col-form-label">
+                                Keterangan <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-10">
                                 <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.keterangan" placeholder="Contoh: Lomba Infografis"
-                                    name="keterangan">
+                                    wire:model="form.keterangan" placeholder="Contoh: Lomba Infografis">
                             </div>
                         </div>
                          <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-2 col-form-label">SKS</label>
+                            <label for="example-text-input" class="col-md-2 col-form-label">
+                                SKS <span class="text-danger">*</span>
+                            </label>
                             <div class="col-md-10">
                                 <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.sks_juara" placeholder="Contoh: 3" name="sks_juara">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-2 col-form-label">Tahun</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.tahun" placeholder="Contoh: 2025" name="tahun">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="example-text-input" class="col-md-2 col-form-label">Triwulan</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.triwulan" placeholder="Contoh: 1" name="triwulan">
+                                    wire:model="form.sks_juara" placeholder="Contoh: 3">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="example-text-input" class="col-md-2 col-form-label">Bukti Dokumen</label>
                             <div class="col-md-10">
                                 <input class="form-control" type="text" id="example-text-input"
-                                    wire:model="form.bukti" placeholder="Masukkan link google drive" name="bukti">
+                                    wire:model="form.bukti" placeholder="Masukkan link google drive">
                             </div>
                         </div>
 
@@ -711,7 +681,7 @@
     </script>
 
 
-    <script src="{{ asset('assets/js/livewire.js') }}" data-navigate-track></script>
+    {{-- Livewire script sudah diload di layout --}}
 
     {{-- <script>
         

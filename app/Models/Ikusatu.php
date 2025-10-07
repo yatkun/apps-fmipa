@@ -20,7 +20,25 @@ class Ikusatu extends Model
        ->orWhere('pendapatan', 'like', "%{$value}%")
        ->orWhere('masa_tunggu', 'like', "%{$value}%")
        ->orWhere('bobot', 'like', "%{$value}%");
-       
+    }
 
+    /**
+     * Get the period that owns the Ikusatu
+     */
+    public function period()
+    {
+        return $this->belongsTo(Period::class);
+    }
+
+    /**
+     * Scope to filter by active period
+     */
+    public function scopeActivePeriod($query)
+    {
+        $activePeriod = Period::getActivePeriod();
+        if ($activePeriod) {
+            return $query->where('period_id', $activePeriod->id);
+        }
+        return $query;
     }
 }

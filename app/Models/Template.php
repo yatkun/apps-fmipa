@@ -14,6 +14,7 @@ class Template extends Model
         'placeholders' => 'array',
         'table_placeholders' => 'array', // Penting: cast sebagai array
         'placeholder_hints' => 'array',
+        'placeholder_permissions' => 'array', // Cast permissions sebagai array
     ];
     use HasFactory;
 

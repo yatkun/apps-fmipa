@@ -199,7 +199,7 @@ class ListApprovedLetters extends Component
             ->join('templates', 'letters.template_id', '=', 'templates.id')
             ->where('status', 'approved')
             ->where('user_id', Auth::user()->id)
-            ->with('template', 'approver')
+            ->with('template', 'approver', 'user')
             ->when($this->sortDir && $this->sortBy, function ($query) {
                 if ($this->sortBy === 'template_name') {
                     $query->orderBy('templates.name', $this->sortDir);

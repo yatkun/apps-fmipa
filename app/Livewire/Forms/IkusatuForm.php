@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 use Livewire\Form;
 use App\Models\Setiku;
 use App\Models\Ikusatu;
+use App\Models\Period;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Validator;
@@ -32,6 +33,7 @@ class IkusatuForm extends Form
     #[Validate(['nullable', 'string'])]
     public ?string $bukti = null;
 
+    #[Validate(['required', 'numeric', 'min:0'])]
     public $ump = 1000000;
 
     public $ikusatu_id;
@@ -41,6 +43,12 @@ class IkusatuForm extends Form
 
         $validate = $this->validate();
         $validate['ump'] = $this->ump;
+
+        // Auto-assign active period
+        $activePeriod = Period::getActivePeriod();
+        if ($activePeriod) {
+            $validate['period_id'] = $activePeriod->id;
+        }
 
         if (($validate['pekerjaan'] == 'Wirausaha') && ($validate['masa_tunggu'] <= 6)) {
             if ($validate['pendapatan'] >= 1.2 * $validate['ump']) {

@@ -56,6 +56,32 @@
             @error('dynamicTableMarker') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
 
+        <!-- Informasi tentang placeholder sistem -->
+        <div class="mb-3">
+            <div class="alert alert-info">
+                <h6 class="alert-heading">
+                    <i class="fas fa-info-circle"></i>
+                    Informasi Placeholder Sistem
+                </h6>
+                <p class="mb-2">Placeholder berikut akan <strong>otomatis dikelola sistem</strong> dan tidak dapat diedit oleh Dosen maupun Tendik:</p>
+                <ul class="mb-2">
+                    <li><code>${qr_code}</code> - QR Code akan otomatis dihasilkan setelah surat disetujui Dekan</li>
+                    <li><code>${ttd}</code> - Tanda tangan digital akan otomatis ditambahkan setelah surat disetujui Dekan</li>
+                    <li><code>${tanda_tangan_dekan}</code> - <em>(Legacy)</em> Tanda tangan digital (backward compatibility)</li>
+                </ul>
+                <div class="alert alert-warning alert-sm mb-0">
+                    <small>
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Penting:</strong> Placeholder sistem ini akan otomatis dikecualikan dari form input dan tidak akan muncul untuk diedit oleh user manapun.
+                    </small>
+                </div>
+                <small class="text-muted mt-2 d-block">
+                    <i class="fas fa-lightbulb"></i>
+                    <strong>Tips:</strong> Gunakan placeholder ini di template untuk posisi QR code dan tanda tangan digital.
+                </small>
+            </div>
+        </div>
+
         
 
         
@@ -78,6 +104,6 @@
 
 
 @push('scripts')
-    <script src="{{ asset('assets/js/livewire.js') }}" data-navigate-track></script>
+    {{-- Livewire script sudah diload di layout --}}
    
 @endpush

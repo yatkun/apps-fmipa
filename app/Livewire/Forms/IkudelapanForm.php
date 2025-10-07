@@ -2,11 +2,9 @@
 
 namespace App\Livewire\Forms;
 
-use App\Models\Ikudua;
-use App\Models\Ikuenam;
+use App\Models\Ikudelapan;
+use App\Models\Period;
 use Livewire\Form;
-use App\Models\Ikusatu;
-use App\Models\Ikutujuh;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Validate;
 
@@ -26,7 +24,7 @@ class IkudelapanForm extends Form
     public string $link = '';
     
     
-    public $ikutujuh_id;
+    public $ikudelapan_id;
 
     public function store()
     {
@@ -35,7 +33,13 @@ class IkudelapanForm extends Form
         
         $validate['bobot'] = 1.0;
         
-        Ikutujuh::create($validate);
+        // Auto-assign active period
+        $activePeriod = Period::getActivePeriod();
+        if ($activePeriod) {
+            $validate['period_id'] = $activePeriod->id;
+        }
+
+        Ikudelapan::create($validate);
     }
 
   
@@ -44,9 +48,9 @@ class IkudelapanForm extends Form
 
         $validate = $this->validate();
        
-            $validate['bobot'] = 1.0;
+        $validate['bobot'] = 1.0;
         
 
-        Ikutujuh::where('id', $this->ikutujuh_id)->update($validate);
+        Ikudelapan::where('id', $this->ikudelapan_id)->update($validate);
     }
 }

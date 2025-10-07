@@ -12,7 +12,7 @@
                         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                             <h4 class="mb-sm-0 font-size-18">Dashboard Dekan - Persuratan</h4>
                             <div class="page-title-right">
-                                <ol class="breadcrumb m-0">
+                                <ol class="m-0 breadcrumb">
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
                                     <li class="breadcrumb-item active">Dekan</li>
                                 </ol>
@@ -107,7 +107,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex align-items-center">
-                                    <h5 class="card-title mb-0 flex-grow-1">Surat Menunggu Persetujuan</h5>
+                                    <h5 class="mb-0 card-title flex-grow-1">Surat Menunggu Persetujuan</h5>
                                     <div class="flex-shrink-0">
                                         <a href="{{ route('list.pending.letters') }}" class="btn btn-primary btn-sm">
                                             <i class="bx bx-list-ul"></i> Lihat Semua
@@ -118,7 +118,7 @@
                             <div class="card-body">
                                 @if(!empty($dashboardData['recent_pending_letters']) && $dashboardData['recent_pending_letters']->count() > 0)
                                     <div class="table-responsive">
-                                        <table class="table table-nowrap table-hover mb-0">
+                                        <table class="table mb-0 table-nowrap table-hover">
                                             <thead class="table-light">
                                                 <tr>
                                                     <th>Judul Surat</th>
@@ -152,8 +152,8 @@
                                         </table>
                                     </div>
                                 @else
-                                    <div class="text-center py-4">
-                                        <div class="avatar-md mx-auto mb-4">
+                                    <div class="py-4 text-center">
+                                        <div class="mx-auto mb-4 avatar-md">
                                             <div class="avatar-title bg-light rounded-circle text-primary h1">
                                                 <i class="bx bx-check-circle"></i>
                                             </div>
@@ -169,10 +169,10 @@
                     <div class="col-lg-4">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="card-title mb-0">Aksi Cepat</h5>
+                                <h5 class="mb-0 card-title">Aksi Cepat</h5>
                             </div>
                             <div class="card-body">
-                                <div class="d-grid gap-2">
+                                <div class="gap-2 d-grid">
                                     <a href="{{ route('list.pending.letters') }}" class="btn btn-warning">
                                         <i class="bx bx-time-five me-1"></i>
                                         Lihat Surat Pending ({{ $dashboardData['pending_letters'] ?? 0 }})
@@ -254,10 +254,5 @@
 
 
 @push('scripts')
-
-    <script src="{{ asset('assets/js/livewire.js') }}" data-navigate-track></script>
-
-
-
-    
+    {{-- Livewire script sudah diload di layout --}}
 @endpush
