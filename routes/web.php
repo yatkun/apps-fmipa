@@ -42,6 +42,7 @@ use App\Livewire\Edokumen\EditDokumenTertandai;
 use Novay\WordTemplate\WordTemplate as WordTemplate;
 use App\Livewire\Edokumen\Dashboard as EdokumenDashboard;
 use App\Livewire\Edokumen\Dokumenpublik as Dokumenpublik;
+use App\Livewire\Edokumen\Dosen\Persuratan\DetailSurat;
 use App\Livewire\Edokumen\Persuratan\AjukanSurat as PersuratanAjukanSurat;
 use App\Livewire\Edokumen\pribadi\Bimbingan\DetailBimbingan;
 use App\Livewire\Edokumen\pribadi\Bimbingan\TambahBimbingan;
@@ -130,7 +131,7 @@ Route::middleware(['auth.dokumen','dosen'])->group(function () {
 
     Route::get('/dokumen/dosen/persuratan/ajukan', PersuratanAjukanSurat::class)->name('dosen.persuratan.ajukan-surat');
     Route::get('/dokumen/dosen/persuratan/ajukan/{templateId}', PersuratanAjukanSurat::class)->name('dosen.persuratan.ajukan-surat.template');
-    Route::get('/dokumen/dosen/persuratan/detail/{letterId}', \App\Livewire\EDOKUMEN\Dosen\Persuratan\DetailSurat::class)->name('dosen.persuratan.detail-surat');
+    Route::get('/dokumen/dosen/persuratan/detail/{letterId}', DetailSurat::class)->name('dosen.persuratan.detail-surat');
     
     // Test route for debugging loading issues
     Route::get('/test-loading', \App\Livewire\TestLoading::class)->name('test.loading');
