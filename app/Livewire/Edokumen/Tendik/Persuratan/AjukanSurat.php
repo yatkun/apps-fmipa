@@ -140,6 +140,7 @@ class AjukanSurat extends Component
 
     public function submit()
     {
+    
         if ($this->templateId === 'custom') {
             $this->validate([
                 'customTitle' => 'required|string|max:255',
@@ -343,18 +344,20 @@ class AjukanSurat extends Component
             
             session()->flash('success', 'Surat berhasil diajukan.');
         
-        
         return redirect()->route('dosen.persuratan.list-pending-letters');
     }
 
     public function render()
     {
+      
         return view('livewire.EDOKUMEN.tendik.persuratan.ajukan-surat', [
             'templates' => $this->templates,
             'templateId' => $this->templateId,
             'formData' => $this->formData,
             'placeholderHints' => $this->placeholderHints,
+            'title' => 'Ajukan Surat',
         ]);
+        
     }
 
     public function addTableRow()

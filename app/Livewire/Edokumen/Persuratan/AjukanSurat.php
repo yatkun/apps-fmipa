@@ -27,7 +27,7 @@ class AjukanSurat extends Component
     public $dosenPlaceholders = [];
     public $tendikPlaceholders = [];
 
-     protected $telegramService;
+    protected $telegramService;
 
     public function boot()
     {
@@ -36,20 +36,21 @@ class AjukanSurat extends Component
 
     public function mount($templateId = null)
     {
+
         $this->templates = \App\Models\Template::all();
         $this->tableData = [];
-      
-         
+
+
         // Handle route parameter for template selection
         if ($templateId && is_numeric($templateId)) {
-            
+
             $templateExists = $this->templates->where('id', $templateId)->first();
             if ($templateExists) {
                 $this->templateId = $templateId;
                 $this->processSelectedTemplate();
                 $this->templateSelected = true;
 
-               
+
                 // Dispatch event to update frontend select
                 $this->dispatch('template-selected', ['templateId' => $templateId]);
             }
@@ -105,14 +106,7 @@ class AjukanSurat extends Component
         // Set template sebagai terpilih
         $this->templateSelected = true;
 
-        // Success message
-        if ($this->templateId === 'custom') {
-            session()->flash('success', 'Template custom dipilih. Silakan isi detail surat custom.');
-        } else {
-            $template = \App\Models\Template::find($this->templateId);
-            $templateName = $template ? ($template->title ?? $template->name) : 'Template';
-            session()->flash('success', "Template '{$templateName}' berhasil dipilih. Silakan lengkapi data.");
-        }
+
 
         // Force re-render by dispatching browser event
         $this->dispatch('template-changed', ['templateId' => $this->templateId]);
@@ -132,8 +126,8 @@ class AjukanSurat extends Component
 
     public function processSelectedTemplate()
     {
-   
-         // Ambil template dari database
+
+        // Ambil template dari database
         if ($this->templateId && $this->templateId !== 'custom') {
             $template = \App\Models\Template::find($this->templateId);
             if ($template && $template->placeholders) {
@@ -141,12 +135,12 @@ class AjukanSurat extends Component
                 // Pisahkan placeholder berdasarkan permission
                 foreach ($template->placeholders as $placeholder) {
                     $permission = $permissions[$placeholder] ?? 'dosen';
-                    
+
                     // Skip placeholder sistem (qr_code, ttd) - tidak ditampilkan ke user
                     if ($permission === 'system') {
                         continue; // Tidak ditambahkan ke form input manapun
                     }
-                    
+
                     if ($permission === 'dosen') {
                         $this->dosenPlaceholders[] = $placeholder;
                         $this->formData[$placeholder] = '';
@@ -155,9 +149,9 @@ class AjukanSurat extends Component
                     }
                 }
             }
-            
+
             $this->placeholderHints = $template->placeholder_hints ?? [];
-            
+
             // Inisialisasi table dinamis jika ada
             if ($template && $template->dynamic_table_marker && !empty($template->table_placeholders)) {
                 $initialRow = [];
@@ -202,12 +196,13 @@ class AjukanSurat extends Component
 
     public function submit()
     {
-          if ($this->templateId === 'custom') {
+
+        if ($this->templateId === 'custom') {
             $this->validate([
                 'customTitle' => 'required|string|max:255',
                 'customContent' => 'required|string',
             ]);
-            
+                        
             // Untuk surat custom, buat dengan status 'draft' atau 'waiting_template'
             $letter = new \App\Models\Letter();
             $letter->title = $this->customTitle;
@@ -222,9 +217,10 @@ class AjukanSurat extends Component
 
             // Kirim notifikasi ke Tendik untuk membuat template
             $dosen = Auth::user();
-          
 
-            session()->flash('success', 'Permintaan surat custom berhasil dikirim. Tendik akan membuat template dokumen dan surat akan muncul di daftar menunggu persetujuan setelah template selesai.');
+
+            session()->flash('success', 'Surat custom berhasil diajukan!');
+            $this->dispatch('notif');
             return redirect()->route('dosen.persuratan.list-surat');
         } else {
             $template = \App\Models\Template::find($this->templateId);
@@ -232,12 +228,12 @@ class AjukanSurat extends Component
                 session()->flash('error', 'Template surat tidak ditemukan.');
                 return;
             }
-            
+
             // Validasi hanya placeholder yang diizinkan untuk dosen
             $rules = [];
             if ($template->placeholders) {
                 $placeholderPermissions = $template->placeholder_permissions ?? [];
-                
+
                 foreach ($template->placeholders as $ph) {
                     // Hanya validasi jika permission adalah 'dosen' atau tidak ada permission (default dosen)
                     $permission = $placeholderPermissions[$ph] ?? 'dosen';
@@ -246,7 +242,7 @@ class AjukanSurat extends Component
                     }
                 }
             }
-            
+
             // Validasi table dinamis jika ada
             if ($template->dynamic_table_marker && !empty($template->table_placeholders)) {
                 foreach ($this->tableData as $idx => $row) {
@@ -255,7 +251,7 @@ class AjukanSurat extends Component
                     }
                 }
             }
-            
+
             $this->validate($rules);
             $letter = new \App\Models\Letter();
             $letter->template_id = $template->id;
@@ -311,7 +307,7 @@ class AjukanSurat extends Component
                         }
                     }
                 }
-                
+
                 // Simpan ke storage lokal terlebih dahulu
                 $slug = \Illuminate\Support\Str::slug($letter->title);
                 $timestamp = time();
@@ -327,7 +323,7 @@ class AjukanSurat extends Component
 
                 // Simpan dokumen Word yang sudah diisi ke storage lokal
                 $templateProcessor->saveAs($fullOutputPath);
-                
+
                 // Update path di database (simpan path relatif untuk storage lokal)
                 $letter->file_path = $outputPathRelative;
                 $letter->save();
@@ -335,16 +331,17 @@ class AjukanSurat extends Component
                 // Jika gagal generate file, file_path tetap kosong
             }
         }
-
         session()->flash('success', 'Surat berhasil diajukan!');
-        return redirect()->route('dosen.persuratan.list-pending-letters');
+        $this->dispatch('notif');
+        return redirect()->route('dosen.persuratan.list-surat');
     }
-    
+
     public function render()
     {
-        return view('livewire.EDOKUMEN.persuratan.ajukan-surat',[
+        return view('livewire.EDOKUMEN.persuratan.ajukan-surat', [
             'templates' => $this->templates,
             'templateId' => $this->templateId,
+            'title' => 'Ajukan Surat',
         ]);
     }
 }

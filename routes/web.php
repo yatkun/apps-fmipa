@@ -24,6 +24,10 @@ use App\Livewire\DaftarUser;
 use App\Http\Middleware\Auth;
 use App\Http\Middleware\Guest;
 use App\Livewire\Edokumen\Saya;
+use Illuminate\Support\Facades\Auth as AuthFacade;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use App\Livewire\ListTemplates;
 
 
@@ -33,7 +37,6 @@ use App\Livewire\UploadTemplate;
 use App\Livewire\Eskripsi\Eskripsi;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Edokumen\pribadi\Skp;
-use Illuminate\Support\Facades\Storage;
 use App\Livewire\Edokumen\UploadTertandai;
 use App\Livewire\Edokumen\DokumenTertandai;
 use App\Livewire\Edokumen\pribadi\Pendidikan;
@@ -127,18 +130,13 @@ Route::middleware(['auth.dokumen','dosen'])->group(function () {
     Route::get('/dokumen/pendidikan/bimbingan/detail', DetailBimbingan::class)->name('bimbingan.detail');
     Route::get('/dokumen/pendidikan/bimbingan/tambah', TambahBimbingan::class)->name('bimbingan.tambah');
     Route::get('/dokumen/pendidikan/pengajaran', Pengajaran::class)->name('pengajaran');
-
-
     Route::get('/dokumen/dosen/persuratan/ajukan', PersuratanAjukanSurat::class)->name('dosen.persuratan.ajukan-surat');
     Route::get('/dokumen/dosen/persuratan/ajukan/{templateId}', PersuratanAjukanSurat::class)->name('dosen.persuratan.ajukan-surat.template');
     Route::get('/dokumen/dosen/persuratan/detail/{letterId}', DetailSurat::class)->name('dosen.persuratan.detail-surat');
-    
-    // Test route for debugging loading issues
-    Route::get('/test-loading', \App\Livewire\TestLoading::class)->name('test.loading');
-   
     Route::get('/dokumen/dosen/persuratan/list-surat', ListPendingLetters::class)->name('dosen.persuratan.list-surat');
-    Route::get('/dokumen/persuratan/butuh-persetujuan/detail/{letterId}', ApproveLetters::class)->name('dosen.approve.letter');
 });
+
+
 
 Route::middleware(['auth.dokumen','tendik'])->group(function () {
     Route::get('/dokumen/tendik/dashboard', TendikDashboard::class)->name('tendik.dashboard');

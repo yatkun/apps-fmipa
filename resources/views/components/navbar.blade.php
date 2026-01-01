@@ -30,17 +30,6 @@
         </div>
 
         <div class="d-flex">
-
-
-
-            <div class="dropdown d-none d-lg-inline-block ms-1">
-                <button wire:navigate href="/apps" type="button" class="btn header-item noti-icon waves-effect"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="bx bx-customize"></i>
-                </button>
-
-            </div>
-
             <div class="dropdown d-none d-lg-inline-block ms-1">
                 <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">
                     <i class="bx bx-fullscreen"></i>

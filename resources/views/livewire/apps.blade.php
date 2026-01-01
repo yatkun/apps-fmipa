@@ -349,7 +349,7 @@
             </div>
 
             <!-- Aplikasi E-Dokumen -->
-            {{-- <div class="app-card fade-in fade-in-delay-2">
+            <div class="app-card fade-in fade-in-delay-2">
                 <div class="status-badge pulse">Aktif</div>
                 <div class="app-icon">
                     <img src="{{ asset('assets/images/logo.svg') }}" alt="E-Dokumen Logo">
@@ -370,10 +370,10 @@
                         Memuat...
                     </span>
                 </button>
-            </div> --}}
+            </div>
 
             <!-- Aplikasi E-Dokumen -->
-            <div class="app-card fade-in fade-in-delay-2">
+            {{-- <div class="app-card fade-in fade-in-delay-2">
                 <div class="status-badge coming-soon">Segera Hadir</div>
                 <div class="app-icon">
                     <img src="{{ asset('assets/images/logo.svg') }}" alt="E-Dokumen Logo">
@@ -385,7 +385,7 @@
                 <button disabled class="app-button" style="opacity: 0.6; cursor: not-allowed;">
                     Segera Hadir
                 </button>
-            </div>
+            </div> --}}
 
            
         </div>

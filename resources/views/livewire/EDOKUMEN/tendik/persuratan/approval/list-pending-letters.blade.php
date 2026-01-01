@@ -1,10 +1,24 @@
 @push('styles')
     <style>
+        /* Modal Title Styles */
+        .modal-title small {
+            display: block;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            font-weight: normal;
+        }
+
+        /* PDF Viewer Styles */
+        object[type="application/pdf"],
+        embed[type="application/pdf"] {
+            background: white;
+        }
+        
         .modern-datatable {
             background: white;
             border-radius: 8px;
 
-            overflow: hidden;
+            overflow: auto;
         }
 
         .search-controls {
@@ -265,11 +279,14 @@
 @section('title', 'Daftar Surat Menunggu Persetujuan')
 
 <div class="main-content">
+    @if (session('success'))
+        @include('livewire.includes.alert-success', [
+            'header' => 'Sukses',
+        ])
+    @endif
     <div class="page-content">
         <div class="container-fluid">
             <!-- Page Header -->
-
-
             <!-- Main Content Card -->
             <div class="row">
                 <div class="col-12">
@@ -313,7 +330,7 @@
                             <table class="table modern-table" wire:key="{{ uniqid() }}">
                                 <thead>
                                     <tr>
-                                        <th wire:click="setsortBy('title')" class="sortable-column" style="width: 45%">
+                                        <th wire:click="setsortBy('title')" class="sortable-column">
                                             <div class="d-flex align-items-center">
                                                 <i class="bx bx-file-blank me-2 text-muted"></i>
                                                 Nama Surat
@@ -326,7 +343,7 @@
                                             </div>
                                         </th>
                                         <th wire:click="setsortBy('created_at')" class="sortable-column"
-                                            style="width: 20%">
+                                            >
                                             <div class="d-flex align-items-center">
                                                 <i class="bx bx-calendar me-2 text-muted"></i>
                                                 Tanggal Dibuat
@@ -338,7 +355,7 @@
                                                 @endif
                                             </div>
                                         </th>
-                                        <th wire:click="setsortBy('status')" class="sortable-column" style="width: 20%">
+                                        <th wire:click="setsortBy('status')" class="sortable-column" >
                                             <div class="d-flex align-items-center">
                                                 <i class="bx bx-info-circle me-2 text-muted"></i>
                                                 Status
@@ -351,14 +368,14 @@
                                             </div>
                                         </th>
                                         @if (Auth::user()->level !== 'Dosen')
-                                            <th style="width: 15%">
+                                            <th >
                                                 <div class="d-flex align-items-center">
                                                     <i class="bx bx-cog me-2 text-muted"></i>
                                                     Aksi
                                                 </div>
                                             </th>
                                         @else
-                                            <th style="width: 10%">
+                                            <th >
                                                 <div class="d-flex align-items-center">
                                                     <i class="bx bx-cog me-2 text-muted"></i>
                                                     Aksi
@@ -393,10 +410,13 @@
                                                 </div>
                                             </td>
                                             <td>
-
-
-
-                                                <span class="badge rounded-pill bg-warning">{{ $letter->status }}</span>
+                                                @if ($letter->status == 'approved')
+                                                    <span class="badge rounded-pill bg-success">{{ $letter->status }}</span>
+                                                @elseif ($letter->status == 'rejected')
+                                                    <span class="badge rounded-pill bg-danger">{{ $letter->status }}</span>
+                                                @else           
+                                                <span class="badge rounded-pill bg-info">{{ $letter->status }}</span>
+                                                @endif
                                             </td>
                                             @if (Auth::user()->level !== 'Dosen')
                                                 <td>
@@ -413,49 +433,41 @@
                                                 <td>
                                                     <div class="gap-2 d-flex">
                                                         @if ($letter->status == 'approved' && $letter->file_path)
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#previewModal-{{ $letter->id }}"
-                                                                class="btn btn-sm btn-info waves-effect waves-light"><i
-                                                                    class="align-middle bx bxs-file-pdf fs-5"></i></button>
-                                                        @else
-                                                            <button href="#"
+                                                            <!-- Download Button -->
+
+                                                            <!-- Preview Button - Modal -->
+                                                            <button 
+                                                                wire:click="preview({{ $letter->id }})"
+                                                                wire:loading.attr="disabled"
                                                                 class="btn btn-sm btn-info waves-effect waves-light"
-                                                                disabled><i
-                                                                    class="align-middle bx bxs-file-pdf fs-5"></i></button>
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#modalPreview"
+                                                                title="Preview PDF">
+                                                                <span wire:loading.remove wire:target="preview">
+                                                                    <i class="align-middle bx bxs-file-pdf fs-5"></i>
+                                                                </span>
+                                                                <span wire:loading wire:target="preview">
+                                                                    <i class="align-middle bx bx-loader-alt bx-spin fs-5"></i>
+                                                                </span>
+                                                            </button>
+                                                        @else
+                                                            <button
+                                                                class="btn btn-sm btn-secondary waves-effect waves-light"
+                                                                disabled title="PDF belum tersedia">
+                                                                <i class="align-middle bx bxs-file-pdf fs-5"></i>
+                                                            </button>
                                                         @endif
                                                         <a wire:navigate
                                                             href="{{ route('dosen.persuratan.detail-surat', $letter->hashed_id) }}"
                                                             class="btn btn-sm btn-outline-info waves-effect waves-light">Detail</a>
 
                                                     </div>
-                                                    <div class="modal fade" id="previewModal-{{ $letter->id }}"
-                                                        tabindex="-1"
-                                                        aria-labelledby="previewModalLabel-{{ $letter->id }}"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog modal-xl">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title"
-                                                                        id="previewModalLabel-{{ $letter->id }}">
-                                                                        Preview Surat PDF</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body" style="height:80vh;">
-                                                                    <iframe src="{{ $letter->file_path }}"
-                                                                        width="100%" height="100%"
-                                                                        style="border:none;"></iframe>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </td>
                                             @endif
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="{{ Auth::user()->level !== 'Dosen' ? '4' : '3' }}"
+                                            <td colspan="{{ Auth::user()->level !== 'Dosen' ? '4' : '4' }}"
                                                 class="py-5 text-center">
                                                 <div class="empty-state">
                                                     <div class="empty-state-icon">
@@ -543,6 +555,72 @@
             </div>
         </div>
     </div>
+
+
+
+    <!-- Modal Preview PDF -->
+    <div wire:ignore.self 
+        class="modal fade bs-example-modal-center" 
+        tabindex="-1" 
+        role="dialog"
+        id="modalPreview"
+        aria-labelledby="modalPreviewLabel">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalPreviewLabel">
+                        <i class="bx bxs-file-pdf me-2"></i>
+                        {{ $previewLetter->title ?? 'Dokumen' }}
+                    </h5>
+                    <button type="button" 
+                        wire:click="resetPreview" 
+                        class="btn-close" 
+                        data-bs-dismiss="modal" 
+                        aria-label="Tutup modal"
+                        tabindex="0"></button>
+                </div>
+                <div class="p-0 modal-body">
+                    <div wire:loading.flex wire:target="preview" class="align-items-center justify-content-center" style="min-height: 200px;">
+                        <div class="text-center">
+                            <i class="mb-3 bx bx-loader-alt bx-spin display-1 text-primary"></i>
+                            <p class="mb-0">Sedang memuat dokumen...</p>
+                        </div>
+                    </div>
+                    <div wire:loading.remove wire:target="preview">
+                        @if ($previewUrl)
+                            <div class="ratio ratio-16x9" style="min-height: 600px;">
+                                <!-- Fallback untuk Safari -->
+                                <iframe 
+                                    src="{{ $previewUrl }}"
+                                    type="application/pdf"
+                                    class="w-100 h-100"
+                                    style="border: none;">
+                                    <p class="mt-3 text-center">
+                                        Browser Anda tidak mendukung preview PDF secara langsung.
+                                        <a href="{{ $previewUrl }}" class="btn btn-primary btn-sm ms-2" download>
+                                            <i class="bx bx-download me-1"></i> Download PDF
+                                        </a>
+                                    </p>
+                                </iframe>
+                            </div>
+                        @else
+                            <div class="p-5 text-center">
+                                <i class="mb-3 bx bx-file-blank display-1 text-muted"></i>
+                                <p class="text-muted">Tidak ada dokumen untuk ditampilkan</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" wire:click="resetPreview" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bx bx-x me-1"></i>
+                        Tutup
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -551,80 +629,46 @@
 
 @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Search input loading indicator
-            const searchInput = document.querySelector('input[wire\\:model\\.live\\.debounce\\.300ms="search"]');
-            if (searchInput) {
-                searchInput.addEventListener('input', function() {
-                    const searchBox = this.closest('.search-box');
-                    const icon = searchBox.querySelector('.search-icon');
+        document.addEventListener('livewire:init', function() {
+            // Deteksi Safari
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            
+            if (isSafari) {
+                // Tampilkan notifikasi untuk pengguna Safari
+                const modalBody = document.querySelector('#modalPreview .modal-body');
+                if (modalBody) {
+                    const safariNote = document.createElement('div');
+                    safariNote.className = 'alert alert-info mb-0 d-flex align-items-center';
+                    safariNote.innerHTML = `
+                        <i class="bx bx-info-circle me-2 fs-5"></i>
+                        <div>
+                            Anda menggunakan browser Safari. Jika preview PDF tidak muncul, silakan gunakan tombol download.
+                        </div>
+                    `;
+                    modalBody.insertBefore(safariNote, modalBody.firstChild);
+                }
+            }
 
-                    // Show loading
-                    icon.className = 'bx bx-loader-alt bx-spin search-icon';
+            const modalElement = document.getElementById('modalPreview');
+            if (modalElement) {
+                // Handle modal events untuk accessibility
+                modalElement.addEventListener('shown.bs.modal', function () {
+                    const closeButton = this.querySelector('.btn-close');
+                    if (closeButton) {
+                        closeButton.focus();
+                    }
+                });
 
-                    // Reset after delay
-                    setTimeout(() => {
-                        icon.className = 'bx bx-search search-icon';
-                    }, 500);
+                modalElement.addEventListener('hide.bs.modal', function () {
+                    // Kembalikan fokus ke tombol yang membuka modal
+                    const triggerButton = document.querySelector('[data-bs-target="#modalPreview"]');
+                    if (triggerButton) {
+                        triggerButton.focus();
+                    }
                 });
             }
-        });
 
-        // Livewire event listeners
-        document.addEventListener('livewire:init', function() {
-            // Pagination loading
-            Livewire.hook('message.sent', () => {
-                const container = document.querySelector('#pagination-container');
-                if (container) {
-                    container.style.opacity = '0.6';
-                    container.style.pointerEvents = 'none';
-                }
-
-                // Add loading overlay to table
-                const tableContainer = document.querySelector('.table-responsive');
-                if (tableContainer && !tableContainer.querySelector('.loading-overlay')) {
-                    const loadingOverlay = document.createElement('div');
-                    loadingOverlay.className = 'loading-overlay';
-                    loadingOverlay.innerHTML = `
-                    <div class="d-flex align-items-center justify-content-center">
-                        <div class="spinner-border text-primary me-2" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <span class="text-muted">Memuat data...</span>
-                    </div>
-                `;
-                    tableContainer.style.position = 'relative';
-                    tableContainer.appendChild(loadingOverlay);
-                }
-            });
-
-            Livewire.hook('message.processed', () => {
-                const container = document.querySelector('#pagination-container');
-                if (container) {
-                    container.style.opacity = '1';
-                    container.style.pointerEvents = 'auto';
-                }
-
-                // Remove loading overlay
-                const loadingOverlay = document.querySelector('.loading-overlay');
-                if (loadingOverlay) {
-                    loadingOverlay.remove();
-                }
-            });
-        });
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            // Ctrl/Cmd + K to focus search
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                const searchInput = document.querySelector(
-                    'input[wire\\:model\\.live\\.debounce\\.300ms="search"]');
-                if (searchInput) {
-                    searchInput.focus();
-                    searchInput.select();
-                }
-            }
+           
         });
     </script>
 @endpush

@@ -1,5 +1,16 @@
+@section('title', 'Ajukan Surat')
+
 <div>
     <div class="main-content">
+        @if (session('success'))
+            @include('livewire.includes.alert-success', [
+                'header' => 'Sukses',
+            ])
+        @elseif (session('error'))
+            @include('livewire.includes.alert-error', [
+                'header' => 'Gagal',
+            ])    
+        @endif
         <div class="page-content">
             <div class="container-fluid">
                 <div class="mb-4 card fade-in">
@@ -12,8 +23,8 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="mb-3 col-md-10 mb-md-0">
-                                
-                                
+
+
                                 <!-- Isolate Select2 dari Livewire interference -->
                                 <div wire:ignore>
                                     <select id="selectTemplate" class="form-control select2" wire:model="templateId"
@@ -34,15 +45,12 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <button type="button" 
-                                    class="btn w-100 btn-primary" 
-                                    wire:click="pilihTemplate"
-                                    wire:loading.attr="disabled" 
-                                    wire:target="pilihTemplate"
-                                    @if(!$templateId) disabled @endif>
+                                <button type="button" class="btn w-100 btn-primary" wire:click="pilihTemplate"
+                                    wire:loading.attr="disabled" wire:target="pilihTemplate"
+                                    @if (!$templateId) disabled @endif>
                                     <span wire:loading.remove>
                                         <i class="fas fa-check me-2"></i>
-                                        @if($templateId && !$templateSelected)
+                                        @if ($templateId && !$templateSelected)
                                             Pilih Template
                                         @else
                                             Pilih Template
@@ -286,7 +294,7 @@
 
 
 <script data-navigate-once>
-    document.addEventListener('livewire:navigated', function () {
+    document.addEventListener('livewire:navigated', function() {
         var selectElement = document.getElementById('selectTemplate');
         if (selectElement) {
             // Inisialisasi Select2
@@ -301,7 +309,7 @@
             let component = Livewire.find(selectElement.closest('[wire\\:id]').getAttribute('wire:id'));
 
             // Event listener perubahan nilai - hanya update templateId, templateSelected jadi false
-            $(selectElement).on('change', function (e) {
+            $(selectElement).on('change', function(e) {
                 var selectedValue = $(this).val();
                 if (component) {
                     // Update templateId tapi set templateSelected ke false
@@ -314,4 +322,3 @@
         }
     });
 </script>
-

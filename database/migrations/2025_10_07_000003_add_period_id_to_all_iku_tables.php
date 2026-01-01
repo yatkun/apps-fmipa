@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $tables = ['ikuduas', 'ikutigas', 'ikuempats', 'ikulimas', 'ikuenams', 'ikutujahs', 'ikudelapans'];
+        $tables = ['ikuduas', 'ikutigas', 'ikuempats', 'ikulimas', 'ikuenams', 'ikutujuhs', 'ikudelapans'];
         
         foreach ($tables as $table) {
             if (Schema::hasTable($table)) {
@@ -27,15 +27,25 @@ return new class extends Migration
      */
     public function down(): void
     {
-        $tables = ['ikuduas', 'ikutigas', 'ikuempats', 'ikulimas', 'ikuenams', 'ikutujahs', 'ikudelapans'];
+        $tables = ['ikuduas', 'ikutigas', 'ikuempats', 'ikulimas', 'ikuenams', 'ikutujuhs', 'ikudelapans'];
         
         foreach ($tables as $table) {
             if (Schema::hasTable($table)) {
                 Schema::table($table, function (Blueprint $table) {
-                    $table->dropForeign(['period_id']);
+                    // Check if foreign key exists before dropping
+                    $indexName = $table->getTable() . '_period_id_foreign';
+                    if ($this->hasIndex($table->getTable(), $indexName)) {
+                        $table->dropForeign(['period_id']);
+                    }
                     $table->dropColumn('period_id');
                 });
             }
         }
+    }
+
+    private function hasIndex($table, $indexName)
+    {
+        $indexes = \DB::select(\DB::raw("SHOW INDEXES FROM " . $table . " WHERE Key_name = '" . $indexName . "'"));
+        return !empty($indexes);
     }
 };

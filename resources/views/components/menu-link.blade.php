@@ -101,7 +101,7 @@
                         <li><a wire:navigate href="{{ route('list.surat.tolak') }}" key="t-full-calendar">Surat Ditolak</a></li>
                         <li><a wire:navigate href="{{ route('tendik.custom.letters') }}" key="t-full-calendar" class="{{ request()->is('dokumen/persuratan/surat-custom') ? 'active' : '' }}">Surat Custom</a></li>
                         <li><a wire:navigate href="/dokumen/persuratan/templates" key="t-full-calendar" class="{{ request()->is('dokumen/persuratan/templates/*') ? 'active' : '' }}">Template Surat</a></li>
-                        <li><a wire:navigate href="{{ route('list.verification.tendik') }}" key="t-verification-tendik" class="{{ request()->is('dokumen/persuratan/verifikasi-tendik/*') ? 'active' : '' }}"><i class="bx bx-check-shield"></i> Verifikasi Tendik</a></li>
+                        <li><a wire:navigate href="{{ route('list.verification.tendik') }}" key="t-verification-tendik" class="{{ request()->is('dokumen/persuratan/verifikasi-tendik/*') ? 'active' : '' }}"><x-verification-count/>Verifikasi Tendik</a></li>
                     </ul>
                 </li>
                 @else

@@ -1,3 +1,12 @@
+@push('scripts')
+    <script>
+        document.getElementById('uploadNewDoc')?.addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'Tidak ada file dipilih';
+            document.getElementById('uploadFileName').value = fileName;
+        });
+    </script>
+@endpush
+
 @push('styles')
     <style>
         /* Modal Styles */
@@ -29,22 +38,7 @@
             border-bottom: 1px solid #dee2e6;
         }
 
-        .search-box {
-            position: relative;
-        }
 
-        .search-box input {
-            padding-left: 2.5rem;
-        }
-
-        .search-box i{
-            position: absolute;
-            left: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c757d;
-            font-size: 1rem;
-        }
 
         .modern-table {
             margin: 0;
@@ -261,32 +255,39 @@
 
             .modern-table {
                 font-size: 0.8125rem;
-                min-width: 800px; /* Ensure table has minimum width on mobile */
+                min-width: 800px;
+                /* Ensure table has minimum width on mobile */
             }
 
             .modern-table thead th,
             .modern-table tbody td {
                 padding: 0.75rem;
-                white-space: normal; /* Allow text to wrap */
-                min-width: 120px; /* Minimum width for columns */
+                white-space: normal;
+                /* Allow text to wrap */
+                min-width: 120px;
+                /* Minimum width for columns */
             }
 
-            .modern-table th:nth-child(1) { /* Nama Surat column */
+            .modern-table th:nth-child(1) {
+                /* Nama Surat column */
                 width: 35%;
                 min-width: 200px;
             }
 
-            .modern-table th:nth-child(2) { /* Pengaju column */
+            .modern-table th:nth-child(2) {
+                /* Pengaju column */
                 width: 25%;
                 min-width: 180px;
             }
 
-            .modern-table th:nth-child(3) { /* Waktu Pengajuan column */
+            .modern-table th:nth-child(3) {
+                /* Waktu Pengajuan column */
                 width: 20%;
                 min-width: 150px;
             }
 
-            .modern-table th:nth-child(4) { /* Aksi column */
+            .modern-table th:nth-child(4) {
+                /* Aksi column */
                 width: 20%;
                 min-width: 150px;
             }
@@ -314,10 +315,12 @@
     </style>
 @endpush
 
+@section('title', 'Menunggu Persetujuan Tendik')
+
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
-           
+
 
             <div class="row">
                 <div class="col-12">
@@ -330,10 +333,19 @@
                         <div class="mt-2 search-controls">
                             <div class="gap-3 d-flex">
                                 <div class="search-box flex-grow-1">
+                                    <div class="position-relative">
+                                        <input id="myInputTextField" type="search"
+                                            wire:model.live.debounce.300ms="search"
+                                            class="rounded form-control bg-light border-light"
+                                            placeholder="Cari Dokumen...">
+                                        <i class="bx bx-search-alt search-icon"></i>
+                                    </div>
+                                </div>
+                                {{-- <div class="search-box flex-grow-1">
                                     <input type="search" wire:model.live.debounce.300ms="search" class="form-control"
                                         placeholder="Cari berdasarkan nama surat...">
                                     <i class="bx bx-search s-icon"></i>
-                                </div>
+                                </div> --}}
                                 <div class="d-flex align-items-center justify-content-end">
 
                                     <select class="form-select " wire:model.live='perPage'>
@@ -379,8 +391,7 @@
                                                 @endif
                                             </div>
                                         </th>
-                                        <th wire:click="setsortBy('created_at')" class="sortable-column"
-                                            >
+                                        <th wire:click="setsortBy('created_at')" class="sortable-column">
                                             <div class="d-flex align-items-center">
                                                 <i class="bx bx-info-circle me-2 text-muted"></i>
                                                 Waktu Pengajuan
@@ -446,9 +457,8 @@
                                             <td class="text-center">
                                                 @if ($letter->status === 'waiting_template')
                                                     <button type="button" class="btn btn-success btn-sm"
-                                                        wire:click="selectLetter({{ $letter->id }})"
-                                                        wire:loading.attr="disabled" wire:loading.class="disabled"
-                                                        title="Upload Surat">
+                                                        wire:click="preview({{ $letter->id }})" title="Upload Surat"
+                                                        data-bs-toggle="modal" data-bs-target="#modalUpload">
                                                         <i class="fas fa-upload"></i> Upload Surat
                                                     </button>
                                                 @endif
@@ -459,6 +469,11 @@
                                                             <i class="fas fa-check me-1"></i>
                                                             Verifikasi
                                                         </a>
+                                                        <button wire:click="preview({{ $letter->id }})"
+                                                            class="btn btn-sm btn-info waves-effect waves-light"
+                                                            data-bs-toggle="modal" data-bs-target="#modalPreview">
+                                                            <i class="align-middle bx bxs-file-pdf fs-5"></i>
+                                                        </button>
                                                         <a href="{{ route('letters.show', $letter->hashed_id) }}"
                                                             class="btn btn-sm btn-outline-secondary" target="_blank">
                                                             <i class="fas fa-eye"></i>
@@ -557,11 +572,10 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Upload Modal -->
-    <div class="modal @if ($showUploadModal && $selectedLetter) show d-block @else d-none @endif" tabindex="-1"
-        style="background-color: rgba(0,0,0,0.5); z-index: 1050;" id="uploadModal"
-        wire:key="modal-{{ $selectedLetter ? $selectedLetter->id : 'none' }}">
+    <iv wire:ignore.self class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" id="modalUpload"
+        aria-labelledby="modalPreviewLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -581,7 +595,8 @@
                                     <div class="col-md-6">
                                         <strong>Dosen:</strong> {{ $selectedLetter->user->name }}<br>
                                         <strong>Judul:</strong> {{ $selectedLetter->title }}<br>
-                                        <strong>Tanggal:</strong> {{ $selectedLetter->created_at->format('d/m/Y H:i') }}
+                                        <strong>Tanggal:</strong>
+                                        {{ $selectedLetter->created_at->format('d/m/Y H:i') }}
                                     </div>
                                     <div class="col-md-6">
                                         <strong>Isi Surat:</strong><br>
@@ -636,14 +651,23 @@
                             </div>
 
                             <div class="gap-2 d-flex justify-content-end">
-                                <button type="button" class="btn btn-secondary" wire:click="closeModal">
-                                    <i class="fas fa-times me-1"></i>
-                                    Batal
+
+
+                                <button type="button" wire:click="resetPreview" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">
+                                    <i class="bx bx-x me-1"></i>
+                                    Tutup
                                 </button>
-                                <button type="submit" class="btn btn-success" 
-                                    wire:loading.attr="disabled"
+
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#modalReject" wire:loading.attr="disabled">
+                                    <i class="bx bx-x me-1"></i>
+                                    Tolak Surat
+                                </button>
+
+                                <button type="submit" class="btn btn-success" wire:loading.attr="disabled"
                                     wire:target="letterFile,uploadLetter"
-                                    @if(!$letterFile || $errors->has('letterFile')) disabled @endif>
+                                    @if (!$letterFile || $errors->has('letterFile')) disabled @endif>
                                     <span wire:loading.remove wire:target="uploadLetter">
                                         <i class="fas fa-upload me-1"></i>
                                         Upload Surat
@@ -659,19 +683,223 @@
                 @endif
             </div>
         </div>
+    </iv>
+
+    <!-- Modal verifikasi surat -->
+    <div wire:ignore.self class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" id="modalPreview"
+        aria-labelledby="modalPreviewLabel">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalPreviewLabel">
+                        <i class="bx bxs-file-pdf me-2"></i>
+                        Form Verifikasi Surat
+                    </h5>
+                    <button type="button" wire:click="resetPreview" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Tutup modal" tabindex="0"></button>
+                </div>
+                <div class="p-4 modal-body">
+                    <div class="row">
+                        <!-- Kolom Form Verifikasi -->
+                        <div class="">
+                            <div class="border-0 card bg-light">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6 class="mb-3 card-title">Detail Surat</h6>
+                                            @if ($selectedLetter)
+                                                <div class="mb-3">
+                                                    <small class="text-muted d-block">Pengaju</small>
+                                                    <h6>{{ $selectedLetter->creator->name }}</h6>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <small class="text-muted d-block">Jenis Surat</small>
+                                                    <h6>{{ $selectedLetter->template->name ?? $selectedLetter->title }}
+                                                    </h6>
+                                                </div>
+                                                <div class="mb-4">
+                                                    <small class="text-muted d-block">Tanggal Pengajuan</small>
+                                                    <h6>{{ $selectedLetter->created_at->format('d M Y H:i') }}</h6>
+                                                </div>
+                                            @else
+                                                <div class="text-center text-muted">
+                                                    <p>Silakan pilih surat untuk melihat detail</p>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="col-md-6">
+                                            <!-- Tendik Data Fields -->
+                                            @if ($tendikPlaceholders && count($tendikPlaceholders) > 0)
+                                                <div class="mb-4">
+                                                    <h6 class="mb-3 card-title">Data Yang Diisi Oleh Tendik</h6>
+                                                    <div class="row">
+                                                        @foreach ($tendikPlaceholders as $placeholder)
+                                                            <div class="mb-3 col-md-12">
+                                                                <label for="tendik_{{ $placeholder }}"
+                                                                    class="form-label fw-bold">
+                                                                    {{ $templateHints[$placeholder] ?? $placeholder }}
+                                                                    <span class="text-danger">*</span>
+                                                                </label>
+                                                                <input type="text"
+                                                                    wire:model="tendikData.{{ $placeholder }}"
+                                                                    class="form-control @error('tendikData.' . $placeholder) is-invalid @enderror"
+                                                                    id="tendik_{{ $placeholder }}"
+                                                                    placeholder="Masukkan {{ strtolower($templateHints[$placeholder] ?? $placeholder) }}">
+                                                                @error('tendikData.' . $placeholder)
+                                                                    <div class="invalid-feedback">{{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                                @if (isset($templateHints[$placeholder]) && $templateHints[$placeholder] !== $placeholder)
+                                                                    <div class="form-text">
+                                                                        <i
+                                                                            class="fas fa-lightbulb text-warning me-1"></i>
+                                                                        Field: {{ $placeholder }}
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="p-3 mb-4 bg-white border rounded">
+                                        <h6 class="mb-3">Dokumen Surat</h6>
+                                        <div class="gap-2 mb-3 d-flex">
+                                            <button wire:click="download" class="btn btn-outline-primary btn-sm">
+                                                <i class="fas fa-file-download me-1"></i>
+                                                Download Surat
+                                            </button>
+                                            <button type="button" class="btn btn-outline-info btn-sm" onclick="document.getElementById('uploadNewDoc').click()">
+                                                <i class="fas fa-file-upload me-1"></i>
+                                                Upload Ulang
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="upload-area">
+                                            <input type="file" id="uploadNewDoc" wire:model="newDocument" class="d-none" accept=".doc,.docx">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" readonly 
+                                                    placeholder="Pilih file docx untuk mengganti dokumen yang ada" 
+                                                    id="uploadFileName">
+                                                <button class="btn btn-primary" type="button" wire:click="uploadulang">
+                                                    <i class="fas fa-save me-1"></i>
+                                                    Perbaharui Surat
+                                                </button>
+                                            </div>
+                                            <small class="mt-1 text-muted d-block">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Upload ulang jika hasil generate surat perlu perbaikan
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form wire:submit="verifyLetter">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Catatan Verifikasi (Opsional)</label>
+                                                    <textarea wire:model="verificationNote" class="form-control" rows="3"
+                                                        placeholder="Tambahkan catatan verifikasi jika diperlukan..."></textarea>
+                                                </div>
+
+                                                <div class="gap-2 d-grid">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        wire:loading.attr="disabled" wire:target="verifyLetter">
+                                                        <span wire:loading.remove wire:target="verifyLetter">
+                                                            <i class="bx bx-check me-1"></i>
+                                                            Verifikasi dan Teruskan ke Dekan
+                                                        </span>
+                                                        <span wire:loading wire:target="verifyLetter">
+                                                            <i class="bx bx-loader-alt bx-spin me-1"></i>
+                                                            Memproses...
+                                                        </span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        data-bs-toggle="modal" data-bs-target="#modalReject"
+                                                        wire:loading.attr="disabled">
+                                                        <i class="bx bx-x me-1"></i>
+                                                        Tolak Surat
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Kolom Form Verifikasi -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" wire:click="resetPreview" class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                        <i class="bx bx-x me-1"></i>
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    @push('scripts')
-        <script>
-            document.addEventListener('livewire:init', function() {
-                Livewire.on('modal-opened', function() {
-                    document.body.style.overflow = 'hidden';
-                });
+    <!-- Modal Penolakan -->
+    <div wire:ignore.self class="modal fade" id="modalReject" tabindex="-1" aria-labelledby="modalRejectLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalRejectLabel">
+                        <i class="bx bx-x-circle text-danger me-2"></i>
+                        Konfirmasi Penolakan Surat
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @if ($selectedLetter)
+                        <div class="mb-4">
+                            <div class="alert alert-warning">
+                                <i class="bx bx-info-circle me-2"></i>
+                                Anda akan menolak surat
+                                <strong>{{ $selectedLetter->template->name ?? $selectedLetter->title }}</strong>
+                                dari <strong>{{ $selectedLetter->creator->name }}</strong>.
+                            </div>
+                        </div>
+                        <form wire:submit="rejectLetter">
+                            <div class="mb-3">
+                                <label class="form-label">Alasan Penolakan <span class="text-danger">*</span></label>
+                                <textarea wire:model="rejectionNote" class="form-control @error('rejectionNote') is-invalid @enderror" rows="4"
+                                    placeholder="Jelaskan alasan penolakan surat ini..." required></textarea>
+                                @error('rejectionNote')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="text-muted">
+                                    <i class="bx bx-info-circle me-1"></i>
+                                    Alasan penolakan akan ditampilkan kepada pengaju surat
+                                </small>
+                            </div>
 
-                Livewire.on('modal-closed', function() {
-                    document.body.style.overflow = 'auto';
-                });
-            });
-        </script>
-    @endpush
+                            <div class="gap-2 d-flex justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                                    <i class="bx bx-arrow-back me-1"></i>
+                                    Kembali
+                                </button>
+                                <button type="submit" class="btn btn-danger" wire:loading.attr="disabled"
+                                    wire:target="rejectLetter">
+                                    <span wire:loading.remove wire:target="rejectLetter">
+                                        <i class="bx bx-x me-1"></i>
+                                        Tolak Surat
+                                    </span>
+                                    <span wire:loading wire:target="rejectLetter">
+                                        <i class="bx bx-loader-alt bx-spin me-1"></i>
+                                        Memproses...
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

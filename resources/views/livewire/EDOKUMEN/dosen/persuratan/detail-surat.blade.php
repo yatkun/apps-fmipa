@@ -8,8 +8,14 @@
                         <div class="mb-4 border-0 shadow card animate__animated animate__fadeIn">
                             <div class=" card-header bg-light d-flex align-items-center justify-content-between">
                                 <h5 class="mb-0"><i class="bx bx-file me-2"></i>Detail Surat</h5>
-                                <span class="badge badge-soft-success">{{ $letter->status }}</span>
-                              
+                                @if ( $letter->status == 'rejected')
+                                    <span class="badge badge-soft-danger">{{ $letter->status }}</span>
+                                @elseif ( $letter->status == 'approved')
+                                    <span class="badge badge-soft-success">{{ $letter->status }}</span>
+                                @else
+                                    <span class="badge badge-soft-info">{{ $letter->status }}</span>
+                                @endif
+                                
                             </div>
                             <div class="card-body">
                                 <div class="mb-4">
@@ -64,6 +70,13 @@
                                             </div>
                                         @endif
                                     @endforeach
+                                </div>
+                                <div class="mb-3">
+                                    @if ($letter->status == 'rejected')
+                                        <div class="alert alert-danger" role="alert">
+                                                {{ $letter->rejection_reason }}
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="mt-4 d-flex justify-content-between align-items-center">
                                     <a href="{{ route('dosen.persuratan.list-surat') }}" class="btn btn-outline-primary">
