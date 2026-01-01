@@ -73,7 +73,87 @@
                             <div class="d-flex">
                                 <div class="flex-grow-1">
                                     <p class="text-muted fw-medium">IKU 4</p>
-                                    <h4 class="mb-0">0</h4>
+                                    <h4 class="mb-0">{{ $d }}</h4>
+                                </div>
+
+                                <div class="flex-shrink-0 align-self-center">
+                                    <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                                        <span class="avatar-title rounded-circle bg-primary">
+                                            <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card mini-stats-wid">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-muted fw-medium">IKU 5</p>
+                                    <h4 class="mb-0">{{ $e }}</h4>
+                                </div>
+
+                                <div class="flex-shrink-0 align-self-center">
+                                    <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                                        <span class="avatar-title rounded-circle bg-primary">
+                                            <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-3">
+                    <div class="card mini-stats-wid">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-muted fw-medium">IKU 6</p>
+                                    <h4 class="mb-0">{{ $f }}</h4>
+                                </div>
+
+                                <div class="flex-shrink-0 align-self-center">
+                                    <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                                        <span class="avatar-title rounded-circle bg-primary">
+                                            <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-3">
+                    <div class="card mini-stats-wid">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-muted fw-medium">IKU 7</p>
+                                    <h4 class="mb-0">{{ $g }}</h4>
+                                </div>
+
+                                <div class="flex-shrink-0 align-self-center">
+                                    <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                                        <span class="avatar-title rounded-circle bg-primary">
+                                            <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-3">
+                    <div class="card mini-stats-wid">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-muted fw-medium">IKU 8</p>
+                                    <h4 class="mb-0">{{ $h }}</h4>
                                 </div>
 
                                 <div class="flex-shrink-0 align-self-center">
