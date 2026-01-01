@@ -26,6 +26,7 @@ class Dashboard extends Component
             'e' => Ikulima::all()->count(),
             'f' => Ikuenam::all()->count(),
             'g' => Ikutujuh::all()->count(),
+            'h' => Ikudelapan::all()->count(),
             
         ]);
     }
