@@ -26,7 +26,7 @@ class Iku1 extends Component
     public $mode = 'add';
     public $isEdit = false;
 
-    protected $listeners = ['confirmDelete'];
+    protected $listeners = ['confirmDelete', 'period-changed' => 'handlePeriodChanged'];
     
     // Reset pagination when search changes
     public function updatingSearch()
@@ -36,6 +36,11 @@ class Iku1 extends Component
     
     // Reset pagination when perPage changes
     public function updatingPerPage()
+    {
+        $this->resetPage();
+    }
+
+    public function handlePeriodChanged()
     {
         $this->resetPage();
     }
@@ -190,17 +195,17 @@ class Iku1 extends Component
         $activePeriod = Period::getActivePeriod();
         
         return view('livewire.IKU.iku1', [
-            'ikusatu' => Ikusatu::activePeriod()
+            'ikusatu' => Ikusatu::bySessionPeriod()
                 ->orderBy($this->sortBy, $this->sortDir)
                 ->search($this->search)
                 ->paginate($this->perPage),
-            'a' => Ikusatu::activePeriod()->where('pekerjaan', 'Bekerja')->count(),
-            'aa' => Ikusatu::activePeriod()->where('pekerjaan', 'Bekerja')->sum('bobot'),
-            'b' => Ikusatu::activePeriod()->where('pekerjaan', 'Wirausaha')->count(),
-            'bb' => Ikusatu::activePeriod()->where('pekerjaan', 'Wirausaha')->sum('bobot'),
-            'c' => Ikusatu::activePeriod()->where('pekerjaan', 'Lanjut studi')->count(),
-            'cc' => Ikusatu::activePeriod()->where('pekerjaan', 'Lanjut studi')->sum('bobot'),
-            'd' => Ikusatu::activePeriod()->count(),
+            'a' => Ikusatu::bySessionPeriod()->where('pekerjaan', 'Bekerja')->count(),
+            'aa' => Ikusatu::bySessionPeriod()->where('pekerjaan', 'Bekerja')->sum('bobot'),
+            'b' => Ikusatu::bySessionPeriod()->where('pekerjaan', 'Wirausaha')->count(),
+            'bb' => Ikusatu::bySessionPeriod()->where('pekerjaan', 'Wirausaha')->sum('bobot'),
+            'c' => Ikusatu::bySessionPeriod()->where('pekerjaan', 'Lanjut studi')->count(),
+            'cc' => Ikusatu::bySessionPeriod()->where('pekerjaan', 'Lanjut studi')->sum('bobot'),
+            'd' => Ikusatu::bySessionPeriod()->count(),
             'activePeriod' => $activePeriod,
         ]);
     }

@@ -157,6 +157,8 @@
                 </div>
             </div>
 
+            @livewire('components.period-selector')
+
             @livewire('profile')
 
 

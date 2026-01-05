@@ -20,7 +20,7 @@ class Iku5 extends Component
 
     public IkulimaForm $form;
 
-    protected $listeners = ['confirmDelete'];
+    protected $listeners = ['confirmDelete', 'period-changed' => 'handlePeriodChanged'];
 
 
     public function updatedFormJenisKarya($value)
@@ -133,6 +133,11 @@ LPNK yang tidak dipublikasikan','Untuk Karya Tulis Ilmiah yang tidak masuk dalam
         $this->mode = 'add'; // Switch back to 'add' mode
     }
 
+    public function handlePeriodChanged()
+    {
+        $this->resetPage();
+    }
+
     public function handleSaveOrUpdate()
     {
         if ($this->mode == 'edit') {
@@ -175,7 +180,7 @@ LPNK yang tidak dipublikasikan','Untuk Karya Tulis Ilmiah yang tidak masuk dalam
     public function render()
     {
         return view('livewire.IKU.iku5', [
-            'a' => Ikulima::when($this->sortDir, function ($query) {
+            'a' => Ikulima::bySessionPeriod()->when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {
                 $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)

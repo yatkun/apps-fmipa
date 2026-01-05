@@ -20,7 +20,7 @@ class Iku4 extends Component
 
     public IkuempatForm $form;
 
-    protected $listeners = ['confirmDelete'];
+    protected $listeners = ['confirmDelete', 'period-changed' => 'handlePeriodChanged'];
     
     public function save()
     {
@@ -117,6 +117,11 @@ class Iku4 extends Component
         $this->mode = 'add'; // Switch back to 'add' mode
     }
 
+    public function handlePeriodChanged()
+    {
+        $this->resetPage();
+    }
+
     public function handleSaveOrUpdate()
     {
         if ($this->mode == 'edit') {
@@ -126,11 +131,10 @@ class Iku4 extends Component
         }
     }
 
-
     public function render()
     {
         return view('livewire.IKU.iku4', [
-            'a' => Ikuempat::when($this->sortDir, function ($query) {
+            'a' => Ikuempat::bySessionPeriod()->when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {
                 $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)

@@ -23,7 +23,7 @@ class Iku2 extends Component
 
     
 
-    protected $listeners = ['confirmDelete'];
+    protected $listeners = ['confirmDelete', 'period-changed' => 'handlePeriodChanged'];
     public function savea()
     {
         $this->form->store_a();
@@ -188,18 +188,18 @@ class Iku2 extends Component
     public function render()
     {
         return view('livewire.IKU.iku2', [
-            'b' => Ikudua::where('kategori', 'Kegiatan Luar Prodi')->when($this->sortDir, function ($query) {
+            'b' => Ikudua::bySessionPeriod()->where('kategori', 'Kegiatan Luar Prodi')->when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {
-                $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)
+                $query->orderBy('created_at', 'DESC');
             })
                 ->search($this->searchb)
                 ->paginate($this->perPage),
 
-            'a' => Ikudua::where('kategori', 'Prestasi')->when($this->sortDir, function ($query) {
+            'a' => Ikudua::bySessionPeriod()->where('kategori', 'Prestasi')->when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {
-                $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)
+                $query->orderBy('created_at', 'DESC');
             })
                 ->search($this->searcha)
                 ->paginate($this->perPage),

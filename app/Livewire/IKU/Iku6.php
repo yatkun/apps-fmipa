@@ -19,7 +19,7 @@ class Iku6 extends Component
 
     public IkuenamForm $form;
 
-    protected $listeners = ['confirmDelete'];
+    protected $listeners = ['confirmDelete', 'period-changed' => 'handlePeriodChanged'];
 
     public function save()
     {
@@ -111,6 +111,11 @@ class Iku6 extends Component
         $this->mode = 'add'; // Switch back to 'add' mode
     }
 
+    public function handlePeriodChanged()
+    {
+        $this->resetPage();
+    }
+
     public function handleSaveOrUpdate()
     {
         if ($this->mode == 'edit') {
@@ -122,7 +127,7 @@ class Iku6 extends Component
     public function render()
     {
         return view('livewire.IKU.iku6', [
-            'a' => Ikuenam::when($this->sortDir, function ($query) {
+            'a' => Ikuenam::bySessionPeriod()->when($this->sortDir, function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDir);
             }, function ($query) {
                 $query->orderBy('created_at', 'DESC'); // urutkan sesuai data terbaru (default)

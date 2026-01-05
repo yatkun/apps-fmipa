@@ -41,4 +41,27 @@ class Ikusatu extends Model
         }
         return $query;
     }
+
+    /**
+     * Scope to filter by session selected period
+     */
+    public function scopeBySessionPeriod($query)
+    {
+        $selectedPeriod = session('selected_period');
+        
+        if ($selectedPeriod === 'all') {
+            // Return all data
+            return $query;
+        } elseif ($selectedPeriod) {
+            // Return data for specific period
+            return $query->where('period_id', $selectedPeriod);
+        }
+        
+        // If no period selected in session, use active period
+        $activePeriod = Period::getActivePeriod();
+        if ($activePeriod) {
+            return $query->where('period_id', $activePeriod->id);
+        }
+        return $query;
+    }
 }

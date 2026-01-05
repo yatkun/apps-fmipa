@@ -14,19 +14,26 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
+    protected $listeners = ['period-changed' => 'handlePeriodChanged'];
+
+    public function handlePeriodChanged()
+    {
+        // Component akan re-render otomatis
+    }
+
     public function render()
     {
         $this->dispatch('notif');
         
         return view('livewire.dashboard',[
-            'a' => Ikusatu::all()->count(),
-            'b' => Ikudua::all()->count(),
-            'c' => Ikutiga::all()->count(),
-            'd' => Ikuempat::all()->count(),   
-            'e' => Ikulima::all()->count(),
-            'f' => Ikuenam::all()->count(),
-            'g' => Ikutujuh::all()->count(),
-            'h' => Ikudelapan::all()->count(),
+            'a' => Ikusatu::bySessionPeriod()->count(),
+            'b' => Ikudua::bySessionPeriod()->count(),
+            'c' => Ikutiga::bySessionPeriod()->count(),
+            'd' => Ikuempat::bySessionPeriod()->count(),   
+            'e' => Ikulima::bySessionPeriod()->count(),
+            'f' => Ikuenam::bySessionPeriod()->count(),
+            'g' => Ikutujuh::bySessionPeriod()->count(),
+            'h' => Ikudelapan::bySessionPeriod()->count(),
             
         ]);
     }
