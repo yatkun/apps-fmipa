@@ -5,34 +5,24 @@ namespace App\Livewire\Forms;
 use App\Models\Ikudelapan;
 use App\Models\Period;
 use Livewire\Form;
-use Livewire\Attributes\Rule;
 use Livewire\Attributes\Validate;
 
 class IkudelapanForm extends Form
 {
-    #[Validate(['required'])]
-    public string $mata_kuliah = '';
+    #[Validate(['required', 'string'])]
+    public string $program_studi = '';
 
-    #[Validate(['required'])]
-    public string $nama = '';
+ 
 
-    #[Validate(['required'])]
-    public string $semester = '';
-
-
-    #[Validate(['required'])]
-    public string $link = '';
-    
+    #[Validate(['nullable', 'url'])]
+    public string $bukti = '';
     
     public $ikudelapan_id;
 
     public function store()
     {
-    
+      
         $validate = $this->validate();
-        
-        $validate['bobot'] = 1.0;
-        
         // Auto-assign active period
         $activePeriod = Period::getActivePeriod();
         if ($activePeriod) {
@@ -40,17 +30,21 @@ class IkudelapanForm extends Form
         }
 
         Ikudelapan::create($validate);
+        $this->reset();
     }
 
-  
     public function update()
     {
-
         $validate = $this->validate();
-       
-        $validate['bobot'] = 1.0;
         
+        Ikudelapan::find($this->ikudelapan_id)->update($validate);
+        $this->reset();
+    }
 
-        Ikudelapan::where('id', $this->ikudelapan_id)->update($validate);
+    public function resetForm()
+    {
+        $this->reset();
     }
 }
+
+

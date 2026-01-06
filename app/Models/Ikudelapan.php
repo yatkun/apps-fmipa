@@ -11,6 +11,12 @@ class Ikudelapan extends Model
 
     protected $guarded = [];
 
+    public function scopeSearch($query, $value)
+    {
+        $query->Where('program_studi', 'like', "%{$value}%");
+       
+    }
+
     /**
      * Scope to filter by session selected period
      */
